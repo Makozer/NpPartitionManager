@@ -1,2 +1,2 @@
-# NpPartitionManager
+# NP Partition Manager
 C++ Project
