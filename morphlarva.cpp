@@ -1,7 +1,7 @@
 #include "morphlarva.h"
 
 MorphLarva::MorphLarva() {
-
+    rng = new RNGesus();
 }
 
 void MorphLarva::run() {

@@ -11,9 +11,20 @@ public:
 
     // Das wichtigste für die GUI ;)
     void run(); // startet den Suchvorgang
+    void setNSA(NSA* nsa);
     void setRootStash(VectorStash* stash);
     void setSolutionStash(VectorStash* stash);
-    void setNSA(NSA* nsa);
+    VectorStash* getSolutionStash();
+
+    // Ab hier alles andere ignorieren :D
+    // Unwichtig für GUI, trotzdem public sichtbar
+    void setOverseer(MorphLarva* overseer);
+    MorphLarva getOverseer();
+
+    bool hasSuccess();
+    void setStrategy(quint8 strategy);
+    quint8 getStrategy();
+
 private:
     // Verschiedene Objekte
     MorphLarva* overseer;
