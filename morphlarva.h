@@ -19,9 +19,9 @@ private:
     MorphLarva* overseer;
     MorphLarva* worker;
 
-    VectorStash* root;
-    VectorStash* memory;
-    VectorStash* solution;
+    VectorStash* rootStash;
+    VectorStash* memoryStash;
+    VectorStash* solutionStash;
 
     NSA* nsa;
     RNGesus* rng;

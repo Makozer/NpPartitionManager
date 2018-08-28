@@ -3,6 +3,13 @@
 
 #include <QMainWindow>
 
+#include <QString>
+#include <QVector>
+#include <QMessageBox>
+#include "morphlarva.h"
+#include "vectorstash.h"
+#include "nsa.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -14,8 +21,23 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btn_fill_clicked();
+
+    void on_btn_sort_clicked();
+
+    void on_btn_output_root_clicked();
+
+    void on_btn_output_solution_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    // 4 Objekte die benötigt werden, siehe Konstruktor für zweiten Part der wichtig ist :)
+    MorphLarva* overseer;
+    NSA* nsa;
+    VectorStash* rootStash;
+    VectorStash* solutionStash;
 };
 
 #endif // MAINWINDOW_H
