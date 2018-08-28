@@ -30,7 +30,8 @@ SOURCES += \
     coin.cpp \
     memento.cpp \
     rngesus.cpp \
-    vectorstash.cpp
+    vectorstash.cpp \
+    morphlarva.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     coin.h \
     memento.h \
     rngesus.h \
-    vectorstash.h
+    vectorstash.h \
+    morphlarva.h
 
 FORMS += \
         mainwindow.ui

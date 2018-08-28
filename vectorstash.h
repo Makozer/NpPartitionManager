@@ -4,12 +4,18 @@
 #include <QVector>
 #include <QString>
 #include "coin.h"
+#include "rngesus.h"
+#include "nsa.h"
 
 class VectorStash {
     typedef QVector<Coin*> CoinList;
 public:
     VectorStash();
     // Copy Konstruktor?
+
+    // Überwachung
+    void setNSA(NSA* nsa);
+    NSA* getNSA();
 
     // Generelle Schatzfunktionen
     quint16 size();
@@ -25,7 +31,7 @@ public:
 
     // Lesen von Werten
     Coin* getCoinByPos(quint16 pos);
-    Coin* getByValue(quint16 value);
+    Coin* getCoinByValue(quint16 value);
 
     // Nehmen von Werten ( entfernt nach Übergabe )
     Coin* takeCoinByValue(quint16 value);
@@ -33,9 +39,10 @@ public:
     Coin* takeCoinByRNG();
 
     // Entfernen von Werten
+    bool removeCoinByPos(quint16 pos);
     bool removeCoinByValue(quint16 value);
     bool removeCoinByIt(CoinList::iterator it);
-    bool removeCoinByP(Coin* pointer);
+    bool removeCoinByPointer(Coin* pointer);
 
     // Sortierung
     void quickSortAsc();
@@ -46,10 +53,12 @@ private:
     // Funktionen
     void quickSortAsc(quint16 leftpos, quint16 rightpos);
     void quickSortDesc(quint16 leftpos, quint16 rightpos);
-    Coin* coinSearchByValue(CoinList coins, quint16 left, quint16 right, quint16 lookup);
+    Coin* searchCoinByValue(CoinList coins, quint16 left, quint16 right, quint16 lookup);
 
     // Objekte
     CoinList coins;
+    RNGesus rng;
+    NSA* nsa;
 
     // Variablen
     quint32 total; // Die Summe des gesamten Schatzes
