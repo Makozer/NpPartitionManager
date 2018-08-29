@@ -9,6 +9,7 @@
 #include "morphlarva.h"
 #include "vectorstash.h"
 #include "nsa.h"
+#include "CustomTextEdit.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,8 @@ private slots:
     void on_btn_output_root_clicked();
 
     void on_btn_output_solution_clicked();
+
+    void on_bt_einzelneCoinHinzufuegen_clicked();
 
 private:
     Ui::MainWindow *ui;

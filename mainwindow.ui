@@ -209,7 +209,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit">
+         <widget class="CustomTextEdit" name="textEdit_partitionBerechnen">
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -223,7 +223,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTextEdit" name="textEdit_2">
+         <widget class="QTextEdit" name="textEdit_InfosZuPartition">
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -245,7 +245,7 @@ p, li { white-space: pre-wrap; }
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QTextEdit" name="textEdit_3">
+         <widget class="QTextEdit" name="textEdit_mitwirkende">
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -267,6 +267,13 @@ p, li { white-space: pre-wrap; }
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CustomTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header location="global">customtextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
