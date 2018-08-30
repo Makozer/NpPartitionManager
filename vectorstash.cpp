@@ -103,11 +103,15 @@ bool VectorStash::removeCoinByPointer(Coin *pointer) {
 }
 
 void VectorStash::quickSortAsc() {
-    quickSortAsc(0, (coins.size() - 1));
+    if (coins.size() > 1) {
+        quickSortAsc(0, (coins.size() - 1));
+    }
 }
 
 void VectorStash::quickSortDesc() {
-    quickSortDesc(0, (coins.size() - 1));
+    if (coins.size() > 1) {
+        quickSortDesc(0, (coins.size() - 1));
+    }
 }
 
 bool VectorStash::isSortedAsc() {
