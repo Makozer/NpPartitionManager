@@ -5,6 +5,12 @@ VectorStash::VectorStash() {
     total = 0;
 }
 
+VectorStash::VectorStash(const VectorStash &copyStash) {
+    this->rng = new RNGesus();
+    this->nsa = copyStash.nsa;
+    this->coins = QVector<Coin*>(copyStash.coins);
+}
+
 void VectorStash::setNSA(NSA *nsa) {
     this->nsa = nsa;
 }
@@ -87,7 +93,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
-    quint16 rngCoin = rng->getRng(0, coins.size());
+    quint16 rngCoin = rng->getRng(0, coins.size() - 1);
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);
