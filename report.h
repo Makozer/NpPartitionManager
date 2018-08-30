@@ -10,6 +10,7 @@ public:
 private:
     QString type;
     QString message;
+    // Timestamp
 };
 
 #endif // REPORT_H
