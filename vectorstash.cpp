@@ -31,6 +31,7 @@ QString VectorStash::display() {
 }
 
 void VectorStash::clear() {
+    total = 0;
     coins.clear();
 }
 
