@@ -102,25 +102,33 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 
-    if ( rootStash->size() > 1) {
+    if (ui->comboBox_sortKritWaehlen->currentText() != "<Sortierkriterium>") {
+        if ( rootStash->size() > 1) {
 
-        //Die Auswahl aus der COmbobox uebernehmen:
-        QString sortKriterium = ui->comboBox_sortKritWaehlen->currentText();
+            //Die Auswahl aus der COmbobox uebernehmen:
+            QString sortKriterium = ui->comboBox_sortKritWaehlen->currentText();
 
-        //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
-        //Inhalt in der Gui anzeigen lassen:
-        if (sortKriterium == "Aufsteigend") {
-            rootStash->quickSortAsc();
-            QString neuerInhalt = rootstashInhaltToQString();
-            ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
+            //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
+            //Inhalt in der Gui anzeigen lassen:
+            if (sortKriterium == "Aufsteigend") {
+                rootStash->quickSortAsc();
+                QString neuerInhalt = rootstashInhaltToQString();
+                ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
+            }
+            else if (sortKriterium == "Absteigend") {
+                rootStash->quickSortDesc();
+                QString neuerInhalt = rootstashInhaltToQString();
+                ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
+            }
         }
-        else if (sortKriterium == "Absteigend") {
-            rootStash->quickSortDesc();
-            QString neuerInhalt = rootstashInhaltToQString();
-            ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
+        else {
+            QMessageBox::critical(this,"Es kann nicht sortiert werden", "Der Schatz ist zu klein, als dass er sortiert werden koennte.");
         }
+    }
+    else {
+        QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
     }
 }
 
@@ -176,4 +184,19 @@ void MainWindow::on_bt_einzelneCoinHinzufuegen_clicked()
         QMessageBox::critical(this, "Coin konnte nicht erstellt werden", "Es wurde kein Coinwert im Textfeld eingegeben.");
     }
 
+}
+
+void MainWindow::on_btn_clearStash_clicked()
+{
+
+    if (rootStash->size() > 0) {
+        rootStash->clear();
+
+        //Neuen Status und neuen StashINhalt auf GUI anzeigen:
+        ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
+        ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
+    }
+    else {
+        QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
+    }
 }

@@ -34,6 +34,8 @@ private slots:
 
     void on_bt_einzelneCoinHinzufuegen_clicked();
 
+    void on_btn_clearStash_clicked();
+
 private:
     Ui::MainWindow *ui;
 
