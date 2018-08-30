@@ -6,12 +6,15 @@
 //zugreifen kann. auf diese Art und weise kann jede Passage, falls benoetigt schnell geaendert werden.
 //aendert sich zum Beispiel der Status, so muss nur jener veraendert werdne, ohne dass
 //der Rest des Textes beruecksichitgt werden muss.
-void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen) {
+void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum) {
     QString gesamterText;
 
     gesamterText += aktuellerStatus;
     gesamterText += "\n\n\n";
-    gesamterText += "Inhalt des Schatzes:\n";
+    gesamterText += "Inhalt des Schatzes:\n\n";
+    gesamterText += "Summe aller Coinwerte: ";
+    gesamterText += rootstashSum;
+    gesamterText += "\n\nAlle Coins:\n";
     gesamterText += rootstashInhalt;
     gesamterText += "\n\n\n";
     gesamterText += ergebnisInformationen;
@@ -23,18 +26,25 @@ void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashIn
 
 void CustomTextEdit::setAktuellerStatus(QString neuerStatus) {
     aktuellerStatus = neuerStatus;
-    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen);
+    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum);
 
 }
 
+
+void CustomTextEdit::setRootstashSum(QString neueRootstashSumme) {
+    rootstashSum = neueRootstashSumme;
+    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, neueRootstashSumme);
+}
+
+
 void CustomTextEdit::setRootstashInhalt(QString neuerInhalt) {
     rootstashInhalt = neuerInhalt;
-    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen);
+    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum);
 }
 
 void CustomTextEdit::setErgebnisInformationen(QString neueErgebnisInfos) {
     ergebnisInformationen = neueErgebnisInfos;
-    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen);
+    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum);
 }
 
 

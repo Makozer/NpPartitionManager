@@ -13,14 +13,16 @@ class CustomTextEdit : public QTextEdit {
 
 private:
     QString aktuellerStatus;
+    QString rootstashSum;
     QString rootstashInhalt;
     QString ergebnisInformationen;
 public:
-    CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status"), rootstashInhalt("leer"), ergebnisInformationen("") { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen); }
+    CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status:    Es wurde noch nichts getan."), rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0") { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum); }
     void setAktuellerStatus(QString neuerStatus);
+    void setRootstashSum(QString neueRootstashSumme);
     void setRootstashInhalt(QString neuerInhalt);
     void setErgebnisInformationen(QString neueErgebnisInfos);
-    void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen);
+    void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum);
 };
 
 #endif // CUSTOMTEXTEDIT_H
