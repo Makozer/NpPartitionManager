@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QString rootstashInhaltToQString();
 
 private slots:
     void on_btn_fill_clicked();

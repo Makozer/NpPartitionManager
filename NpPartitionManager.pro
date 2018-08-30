@@ -32,7 +32,8 @@ SOURCES += \
     rngesus.cpp \
     vectorstash.cpp \
     morphlarva.cpp \
-    CustomTextEdit.cpp
+    CustomTextEdit.cpp \
+    CustomOnlyNumbersLineEdit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     rngesus.h \
     vectorstash.h \
     morphlarva.h \
-    CustomTextEdit.h
+    CustomTextEdit.h \
+    CustomOnlyNumbersLineEdit.h
 
 FORMS += \
         mainwindow.ui
