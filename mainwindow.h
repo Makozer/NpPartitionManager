@@ -9,6 +9,7 @@
 #include "morphlarva.h"
 #include "vectorstash.h"
 #include "nsa.h"
+#include "CustomTextEdit.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QString rootstashInhaltToQString();
 
 private slots:
     void on_btn_fill_clicked();
@@ -29,6 +31,10 @@ private slots:
     void on_btn_output_root_clicked();
 
     void on_btn_output_solution_clicked();
+
+    void on_bt_einzelneCoinHinzufuegen_clicked();
+
+    void on_btn_clearStash_clicked();
 
 private:
     Ui::MainWindow *ui;

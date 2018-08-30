@@ -31,7 +31,9 @@ SOURCES += \
     memento.cpp \
     rngesus.cpp \
     vectorstash.cpp \
-    morphlarva.cpp
+    morphlarva.cpp \
+    CustomTextEdit.cpp \
+    CustomOnlyNumbersLineEdit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +43,9 @@ HEADERS += \
     memento.h \
     rngesus.h \
     vectorstash.h \
-    morphlarva.h
+    morphlarva.h \
+    CustomTextEdit.h \
+    CustomOnlyNumbersLineEdit.h
 
 FORMS += \
         mainwindow.ui
