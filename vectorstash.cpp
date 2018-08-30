@@ -5,6 +5,12 @@ VectorStash::VectorStash() {
     total = 0;
 }
 
+VectorStash::VectorStash(const VectorStash &copyStash) {
+    this->rng = new RNGesus();
+    this->nsa = copyStash.nsa;
+    this->coins = QVector<Coin*>(copyStash.coins);
+}
+
 void VectorStash::setNSA(NSA *nsa) {
     this->nsa = nsa;
 }

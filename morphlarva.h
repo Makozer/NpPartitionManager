@@ -10,7 +10,7 @@ public:
     MorphLarva();
 
     // Das wichtigste für die GUI ;)
-    void run(); // startet den Suchvorgang
+    bool run(); // startet den Suchvorgang
     void setNSA(NSA* nsa);
     void setRootStash(VectorStash* stash);
     void setSolutionStash(VectorStash* stash);
@@ -19,13 +19,22 @@ public:
     // Ab hier alles andere ignorieren :D
     // Unwichtig für GUI, trotzdem public sichtbar
     void setOverseer(MorphLarva* overseer);
-    MorphLarva getOverseer();
+    MorphLarva* getOverseer();
 
     bool hasSuccess();
     void setStrategy(quint8 strategy);
     quint8 getStrategy();
+    void setGoal(quint16 goal);
+    quint16 getGoal();
+
+    void search();
+
 
 private:
+    // Funktionen
+    void searchChaosRandom();
+    void searchOrderSort();
+
     // Verschiedene Objekte
     MorphLarva* overseer;
     MorphLarva* worker;
@@ -39,7 +48,6 @@ private:
 
     bool success;
     quint16 goal;
-    quint16 value;
     quint8 strategy;
 
 };

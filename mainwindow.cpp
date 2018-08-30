@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Damit der overseer die zu nutzenden Sachen kennt :)
     overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
-    overseer->setSolutionStash(solutionStash);
+    //overseer->setSolutionStash(solutionStash);
 }
 
 MainWindow::~MainWindow() {
@@ -130,6 +130,7 @@ void MainWindow::on_btn_sort_clicked() {
     else {
         QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
     }
+    overseer->run();
 }
 
 
@@ -140,9 +141,8 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 void MainWindow::on_btn_output_solution_clicked() {
-    QMessageBox::information(this,
-        tr("Inhalt des Schatzes"),
-        tr(solutionStash->display().toUtf8().constData()));
+    QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
+    QMessageBox::information(this, tr("Lösung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
 
 
