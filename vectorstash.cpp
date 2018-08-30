@@ -1,7 +1,8 @@
 #include "vectorstash.h"
 
 VectorStash::VectorStash() {
-
+    rng = new RNGesus();
+    total = 0;
 }
 
 void VectorStash::setNSA(NSA *nsa) {
@@ -44,18 +45,18 @@ void VectorStash::addCoin(quint16 value) {
 }
 
 void VectorStash::addRngCoin(quint16 min, quint16 max) {
-    this->addCoin(rng.getRng(min, max));
+    this->addCoin(rng->getRng(min, max));
 }
 
 void VectorStash::fillRandom(quint16 size) {
     for (quint16 i = 0; i < size; i++) {
-        this->addCoin(rng.getRng(1, size));
+        this->addCoin(rng->getRng(1, size));
     }
 }
 
 void VectorStash::fillRandom(quint16 size, quint16 min, quint16 max) {
     for (quint16 i = 0; i < size; i++) {
-        this->addCoin(rng.getRng(min, max));
+        this->addCoin(rng->getRng(min, max));
     }
 }
 
@@ -85,7 +86,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
-    quint16 rngCoin = rng.getRng(0, coins.size());
+    quint16 rngCoin = rng->getRng(0, coins.size());
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);

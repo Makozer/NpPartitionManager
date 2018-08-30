@@ -59,7 +59,7 @@ private:
 
     // Objekte
     CoinList coins;
-    RNGesus rng;
+    RNGesus* rng;
     NSA* nsa;
 
     // Variablen

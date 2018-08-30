@@ -7,6 +7,7 @@ MorphLarva::MorphLarva() {
 void MorphLarva::run() {
     // keine Sorge, kommt noch, am Ende wird nichts anderes passieren, als dass der solution Stash halt inhalt hat und das wars für die GUI ;D
     // ToDo :)
+    this->rootStash->quickSortDesc();
 }
 
 void MorphLarva::setRootStash(VectorStash *stash) {
@@ -15,6 +16,10 @@ void MorphLarva::setRootStash(VectorStash *stash) {
 
 void MorphLarva::setSolutionStash(VectorStash *stash) {
     this->solutionStash = stash;
+}
+
+VectorStash *MorphLarva::getSolutionStash() {
+    return rootStash;
 }
 
 void MorphLarva::setNSA(NSA *nsa) {
