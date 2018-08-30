@@ -33,7 +33,7 @@ void CustomTextEdit::setAktuellerStatus(QString neuerStatus) {
 
 void CustomTextEdit::setRootstashSum(QString neueRootstashSumme) {
     rootstashSum = neueRootstashSumme;
-    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, neueRootstashSumme);
+    baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum);
 }
 
 
