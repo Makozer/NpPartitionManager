@@ -93,7 +93,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
-    quint16 rngCoin = rng->getRng(0, coins.size());
+    quint16 rngCoin = rng->getRng(0, coins.size() - 1);
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);

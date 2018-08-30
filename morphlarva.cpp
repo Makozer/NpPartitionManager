@@ -108,9 +108,8 @@ void MorphLarva::searchChaosRandom() {
     //QString boolText = overseer->hasSuccess() ? "true" : "false";
 
     while (overseer->hasSuccess() != true) {
-        nsa->add("Data", "while Schleife wurde begonnen");
+
         rootCopy = new VectorStash((*rootStash)); // Kopiert den rootStash
-        nsa->add("Data", "rootStash wurde kopiert");
 
         for (int i = 0; i < loopmax; i++) {
 
