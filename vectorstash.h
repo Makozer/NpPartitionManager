@@ -11,7 +11,8 @@ class VectorStash {
     typedef QVector<Coin*> CoinList;
 public:
     VectorStash();
-    VectorStash(const VectorStash &copyStash);// Copy Konstruktor?
+    VectorStash(const VectorStash &copyStash); // Copy Konstruktor
+    ~VectorStash(); // Destruktor
 
     // Überwachung
     void setNSA(NSA* nsa);
