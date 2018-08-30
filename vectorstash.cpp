@@ -55,11 +55,12 @@ void VectorStash::fillRandom(quint16 size) {
 
 void VectorStash::fillRandom(quint16 size, quint16 min, quint16 max) {
     for (quint16 i = 0; i < size; i++) {
-        this->addCoin(rng.getRng(1, size));
+        this->addCoin(rng.getRng(min, max));
     }
 }
 
 void VectorStash::fillAscending(quint16 size) {
+    size += 1; // damit keine Warning kommt
     // Falls mans noch iwann mal brauch ToDo, ansonsten rausstreichen, Random erfüllt den Job genauso :)
 }
 
