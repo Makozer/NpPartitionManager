@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+//zum debuggen:
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
@@ -84,6 +87,11 @@ void MainWindow::on_btn_fill_clicked() {
         neuerStatus += " Coins mit zufaelligen Werten hinzugefuegt.";
         ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
         ui->lineEdit_randomFuellenAnzahlEingeben->clear();
+
+        //neue rootstashSumme in QString speichern und auf GUI anzeigen:
+        QString neueRootstashSum = QString::number(rootStash->sum());
+        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum);
+        ui->lineEdit_coinHinzufuegenWertEingeben->clear();
     }
     else {
         QMessageBox::critical(this,"Coins konnten nicht erstellt werden","Es wurde keine Coinanzahl im Textfeld eingegeben.");
@@ -105,7 +113,7 @@ void MainWindow::on_btn_sort_clicked() {
     if (ui->comboBox_sortKritWaehlen->currentText() != "<Sortierkriterium>") {
         if ( rootStash->size() > 1) {
 
-            //Die Auswahl aus der COmbobox uebernehmen:
+            //Die Auswahl aus der Combobox uebernehmen:
             QString sortKriterium = ui->comboBox_sortKritWaehlen->currentText();
 
             //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
@@ -130,7 +138,8 @@ void MainWindow::on_btn_sort_clicked() {
     else {
         QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
     }
-    overseer->run();
+    //meddlmadin:
+    //overseer->run();
 }
 
 
@@ -141,8 +150,9 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 void MainWindow::on_btn_output_solution_clicked() {
+    //overseer->run();
     QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
-    QMessageBox::information(this, tr("Lösung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
+    QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
 
 
@@ -178,6 +188,9 @@ void MainWindow::on_bt_einzelneCoinHinzufuegen_clicked()
         neuerStatus += " wurde dem Schatz hinzugefuegt.";
         ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
 
+        //neue rootstashSumme in QString speichern und auf GUI anzeigen:
+        QString neueRootstashSum = QString::number(rootStash->sum());
+        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum);
         ui->lineEdit_coinHinzufuegenWertEingeben->clear();
     }
     else {
@@ -192,9 +205,10 @@ void MainWindow::on_btn_clearStash_clicked()
     if (rootStash->size() > 0) {
         rootStash->clear();
 
-        //Neuen Status und neuen StashINhalt auf GUI anzeigen:
+        //Neuen Status und neuen StashInhalt auf GUI anzeigen:
         ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
         ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
+        ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
     }
     else {
         QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
