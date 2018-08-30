@@ -26,7 +26,9 @@ public:
     // Hinzufügen von Werten
     void addCoin(Coin* pointer);
     void addCoin(quint16 value);
+    void addRngCoin(quint16 min, quint16 max);
     void fillRandom(quint16 size);
+    void fillRandom(quint16 size, quint16 min, quint16 max);
     void fillAscending(quint16 size);
 
     // Lesen von Werten

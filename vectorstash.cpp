@@ -34,14 +34,26 @@ void VectorStash::clear() {
 }
 
 void VectorStash::addCoin(Coin *pointer) {
+    total += pointer->getValue();
     coins.push_back(pointer);
 }
 
 void VectorStash::addCoin(quint16 value) {
+    total += value;
     coins.push_back(new Coin(value));
 }
 
+void VectorStash::addRngCoin(quint16 min, quint16 max) {
+    this->addCoin(rng.getRng(min, max));
+}
+
 void VectorStash::fillRandom(quint16 size) {
+    for (quint16 i = 0; i < size; i++) {
+        this->addCoin(rng.getRng(1, size));
+    }
+}
+
+void VectorStash::fillRandom(quint16 size, quint16 min, quint16 max) {
     for (quint16 i = 0; i < size; i++) {
         this->addCoin(rng.getRng(1, size));
     }
