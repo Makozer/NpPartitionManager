@@ -22,6 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QString rootstashInhaltToQString();
+    QString exportStringErstellen();
 
 private slots:
     void on_btn_fill_clicked();
@@ -35,6 +36,8 @@ private slots:
     void on_bt_einzelneCoinHinzufuegen_clicked();
 
     void on_btn_clearStash_clicked();
+
+    void on_btn_export_clicked();
 
 private:
     Ui::MainWindow *ui;

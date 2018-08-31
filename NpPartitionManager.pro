@@ -33,7 +33,8 @@ SOURCES += \
     vectorstash.cpp \
     morphlarva.cpp \
     CustomTextEdit.cpp \
-    CustomOnlyNumbersLineEdit.cpp
+    CustomOnlyNumbersLineEdit.cpp \
+    ExportDialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,10 +46,12 @@ HEADERS += \
     vectorstash.h \
     morphlarva.h \
     CustomTextEdit.h \
-    CustomOnlyNumbersLineEdit.h
+    CustomOnlyNumbersLineEdit.h \
+    ExportDialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    exportdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

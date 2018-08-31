@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ExportDialog.h"
 
 //zum debuggen:
 #include <iostream>
@@ -12,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     overseer = new MorphLarva();
     nsa = new NSA();
     rootStash = new VectorStash();
-    solutionStash = new VectorStash();
+
 
     // Damit der overseer die zu nutzenden Sachen kennt :)
     overseer->setNSA(nsa);
@@ -24,6 +25,28 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+
+
+QString MainWindow::exportStringErstellen() {
+    QString inhalt;
+
+    for(int i = 0; i < rootStash->size(); i++) {
+
+
+        //um das vorangehende Komma vor dem ersten EIntrag zu vermeiden wird diese Fallunterscheidung eingebaut:
+        //QString::number(xxx) wird benoetigt, damit nicht das dem integer entsprechende Ascii angezeigt wird,
+        //sondern die tatsaechliche zahl.
+        if (inhalt == "") {
+            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
+        }
+        else {
+            inhalt += ", ";
+            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
+        }
+    }
+
+    return inhalt;
+}
 
 
 
@@ -43,7 +66,15 @@ QString MainWindow::rootstashInhaltToQString() {
         }
         else {
             inhalt += ", ";
-            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
+
+            //Damit der angezeigte Inhalt nicht unnoetig viel Platz verschwendet:
+            if (i == 100) {
+                i = rootStash->size();
+                inhalt += "... (Um den kompletten Inhalt zu sehen bitte die Export-Funktion nutzen.)";
+            }
+            else {
+                inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
+            }
         }
     }
 
@@ -148,6 +179,12 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 void MainWindow::on_btn_output_solution_clicked() {
+
+    //neuen Status in einem QString speichern, QString auf Gui anzeigen:
+    QString neuerStatus = "Status:    Die Partition wird berechnet.";
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+
+
     overseer->run();
     //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
     //QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
@@ -211,4 +248,21 @@ void MainWindow::on_btn_clearStash_clicked()
     else {
         QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
     }
+}
+
+void MainWindow::on_btn_export_clicked()
+{
+
+
+    //das Dialogfenster oeffnen:
+    ExportDialog exportDia;
+    exportDia.setModal(true);
+    exportDia.setFixedHeight(133);
+    exportDia.setFixedWidth(400);
+    exportDia.exportInhaltFestlegen(exportStringErstellen());
+    exportDia.exec();
+
+    //neuen Status in einem QString speichern und an GUI uebergeben:
+    QString neuerStatus = "Status:    Der Inhalt des Schatzes wurde exportiert.";
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
 }
