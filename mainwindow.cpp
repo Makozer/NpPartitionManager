@@ -138,8 +138,6 @@ void MainWindow::on_btn_sort_clicked() {
     else {
         QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
     }
-    //meddlmadin:
-    //overseer->run();
 }
 
 
@@ -150,9 +148,9 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 void MainWindow::on_btn_output_solution_clicked() {
-    //overseer->run();
-    QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
-    QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
+    overseer->run();
+    //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
+    //QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
 
 

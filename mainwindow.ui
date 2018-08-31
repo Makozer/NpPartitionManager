@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1062</width>
-    <height>578</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -222,7 +222,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Partitionieren</string>
+              <string>Partition(RUN)</string>
              </property>
             </widget>
            </item>
