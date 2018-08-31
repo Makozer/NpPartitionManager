@@ -1,6 +1,7 @@
 #include "vectorstash.h"
 
 VectorStash::VectorStash() {
+    // reserve ToDo
     rng = new RNGesus();
     total = 0;
 }
@@ -9,6 +10,11 @@ VectorStash::VectorStash(const VectorStash &copyStash) {
     this->rng = new RNGesus();
     this->nsa = copyStash.nsa;
     this->coins = QVector<Coin*>(copyStash.coins);
+}
+
+VectorStash::~VectorStash() {
+    coins.clear();
+    delete rng;
 }
 
 void VectorStash::setNSA(NSA *nsa) {
@@ -30,9 +36,11 @@ quint32 VectorStash::sum() {
 QString VectorStash::display() {
     QString output = "";
     quint16 max = coins.size();
-    for(quint16 i = 0; i < max; i++) {
-        output += QString::number(coins.at(i)->getValue()) + "\n";
-    }
+    if (max > 0) {
+        for(quint16 i = 0; i < max; i++) {
+            output += QString::number(coins.at(i)->getValue()) + "\n";
+        }
+    } else {output += "Leerer Schatz.";}
     return output;
 }
 
@@ -93,7 +101,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
-    quint16 rngCoin = rng->getRng(0, coins.size() - 1);
+    quint16 rngCoin = rng->getRng(0, (coins.size() - 1));
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);

@@ -12,12 +12,11 @@ public:
     // Das wichtigste für die GUI ;)
     bool run(); // startet den Suchvorgang
     void setNSA(NSA* nsa);
-    void setRootStash(VectorStash* stash);
-    void setSolutionStash(VectorStash* stash);
+    void setRootStash(VectorStash* stash);    
     VectorStash* getSolutionStash();
 
-    // Ab hier alles andere ignorieren :D
-    // Unwichtig für GUI, trotzdem public sichtbar
+    // Unwichtig für GUI, trotzdem zwingend public sichtbar
+    void setSolutionStash(VectorStash* stash);
     void setOverseer(MorphLarva* overseer);
     MorphLarva* getOverseer();
 
@@ -28,7 +27,6 @@ public:
     quint16 getGoal();
 
     void search();
-
 
 private:
     // Funktionen

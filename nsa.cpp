@@ -21,7 +21,7 @@ QString NSA::display() {
     QString output = "";
     quint16 max = reports.size();
     for(quint16 i = 0; i < max; i++) {
-        output += reports.at(i)->getType() + ";\t" + reports.at(i)->getMessage() + "\n";
+        output += reports.at(i)->getTimestamp().toString("'Time:' h:m:s:zzz") + "; " + reports.at(i)->getType() + ";\t" + reports.at(i)->getMessage() + "\n";
     }
     return output;
 }

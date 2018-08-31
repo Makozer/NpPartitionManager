@@ -5,7 +5,7 @@ MorphLarva::MorphLarva() {
     memoryStash = new VectorStash();
 
     rootStash = nullptr;
-    solutionStash = nullptr;
+    solutionStash = new VectorStash();
     nsa = nullptr;
 
     success = false;
@@ -26,6 +26,7 @@ bool MorphLarva::run() {
 
     this->rootStash->quickSortDesc();
     this->setOverseer(this);
+    this->success = false;
 
 
     // Damit der Schatz gerade ist !!! TODO!!!!
@@ -103,7 +104,7 @@ void MorphLarva::search() {
 void MorphLarva::searchChaosRandom() {
     nsa->add("start", "searchChaosRandom gestartet");
     Coin* me = nullptr;
-    quint16 loopmax = 10000;
+    quint16 loopmax = rootStash->size() - 1;
     VectorStash* rootCopy;
     //QString boolText = overseer->hasSuccess() ? "true" : "false";
 
@@ -115,9 +116,10 @@ void MorphLarva::searchChaosRandom() {
 
             me = rootCopy->takeCoinByRNG();
             memoryStash->addCoin(me);
-
+            //delete me;
             if (memoryStash->sum() > goal) {
                 memoryStash->clear();
+                delete rootCopy;
                 break;
             }
             if (memoryStash->sum() == goal) {
