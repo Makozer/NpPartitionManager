@@ -116,8 +116,16 @@ bool VectorStash::removeCoinByPos(quint16 pos) {
 }
 
 bool VectorStash::removeCoinByValue(quint16 value) {
-    // ToDo falls es gebraucht wird ... SHIT
-    return true;
+    // ToDo: evtl performantere Suche.
+    quint16 max = coins.size();
+    for (quint16 i = 0; i < max; i++) {
+        if (coins[i]->getValue() == value) {
+            total -= coins[i]->getValue();
+            coins.remove(i);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool VectorStash::removeCoinByIt(CoinList::iterator it) {
