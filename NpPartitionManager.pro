@@ -34,7 +34,8 @@ SOURCES += \
     morphlarva.cpp \
     CustomTextEdit.cpp \
     CustomOnlyNumbersLineEdit.cpp \
-    ExportDialog.cpp
+    ExportDialog.cpp \
+    importdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,11 +48,13 @@ HEADERS += \
     morphlarva.h \
     CustomTextEdit.h \
     CustomOnlyNumbersLineEdit.h \
-    ExportDialog.h
+    ExportDialog.h \
+    importdialog.h
 
 FORMS += \
         mainwindow.ui \
-    exportdialog.ui
+    exportdialog.ui \
+    importdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
