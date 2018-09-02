@@ -10,6 +10,7 @@
 #include "vectorstash.h"
 #include "nsa.h"
 #include "CustomTextEdit.h"
+#include <string>
 
 namespace Ui {
 class MainWindow;
@@ -23,13 +24,15 @@ public:
     ~MainWindow();
     QString rootstashInhaltToQString();
     QString exportStringErstellen();
+    void changeRandomRange(int min, int max);
+
+public slots:
+    void importSlot(std::string importierterStashString);
 
 private slots:
     void on_btn_fill_clicked();
 
     void on_btn_sort_clicked();
-
-    void on_btn_output_root_clicked();
 
     void on_btn_output_solution_clicked();
 
@@ -39,6 +42,12 @@ private slots:
 
     void on_btn_export_clicked();
 
+    void on_btn_import_clicked();
+
+    void on_btn_changeRandomRange_clicked();
+
+    void on_bt_coinEntfernen_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -47,6 +56,8 @@ private:
     NSA* nsa;
     VectorStash* rootStash;
     VectorStash* solutionStash;
+    int randomRangeMin;
+    int randomRangeMax;
 };
 
 #endif // MAINWINDOW_H

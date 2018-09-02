@@ -1,9 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ExportDialog.h"
+#include "importdialog.h"
+#include <fstream>
 
 //zum debuggen:
 #include <iostream>
+
+
+
+
+
+
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -18,12 +29,46 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Damit der overseer die zu nutzenden Sachen kennt :)
     overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
-    //overseer->setSolutionStash(solutionStash);
+
+    //standardmaessige randomRangeWerte: (DIese bestimmen, in welcher Range
+    //randomisiert befuellt werden kann.
+    randomRangeMin = 1;
+    randomRangeMax = 2000;
 }
+
+
+
+
+
+
+
+
 
 MainWindow::~MainWindow() {
     delete ui;
 }
+
+
+
+
+
+
+
+
+
+
+
+//Legt die neuen Grenzen fuer das randomisierte befuellen des schatzes fest:
+void MainWindow::changeRandomRange(int min, int max) {
+    randomRangeMin = min;
+    randomRangeMax = max;
+}
+
+
+
+
+
+
 
 
 
@@ -47,6 +92,12 @@ QString MainWindow::exportStringErstellen() {
 
     return inhalt;
 }
+
+
+
+
+
+
 
 
 
@@ -89,24 +140,30 @@ QString MainWindow::rootstashInhaltToQString() {
 
 
 
-void MainWindow::on_btn_output_root_clicked() {
-    QMessageBox::information(this,
-        tr("Inhalt des Schatzes"),
-        tr(rootStash->display().toUtf8().constData()));
-}
-
-
-
-
 
 
 void MainWindow::on_btn_fill_clicked() {
 
-    if (ui->lineEdit_randomFuellenAnzahlEingeben->text().size() > 0) {
+
+    //Falls der Nutzer lustig drauf ist und 0 random coins hinzufuegen will:
+    if (ui->lineEdit_randomFuellenAnzahlEingeben->text().toInt() == 0) {
+        //dann passiert nichts! das verhindert, dass nichtmehr "ller" bei inhalt des Schatzes auf der GUI angezeigt wird.
+    }
+
+    //Falls der Nutzer eine gewoehnliche Eingabe taetigt:
+    else if (ui->lineEdit_randomFuellenAnzahlEingeben->text().size() > 0) {
+
         //Der Nutzer uebergibt per Eingabe einen QString an das System. Hier wird er
         //in eine integervariable umgewandelt:
         int randomAnzahl = ui->lineEdit_randomFuellenAnzahlEingeben->text().toInt();
-        rootStash->fillRandom(randomAnzahl);
+
+        //Es werden so viele randomisierte Coins erzeugt, wie der Nutzer es befiehlt:
+        for (int i = 0; i < randomAnzahl; i++) {
+
+            //ACHTUNG::MaxWert muss noch festgelegt werden
+            //Es werden nur Coins bis zu einem gewissen Wert erzeugt, weil riesige Groessen nichtmehr greifbar fuer den Nutzer sind.
+            rootStash->addRngCoin(randomRangeMin,randomRangeMax);
+        }
 
         //neuen rootstashInhalt in einem QString speichern, QString auf Gui anzeigen:
         QString neuerInhalt = rootstashInhaltToQString();
@@ -128,6 +185,9 @@ void MainWindow::on_btn_fill_clicked() {
         QMessageBox::critical(this,"Coins konnten nicht erstellt werden","Es wurde keine Coinanzahl im Textfeld eingegeben.");
     }
 }
+
+
+
 
 
 
@@ -178,6 +238,10 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 
+
+
+
+
 void MainWindow::on_btn_output_solution_clicked() {
 
     //neuen Status in einem QString speichern, QString auf Gui anzeigen:
@@ -189,6 +253,10 @@ void MainWindow::on_btn_output_solution_clicked() {
     //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
     //QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
+
+
+
+
 
 
 
@@ -234,6 +302,16 @@ void MainWindow::on_bt_einzelneCoinHinzufuegen_clicked()
 
 }
 
+
+
+
+
+
+
+
+
+
+
 void MainWindow::on_btn_clearStash_clicked()
 {
 
@@ -250,6 +328,76 @@ void MainWindow::on_btn_clearStash_clicked()
     }
 }
 
+
+
+
+
+
+
+
+
+
+void MainWindow::importSlot(std::string importierterStashString) {
+
+    std::ifstream schatzImportStream;
+    schatzImportStream.open(importierterStashString);
+    std::string eingeleseneZeile;
+    QString qZeile;
+    int newCoinValue;
+    int letztesKommaMarkierer = 0;
+
+    rootStash->clear();
+
+
+    //Es werden jeweils substrings erstellt, um die einzelnen coinvalues aus der .txt einzulesen. Die Kommata, die als
+    //Trennzeichen fungieren dienen als Orientierung und duerfen natuerlich nicht in die values mit aufgenommen werden:
+    while(getline(schatzImportStream,eingeleseneZeile)) {
+        qZeile = QString::fromStdString(eingeleseneZeile);
+
+
+        //Es wird ueber die gesamte eingelesene Zeile iteriert:
+        for(int i = 0; i < eingeleseneZeile.size(); i++) {
+
+            //Fuer den allerletzten Coin:
+            if(i == (eingeleseneZeile.size() - 1)) {
+                newCoinValue = qZeile.mid(letztesKommaMarkierer + 2).toInt();
+                rootStash->addCoin(newCoinValue);
+            }
+
+            //Fuer den allerersten Coin:
+            else if (letztesKommaMarkierer == 0 && eingeleseneZeile[i] == ',') {
+                newCoinValue = qZeile.left(i).toInt();
+                rootStash->addCoin(newCoinValue);
+                letztesKommaMarkierer = i;
+            }
+
+            //Fuer alle Coins dazwischen:
+            else if (eingeleseneZeile[i] == ',') {
+                newCoinValue = qZeile.mid((letztesKommaMarkierer + 2), i - (letztesKommaMarkierer + 2)).toInt();
+                rootStash->addCoin(newCoinValue);
+                letztesKommaMarkierer = i;
+            }
+        }
+    }
+
+
+    //Den Status, den stashinhalt und die stashsumme auf der Gui anzeigen:
+    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootstashInhaltToQString());
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
+    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
+}
+
+
+
+
+
+
+
+
+
+
+
+
 void MainWindow::on_btn_export_clicked()
 {
 
@@ -257,7 +405,7 @@ void MainWindow::on_btn_export_clicked()
     //das Dialogfenster oeffnen:
     ExportDialog exportDia;
     exportDia.setModal(true);
-    exportDia.setFixedHeight(133);
+    exportDia.setFixedHeight(156);
     exportDia.setFixedWidth(400);
     exportDia.exportInhaltFestlegen(exportStringErstellen());
     exportDia.exec();
@@ -265,4 +413,109 @@ void MainWindow::on_btn_export_clicked()
     //neuen Status in einem QString speichern und an GUI uebergeben:
     QString neuerStatus = "Status:    Der Inhalt des Schatzes wurde exportiert.";
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+}
+
+
+
+
+
+
+
+
+
+
+
+void MainWindow::on_btn_import_clicked()
+{
+
+    //das Dialogfenster oeffnen:
+    ImportDialog *importDia = new ImportDialog();
+    importDia->setModal(true);
+    importDia->setFixedHeight(156);
+    importDia->setFixedWidth(400);
+
+    //Die connect verbindet die beide Fenster per SIGNAL-->SLOT.
+    //Dadurch koennen per Event(signal) Informationen zwischen Klassen
+    //transportiert werden.(in den Slot)
+    QObject::connect(importDia,SIGNAL(importSignal(std::string)),this,SLOT(importSlot(std::string)));
+
+    importDia->exec();
+
+
+}
+
+
+
+
+
+
+
+
+
+void MainWindow::on_btn_changeRandomRange_clicked()
+{
+
+    //Wenn der Nutzer lustig ist und den Minimalwert groesser waehlt, als den Maximalwert:
+    if (ui->horizontalSlider_randomRangeMin->value() > ui->horizontalSlider_randomRangeMax->value()) {
+        QMessageBox::critical(this, "Range konnte nicht veraendert werden", "Der Minimalwert wurde groesser gewaehlt als der Maximalwert.");
+    }
+    else {
+
+        //setzt den neuen Bereich fest und informiert den Nutzer:
+        randomRangeMin = ui->horizontalSlider_randomRangeMin->value();
+        randomRangeMax = ui->horizontalSlider_randomRangeMax->value();
+        QMessageBox::information(this, "Erfolg", "Die Range wurde erfolgreich geaendert.");
+
+        //Den Status aktualisieren:
+        QString changeStatus = "Status:    Random hinzugefuegte Zahlen liegen nun im Bereich zwischen ";
+        changeStatus += QString::number(randomRangeMin);
+        changeStatus += " und ";
+        changeStatus += QString::number(randomRangeMax);
+        ui->textEdit_partitionBerechnen->setAktuellerStatus(changeStatus);
+    }
+}
+
+void MainWindow::on_bt_coinEntfernen_clicked()
+{
+
+    //uebernimmt den vom Nutzer eingegebenen Wert und falls ein Coin im Schatz diesen
+    //Wert besitzt wird EIN entsprechender Coin entfernt. Falls es keinen Coin mit dem
+    //eingegebenen Wert gibt, so wird eine Messagebox angezeigt:
+
+    //Nutzerwunschwert speichern:
+    int zuEntfernenderWert = ui->lineEdit_coinEntfernen->text().toInt();
+
+
+    //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz:
+    bool found = false;
+    for (int i = 0; i < rootStash->size(); i++) {
+        if (rootStash->getCoinByPos(i)->getValue() == zuEntfernenderWert) {
+            rootStash->removeCoinByValue(zuEntfernenderWert);
+            found = true;
+
+            //beendet die suche: (break ginge auch)
+            i = rootStash->size();
+        }
+    }
+
+
+    //Wenn kein entsprechender Coin existiert wird eine ensprechende Nachricht in einer Messagebox ausgegeben:
+    QString fehlermeldung = "In diesem Schatz existiert kein Coin mit dem Wert ";
+    fehlermeldung += ui->lineEdit_coinEntfernen->text();
+    if (!found) {
+        QMessageBox::critical(this, "Coin konnte nicht entfernt werden.", fehlermeldung);
+    }
+
+
+
+    //Status, Stashsumme und Stashinhalt wird aktualisiert und auf Gui angezeigt:
+
+    QString neuerStatus = "Status:    Ein Coin mit dem Wert ";
+    neuerStatus += ui->lineEdit_coinEntfernen->text();
+    neuerStatus += " wurde aus dem Schatz entfernt.";
+    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootstashInhaltToQString());
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
+
+    ui->lineEdit_coinEntfernen->clear();
 }
