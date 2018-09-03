@@ -15,6 +15,7 @@ public:
     explicit ExportDialog(QWidget *parent = nullptr);
     ~ExportDialog();
     void exportInhaltFestlegen(QString inhalt);
+    void exportErgebnisFestlegen(QString ergebnis);
 
 private slots:
     void on_btn_exportBestaetigen_clicked();
@@ -22,6 +23,7 @@ private slots:
 private:
     Ui::ExportDialog *ui;
     QString exportInhalt;
+    QString exportErgebnis;
 };
 
 #endif // EXPORTDIALOG_H

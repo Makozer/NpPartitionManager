@@ -21,10 +21,12 @@ ExportDialog::~ExportDialog()
 
 
 void ExportDialog::exportInhaltFestlegen(QString inhalt) {
-
     exportInhalt = inhalt;
 }
 
+void ExportDialog::exportErgebnisFestlegen(QString ergebnis) {
+    exportErgebnis = ergebnis;
+}
 
 
 void ExportDialog::on_btn_exportBestaetigen_clicked()
@@ -32,9 +34,8 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
     std::ofstream exportStream;
     exportStream.open(ui->lineEdit_exportEingabe->text().toStdString());
     std::string exportString = exportInhalt.toStdString();
-    bool trues = false;
-
-
+    exportString += "\n\n\nDas dazugehoerige Ergebnis:\n";
+    exportString += exportErgebnis.toStdString();
 
     //OUTDATED::BEGIN::macht er mittlerweile selbststaendig.
     //Damit der Nutzer eine moeglichst bequeme Eingabe hat fuegen die naechsten Zeielen die benoetigten
@@ -56,7 +57,6 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
     //    }
     //}
     //OUTDATED::ENDE
-
 
 
     exportStream << exportString;

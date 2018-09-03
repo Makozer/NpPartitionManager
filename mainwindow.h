@@ -22,8 +22,6 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QString rootstashInhaltToQString();
-    QString exportStringErstellen();
     void changeRandomRange(int min, int max);
 
 public slots:
@@ -47,6 +45,8 @@ private slots:
     void on_btn_changeRandomRange_clicked();
 
     void on_bt_coinEntfernen_clicked();
+
+    void on_btn_sortErgebnis_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -88,6 +88,58 @@ Coin *VectorStash::getCoinByValue(quint16 value) {
     return searchCoinByValue(coins, 0, coins.size() - 1, value);
 }
 
+QString VectorStash::getQString() {
+
+    QString inhalt;
+    for(int i = 0; i < this->size(); i++) {
+
+
+        //um das vorangehende Komma vor dem ersten Eintrag zu vermeiden wird diese Fallunterscheidung eingebaut:
+        //QString::number(xxx) wird benoetigt, damit nicht das dem integer entsprechende Ascii angezeigt wird,
+        //sondern die tatsaechliche zahl.
+        if (inhalt == "") {
+            inhalt += QString::number(this->getCoinByPos(i)->getValue());
+        }
+        else {
+            inhalt += ", ";
+            inhalt += QString::number(this->getCoinByPos(i)->getValue());
+        }
+    }
+    return inhalt;
+}
+
+QString VectorStash::getGuiQString() {
+
+    //stashInhalt in einem QString speichern:
+    QString inhalt;
+    for(int i = 0; i < this->size(); i++) {
+
+
+        //um das vorangehende Komma vor dem ersten Eintrag zu vermeiden wird diese Fallunterscheidung eingebaut:
+        //QString::number(xxx) wird benoetigt, damit nicht das dem integer entsprechende Ascii angezeigt wird,
+        //sondern die tatsaechliche zahl.
+        if (inhalt == "") {
+            inhalt += QString::number(this->getCoinByPos(i)->getValue());
+        }
+        else {
+            inhalt += ", ";
+
+            //Damit der angezeigte Inhalt nicht unnoetig viel Platz verschwendet:
+            if (i == 100) {
+                i = this->size();
+                inhalt += "... (Um den kompletten Inhalt zu sehen bitte die Export-Funktion nutzen.)";
+            }
+            else {
+                inhalt += QString::number(this->getCoinByPos(i)->getValue());
+            }
+        }
+    }
+
+    return inhalt;
+}
+
+
+
 Coin *VectorStash::takeCoinByValue(quint16 value) {
     Coin* me = searchCoinByValue(coins, 0, coins.size() - 1, value);
     if (me != nullptr) { this->removeCoinByPointer(me); }

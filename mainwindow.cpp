@@ -4,10 +4,6 @@
 #include "importdialog.h"
 #include <fstream>
 
-//zum debuggen:
-#include <iostream>
-
-
 
 
 
@@ -30,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
 
-    //standardmaessige randomRangeWerte: (DIese bestimmen, in welcher Range
-    //randomisiert befuellt werden kann.
+    //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
+    //randomisiert befuellt werden kann.)
     randomRangeMin = 1;
-    randomRangeMax = 2000;
+    randomRangeMax = 100;
 }
 
 
@@ -72,74 +68,6 @@ void MainWindow::changeRandomRange(int min, int max) {
 
 
 
-QString MainWindow::exportStringErstellen() {
-    QString inhalt;
-
-    for(int i = 0; i < rootStash->size(); i++) {
-
-
-        //um das vorangehende Komma vor dem ersten EIntrag zu vermeiden wird diese Fallunterscheidung eingebaut:
-        //QString::number(xxx) wird benoetigt, damit nicht das dem integer entsprechende Ascii angezeigt wird,
-        //sondern die tatsaechliche zahl.
-        if (inhalt == "") {
-            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
-        }
-        else {
-            inhalt += ", ";
-            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
-        }
-    }
-
-    return inhalt;
-}
-
-
-
-
-
-
-
-
-
-
-
-QString MainWindow::rootstashInhaltToQString() {
-    //RootstashInhalt in einem QString speichern:
-    QString inhalt;
-    for(int i = 0; i < rootStash->size(); i++) {
-
-
-        //um das vorangehende Komma vor dem ersten EIntrag zu vermeiden wird diese Fallunterscheidung eingebaut:
-        //QString::number(xxx) wird benoetigt, damit nicht das dem integer entsprechende Ascii angezeigt wird,
-        //sondern die tatsaechliche zahl.
-        if (inhalt == "") {
-            inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
-        }
-        else {
-            inhalt += ", ";
-
-            //Damit der angezeigte Inhalt nicht unnoetig viel Platz verschwendet:
-            if (i == 100) {
-                i = rootStash->size();
-                inhalt += "... (Um den kompletten Inhalt zu sehen bitte die Export-Funktion nutzen.)";
-            }
-            else {
-                inhalt += QString::number(rootStash->getCoinByPos(i)->getValue());
-            }
-        }
-    }
-
-    return inhalt;
-}
-
-
-
-
-
-
-
-
-
 
 
 void MainWindow::on_btn_fill_clicked() {
@@ -166,7 +94,7 @@ void MainWindow::on_btn_fill_clicked() {
         }
 
         //neuen rootstashInhalt in einem QString speichern, QString auf Gui anzeigen:
-        QString neuerInhalt = rootstashInhaltToQString();
+        QString neuerInhalt = rootStash->getGuiQString();
         ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
 
         //neuen Status in einem QString speichern, QString auf Gui anzeigen:
@@ -211,13 +139,13 @@ void MainWindow::on_btn_sort_clicked() {
             //Inhalt in der Gui anzeigen lassen:
             if (sortKriterium == "Aufsteigend") {
                 rootStash->quickSortAsc();
-                QString neuerInhalt = rootstashInhaltToQString();
+                QString neuerInhalt = rootStash->getGuiQString();
                 ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
                 ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
             }
             else if (sortKriterium == "Absteigend") {
                 rootStash->quickSortDesc();
-                QString neuerInhalt = rootstashInhaltToQString();
+                QString neuerInhalt = rootStash->getGuiQString();
                 ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
                 ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
             }
@@ -250,6 +178,17 @@ void MainWindow::on_btn_output_solution_clicked() {
 
 
     overseer->run();
+    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens: ";
+    ergebnisString += overseer->getSolutionStash()->getGuiQString();
+    ergebnisString += "\n\nZweitens:";
+
+    ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
+
+    //neuen Status in einem QString speichern, QString auf Gui anzeigen:
+    QString statusPWurdeBerechnet = "Status:    Die Partition wurde berechnet.";
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(statusPWurdeBerechnet);
+
+
     //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
     //QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
@@ -281,7 +220,7 @@ void MainWindow::on_bt_einzelneCoinHinzufuegen_clicked()
 
 
         //neuen rootstashInhalt in einem QString speichern und an GUI uebergeben:
-        QString neuerInhalt = rootstashInhaltToQString();
+        QString neuerInhalt = rootStash->getGuiQString();
         ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
 
 
@@ -382,7 +321,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
 
     //Den Status, den stashinhalt und die stashsumme auf der Gui anzeigen:
-    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootstashInhaltToQString());
+    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
     ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
 }
@@ -407,7 +346,8 @@ void MainWindow::on_btn_export_clicked()
     exportDia.setModal(true);
     exportDia.setFixedHeight(156);
     exportDia.setFixedWidth(400);
-    exportDia.exportInhaltFestlegen(exportStringErstellen());
+    exportDia.exportInhaltFestlegen(rootStash->getQString());
+    exportDia.exportErgebnisFestlegen(overseer->getSolutionStash()->getQString());
     exportDia.exec();
 
     //neuen Status in einem QString speichern und an GUI uebergeben:
@@ -475,6 +415,16 @@ void MainWindow::on_btn_changeRandomRange_clicked()
     }
 }
 
+
+
+
+
+
+
+
+
+
+
 void MainWindow::on_bt_coinEntfernen_clicked()
 {
 
@@ -513,9 +463,53 @@ void MainWindow::on_bt_coinEntfernen_clicked()
     QString neuerStatus = "Status:    Ein Coin mit dem Wert ";
     neuerStatus += ui->lineEdit_coinEntfernen->text();
     neuerStatus += " wurde aus dem Schatz entfernt.";
-    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootstashInhaltToQString());
+    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
 
     ui->lineEdit_coinEntfernen->clear();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void MainWindow::on_btn_sortErgebnis_clicked() {
+
+    if (ui->comboBox_sortKriteriumWaehlenErgebnis->currentText() != "<Sortierkriterium>") {
+
+        if (overseer->getSolutionStash()->size() > 1) {
+
+            //Die Auswahl aus der Combobox uebernehmen:
+            QString sortKriterium = ui->comboBox_sortKriteriumWaehlenErgebnis->currentText();
+
+            //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
+            //Inhalt in der Gui anzeigen lassen:
+            if (sortKriterium == "Aufsteigend") {
+                overseer->getSolutionStash()->quickSortAsc();
+                QString neuerInhalt = overseer->getSolutionStash()->getGuiQString();
+                ui->textEdit_partitionBerechnen->setErgebnisInformationen(neuerInhalt);
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aufsteigender Weise sortiert.");
+            }
+            else if (sortKriterium == "Absteigend") {
+                overseer->getSolutionStash()->quickSortDesc();
+                QString neuerInhalt = overseer->getSolutionStash()->getGuiQString();
+                ui->textEdit_partitionBerechnen->setErgebnisInformationen(neuerInhalt);
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aubsteigender Weise sortiert.");
+            }
+        }
+        else {
+            QMessageBox::critical(this,"Es kann nicht sortiert werden", "Der Ergebnisschatz ist zu klein, als dass er sortiert werden koennte.");
+        }
+    }
+    else {
+        QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
+    }
 }

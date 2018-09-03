@@ -35,6 +35,8 @@ public:
     // Lesen von Werten
     Coin* getCoinByPos(quint16 pos);
     Coin* getCoinByValue(quint16 value);
+    QString getQString();
+    QString getGuiQString();
 
     // Nehmen von Werten ( entfernt nach Übergabe )
     Coin* takeCoinByValue(quint16 value);
