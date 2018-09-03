@@ -193,13 +193,13 @@ bool VectorStash::removeCoinByPointer(Coin *pointer) {
 
 void VectorStash::quickSortAsc() {
     if (coins.size() > 1) {
-        quickSortAsc(0, (coins.size() - 1));
+        std::sort(coins.begin(),coins.end(),[](Coin* a, Coin* b)->bool{return a->getValue() < b->getValue() ;});
     }
 }
 
 void VectorStash::quickSortDesc() {
     if (coins.size() > 1) {
-        quickSortDesc(0, (coins.size() - 1));
+        std::sort(coins.begin(),coins.end(),[](Coin* a, Coin* b)->bool{return a->getValue() > b->getValue() ;});
     }
 }
 
@@ -225,6 +225,23 @@ bool VectorStash::isSortedDesc() {
     return true;
 }
 
+Coin *VectorStash::searchCoinByValue(VectorStash::CoinList coins, quint16 left, quint16 right, quint16 lookup) {
+    // ACHTUNG! Das Array muss vorher Descending Sortiert sein!
+    int pos = (left + right) / 2;
+    int pivot = coins[pos]->getValue();
+    if (pivot == lookup) {
+        Coin* me = coins.at(pos);
+        me->setPos(pos);
+        return me;
+    }
+    if (left == right) { return nullptr; }
+    if (pivot < lookup) { return searchCoinByValue(coins, pos + 1, right, lookup); }
+    if (pivot > lookup) { return searchCoinByValue(coins, left, pos, lookup); }
+    return nullptr;
+}
+
+/*
+ * old but gold but buggy
 void VectorStash::quickSortAsc(quint16 leftpos, quint16 rightpos) {
     quint16 i = leftpos , j = rightpos;
     Coin* tmp;
@@ -242,8 +259,6 @@ void VectorStash::quickSortAsc(quint16 leftpos, quint16 rightpos) {
             j--;
         }
     };
-
-        /* recursion */
     if (leftpos < j) { quickSortAsc(leftpos, j); }
     if (i < rightpos) { quickSortAsc(i, rightpos); }
 }
@@ -265,22 +280,7 @@ void VectorStash::quickSortDesc(quint16 leftpos, quint16 rightpos) {
             j--;
         }
     };
-    /* recursion */
     if (leftpos < j) { quickSortDesc(leftpos, j); }
     if (i < rightpos) { quickSortDesc(i, rightpos); }
-} // end quickSortDesc
-
-Coin *VectorStash::searchCoinByValue(VectorStash::CoinList coins, quint16 left, quint16 right, quint16 lookup) {
-    // ACHTUNG! Das Array muss vorher Descending Sortiert sein!
-    int pos = (left + right) / 2;
-    int pivot = coins[pos]->getValue();
-    if (pivot == lookup) {
-        Coin* me = coins.at(pos);
-        me->setPos(pos);
-        return me;
-    }
-    if (left == right) { return nullptr; }
-    if (pivot < lookup) { return searchCoinByValue(coins, pos + 1, right, lookup); }
-    if (pivot > lookup) { return searchCoinByValue(coins, left, pos, lookup); }
-    return nullptr;
 }
+*/

@@ -56,8 +56,6 @@ public:
     bool isSortedDesc();
 private:
     // Funktionen
-    void quickSortAsc(quint16 leftpos, quint16 rightpos);
-    void quickSortDesc(quint16 leftpos, quint16 rightpos);
     Coin* searchCoinByValue(CoinList coins, quint16 left, quint16 right, quint16 lookup);
 
     // Objekte
