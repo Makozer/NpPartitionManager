@@ -55,7 +55,6 @@ private:
     MorphLarva* overseer;
     NSA* nsa;
     VectorStash* rootStash;
-    VectorStash* solutionStash;
     int randomRangeMin;
     int randomRangeMax;
 };

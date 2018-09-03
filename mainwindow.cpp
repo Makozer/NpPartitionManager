@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //standardmaessige randomRangeWerte: (DIese bestimmen, in welcher Range
     //randomisiert befuellt werden kann.
     randomRangeMin = 1;
-    randomRangeMax = 2000;
+    randomRangeMax = 100;
 }
 
 
