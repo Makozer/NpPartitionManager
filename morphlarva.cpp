@@ -11,6 +11,8 @@ MorphLarva::MorphLarva() {
     success = false;
     goal = 0;
     strategy = 0;
+    qDebug("MorphLarva wurde gestartet");
+
 }
 
     // Diese Funktion aus der GUI aufrufen zum starten der Berechnung!
