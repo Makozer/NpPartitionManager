@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1062</width>
-    <height>828</height>
+    <height>877</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -292,6 +292,9 @@ padding:5px;
            </item>
            <item row="29" column="1">
             <widget class="QPushButton" name="btn_sortErgebnis">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sortiert das Ergebnis entsprechend dem ausgewählten Sortierverfahren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
              <property name="text">
               <string>Ergebnis sortieren</string>
              </property>
@@ -299,9 +302,15 @@ padding:5px;
            </item>
            <item row="29" column="0">
             <widget class="QComboBox" name="comboBox_sortKriteriumWaehlenErgebnis">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hier wird das Sortierverfahren für das Sortieren des Ergebnisses ausgewählt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="currentText">
+              <string>&lt;Sortierkriterium&gt;</string>
+             </property>
              <item>
               <property name="text">
-               <string>&lt;Sotierkriterium&gt;</string>
+               <string>&lt;Sortierkriterium&gt;</string>
               </property>
              </item>
              <item>

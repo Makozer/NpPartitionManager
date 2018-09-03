@@ -66,10 +66,6 @@ void MainWindow::changeRandomRange(int min, int max) {
 
 
 
-
-
-
-
 void MainWindow::on_btn_fill_clicked() {
 
 
@@ -113,8 +109,6 @@ void MainWindow::on_btn_fill_clicked() {
         QMessageBox::critical(this,"Coins konnten nicht erstellt werden","Es wurde keine Coinanzahl im Textfeld eingegeben.");
     }
 }
-
-
 
 
 
@@ -178,9 +172,12 @@ void MainWindow::on_btn_output_solution_clicked() {
 
 
     overseer->run();
-    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens: ";
+    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
     ergebnisString += overseer->getSolutionStash()->getGuiQString();
     ergebnisString += "\n\nZweitens:";
+    //zweiten teil implementieren.
+    ergebnisString += "\n\nSumme des ersten Teils: ";
+    ergebnisString += QString::number(overseer->getSolutionStash()->sum());
 
     ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
 
@@ -347,7 +344,13 @@ void MainWindow::on_btn_export_clicked()
     exportDia.setFixedHeight(156);
     exportDia.setFixedWidth(400);
     exportDia.exportInhaltFestlegen(rootStash->getQString());
-    exportDia.exportErgebnisFestlegen(overseer->getSolutionStash()->getQString());
+
+    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens: ";
+    ergebnisString += overseer->getSolutionStash()->getQString();
+    ergebnisString += "\n\nZweitens:";
+    //zweiten teil implementieren
+
+    exportDia.exportErgebnisFestlegen(ergebnisString);
     exportDia.exec();
 
     //neuen Status in einem QString speichern und an GUI uebergeben:
@@ -485,7 +488,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
 
     if (ui->comboBox_sortKriteriumWaehlenErgebnis->currentText() != "<Sortierkriterium>") {
 
-        if (overseer->getSolutionStash()->size() > 1) {
+        if (overseer->hasSuccess()) {
 
             //Die Auswahl aus der Combobox uebernehmen:
             QString sortKriterium = ui->comboBox_sortKriteriumWaehlenErgebnis->currentText();
@@ -494,19 +497,38 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
             //Inhalt in der Gui anzeigen lassen:
             if (sortKriterium == "Aufsteigend") {
                 overseer->getSolutionStash()->quickSortAsc();
-                QString neuerInhalt = overseer->getSolutionStash()->getGuiQString();
-                ui->textEdit_partitionBerechnen->setErgebnisInformationen(neuerInhalt);
+
+                //QString fuer die GUI-anzeigen erstellen:
+                QString inhalt = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
+                inhalt += overseer->getSolutionStash()->getGuiQString();
+                inhalt += "\n\nZweitens:";
+                //zweiten teil implementieren
+                inhalt += "\n\nSumme des ersten Teils: ";
+                inhalt += QString::number(overseer->getSolutionStash()->sum());
+
+                //GUI-anzeigen aktualisieren:
                 ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aufsteigender Weise sortiert.");
+                ui->textEdit_partitionBerechnen->setErgebnisInformationen(inhalt);
             }
             else if (sortKriterium == "Absteigend") {
                 overseer->getSolutionStash()->quickSortDesc();
-                QString neuerInhalt = overseer->getSolutionStash()->getGuiQString();
-                ui->textEdit_partitionBerechnen->setErgebnisInformationen(neuerInhalt);
-                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aubsteigender Weise sortiert.");
+
+
+                //QString fuer die GUI-anzeigen erstellen:
+                QString inhalt = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
+                inhalt += overseer->getSolutionStash()->getGuiQString();
+                inhalt += "\n\nZweitens:";
+                //zweiten teil implementieren
+                inhalt += "\n\nSumme des ersten Teils: ";
+                inhalt += QString::number(overseer->getSolutionStash()->sum());
+
+                //Die Gui-anzeigen aktualisieren:
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in absteigender Weise sortiert.");
+                ui->textEdit_partitionBerechnen->setErgebnisInformationen(inhalt);
             }
         }
         else {
-            QMessageBox::critical(this,"Es kann nicht sortiert werden", "Der Ergebnisschatz ist zu klein, als dass er sortiert werden koennte.");
+            QMessageBox::critical(this,"Es kann nicht sortiert werden", "Es liegt kein Ergebnisschatz vor, der sortiert werden koennte.");
         }
     }
     else {
