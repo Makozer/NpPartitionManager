@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     overseer = new MorphLarva();
     nsa = new NSA();
     rootStash = new VectorStash();
+    zweiterSolutionstash = new VectorStash();
 
 
     // Damit der overseer die zu nutzenden Sachen kennt :)
@@ -43,12 +44,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow() {
     delete ui;
 }
-
-
-
-
-
-
 
 
 
@@ -172,11 +167,9 @@ void MainWindow::on_btn_output_solution_clicked() {
 
 
     overseer->run();
-    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
+    QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
     ergebnisString += overseer->getSolutionStash()->getGuiQString();
-    ergebnisString += "\n\nZweitens:";
-    //zweiten teil implementieren.
-    ergebnisString += "\n\nSumme des ersten Teils: ";
+    ergebnisString += "\n\nSumme des Ergebnisses: ";
     ergebnisString += QString::number(overseer->getSolutionStash()->sum());
 
     ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
@@ -184,6 +177,9 @@ void MainWindow::on_btn_output_solution_clicked() {
     //neuen Status in einem QString speichern, QString auf Gui anzeigen:
     QString statusPWurdeBerechnet = "Status:    Die Partition wurde berechnet.";
     ui->textEdit_partitionBerechnen->setAktuellerStatus(statusPWurdeBerechnet);
+
+
+
 
 
     //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
@@ -201,7 +197,7 @@ void MainWindow::on_btn_output_solution_clicked() {
 
 
 
-void MainWindow::on_bt_einzelneCoinHinzufuegen_clicked()
+void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 {
     //Der rootstash bekommt einen neuen Coin zugewiesen. Der Wert des coins
     //wird durch den Benutzer im lineEdit eingegeben und wird von dieser Funktion
@@ -254,10 +250,11 @@ void MainWindow::on_btn_clearStash_clicked()
     if (rootStash->size() > 0) {
         rootStash->clear();
 
-        //Neuen Status und neuen StashInhalt auf GUI anzeigen:
+        //Neuen Status und neuen StashInhalt auf GUI anzeigen,sowie Ergebnis entfernen:
         ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
         ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
         ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
+        ui->textEdit_partitionBerechnen->setErgebnisInformationen("");
     }
     else {
         QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
@@ -343,14 +340,29 @@ void MainWindow::on_btn_export_clicked()
     exportDia.setModal(true);
     exportDia.setFixedHeight(156);
     exportDia.setFixedWidth(400);
-    exportDia.exportInhaltFestlegen(rootStash->getQString());
 
-    QString ergebnisString = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens: ";
-    ergebnisString += overseer->getSolutionStash()->getQString();
-    ergebnisString += "\n\nZweitens:";
-    //zweiten teil implementieren
+    //Daten uebergeben:
 
-    exportDia.exportErgebnisFestlegen(ergebnisString);
+    //stashginhalt:
+    QString inhaltsString = "Inhalt des Schatzes:\n";
+    inhaltsString += "Summe aller Coinwerte: ";
+    inhaltsString += QString::number(rootStash->sum());
+    inhaltsString += "\nAlle Coins:\n";
+    inhaltsString += rootStash->getQString();
+    exportDia.exportInhaltFestlegen(inhaltsString);
+
+    //ggf ergebnis mit uebergeben, falls es eines gibt:
+    if (overseer->hasSuccess()) {
+        QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n";
+        ergebnisString += overseer->getSolutionStash()->getQString();
+        ergebnisString += "\n\nSumme des Ergebnisses: ";
+        ergebnisString += QString::number(overseer->getSolutionStash()->sum());
+        exportDia.exportErgebnisFestlegen(ergebnisString);
+    }
+    else {
+        exportDia.exportErgebnisFestlegen("");
+    }
+
     exportDia.exec();
 
     //neuen Status in einem QString speichern und an GUI uebergeben:
@@ -428,7 +440,7 @@ void MainWindow::on_btn_changeRandomRange_clicked()
 
 
 
-void MainWindow::on_bt_coinEntfernen_clicked()
+void MainWindow::on_btn_coinEntfernen_clicked()
 {
 
     //uebernimmt den vom Nutzer eingegebenen Wert und falls ein Coin im Schatz diesen
@@ -466,7 +478,15 @@ void MainWindow::on_bt_coinEntfernen_clicked()
     QString neuerStatus = "Status:    Ein Coin mit dem Wert ";
     neuerStatus += ui->lineEdit_coinEntfernen->text();
     neuerStatus += " wurde aus dem Schatz entfernt.";
-    ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
+
+    //Damit nicht einfach nichts als inhalt fuer den rootstash steht, steht dort, falls der stash leer ist "leer"
+    if (rootStash->size() > 0) {
+        ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
+    }
+    else {
+        ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
+    }
+
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
 
@@ -499,15 +519,15 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 overseer->getSolutionStash()->quickSortAsc();
 
                 //QString fuer die GUI-anzeigen erstellen:
-                QString inhalt = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
+                QString inhalt = "Die Partition liefert folgendes Ergebnis:\n\n";
                 inhalt += overseer->getSolutionStash()->getGuiQString();
-                inhalt += "\n\nZweitens:";
-                //zweiten teil implementieren
-                inhalt += "\n\nSumme des ersten Teils: ";
+                inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
 
-                //GUI-anzeigen aktualisieren:
-                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aufsteigender Weise sortiert.");
+
+
+                //Die Gui-anzeigen aktualisieren:
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in absteigender Weise sortiert.");
                 ui->textEdit_partitionBerechnen->setErgebnisInformationen(inhalt);
             }
             else if (sortKriterium == "Absteigend") {
@@ -515,12 +535,12 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
 
 
                 //QString fuer die GUI-anzeigen erstellen:
-                QString inhalt = "Die Partition unterteilt den Schatz in diese beiden Teilmengen:\n\nErstens:\n";
+                QString inhalt = "Die Partition liefert folgendes Ergebnis:\n\n";
                 inhalt += overseer->getSolutionStash()->getGuiQString();
-                inhalt += "\n\nZweitens:";
-                //zweiten teil implementieren
-                inhalt += "\n\nSumme des ersten Teils: ";
+                inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
+
+
 
                 //Die Gui-anzeigen aktualisieren:
                 ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in absteigender Weise sortiert.");

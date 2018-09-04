@@ -34,7 +34,7 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
     std::ofstream exportStream;
     exportStream.open(ui->lineEdit_exportEingabe->text().toStdString());
     std::string exportString = exportInhalt.toStdString();
-    exportString += "\n\n\nDas dazugehoerige Ergebnis:\n";
+    exportString += "\n\n\n\n";
     exportString += exportErgebnis.toStdString();
 
     //OUTDATED::BEGIN::macht er mittlerweile selbststaendig.

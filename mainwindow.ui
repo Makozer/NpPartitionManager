@@ -70,7 +70,7 @@ padding:5px;
             </widget>
            </item>
            <item row="8" column="1">
-            <widget class="QPushButton" name="bt_einzelneCoinHinzufuegen">
+            <widget class="QPushButton" name="btn_einzelnenCoinHinzufuegen">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                <horstretch>0</horstretch>
@@ -142,7 +142,7 @@ padding:5px;
             </widget>
            </item>
            <item row="14" column="1">
-            <widget class="QPushButton" name="bt_coinEntfernen">
+            <widget class="QPushButton" name="btn_coinEntfernen">
              <property name="toolTip">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt Coins aus dem Schatz, die den Wert haben, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Hinweis:&lt;/p&gt;&lt;p&gt;In den Einstellungen (oben rechts) kann eingestellt werden, ob nur ein Coin oder alle Coins des entsprechenden Wertes aus dem Schatz entfernt werden sollen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>

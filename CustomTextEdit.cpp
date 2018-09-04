@@ -11,12 +11,12 @@ void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashIn
 
     gesamterText += aktuellerStatus;
     gesamterText += "\n\n\n";
-    gesamterText += "Inhalt des Schatzes:\n\n";
+    gesamterText += "Inhalt des Schatzes:\n";
     gesamterText += "Summe aller Coinwerte: ";
     gesamterText += rootstashSum;
-    gesamterText += "\n\nAlle Coins:\n";
+    gesamterText += "\nAlle Coins:\n";
     gesamterText += rootstashInhalt;
-    gesamterText += "\n\n\n";
+    gesamterText += "\n\n\n\n";
     gesamterText += ergebnisInformationen;
 
     //uebergeben an das interne QTextEdit. Dadurch wird der "gesamterText" auf der Gui dargestellt.

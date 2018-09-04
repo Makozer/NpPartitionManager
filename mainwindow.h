@@ -34,7 +34,7 @@ private slots:
 
     void on_btn_output_solution_clicked();
 
-    void on_bt_einzelneCoinHinzufuegen_clicked();
+    void on_btn_einzelnenCoinHinzufuegen_clicked();
 
     void on_btn_clearStash_clicked();
 
@@ -44,19 +44,22 @@ private slots:
 
     void on_btn_changeRandomRange_clicked();
 
-    void on_bt_coinEntfernen_clicked();
+    void on_btn_coinEntfernen_clicked();
 
     void on_btn_sortErgebnis_clicked();
 
 private:
     Ui::MainWindow *ui;
 
-    // 4 Objekte die benötigt werden, siehe Konstruktor für zweiten Part der wichtig ist :)
+
+    // 6 Objekte die benötigt werden, siehe Konstruktor für zweiten Part der wichtig ist :)
     MorphLarva* overseer;
     NSA* nsa;
     VectorStash* rootStash;
     int randomRangeMin;
     int randomRangeMax;
+    VectorStash* zweiterSolutionstash;
+
 };
 
 #endif // MAINWINDOW_H
