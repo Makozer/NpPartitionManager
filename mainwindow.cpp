@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
     //randomisiert befuellt werden kann.)
     randomRangeMin = 1;
-    randomRangeMax = 100;
+    randomRangeMax = 50;
 }
 
 
@@ -419,7 +419,7 @@ void MainWindow::on_btn_changeRandomRange_clicked()
         //setzt den neuen Bereich fest und informiert den Nutzer:
         randomRangeMin = ui->horizontalSlider_randomRangeMin->value();
         randomRangeMax = ui->horizontalSlider_randomRangeMax->value();
-        QMessageBox::information(this, "Erfolg", "Die Range wurde erfolgreich geaendert.");
+        QMessageBox::information(this, "Erfolg", "Das Intervall wurde erfolgreich geaendert.");
 
         //Den Status aktualisieren:
         QString changeStatus = "Status:    Random hinzugefuegte Zahlen liegen nun im Bereich zwischen ";

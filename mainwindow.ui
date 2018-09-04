@@ -83,6 +83,12 @@ padding:5px;
              <property name="text">
               <string>Coin Hinzufuegen</string>
              </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item row="11" column="0">
@@ -111,6 +117,9 @@ padding:5px;
              </property>
              <property name="text">
               <string>Random füllen</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -144,10 +153,13 @@ padding:5px;
            <item row="14" column="1">
             <widget class="QPushButton" name="btn_coinEntfernen">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt Coins aus dem Schatz, die den Wert haben, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Hinweis:&lt;/p&gt;&lt;p&gt;In den Einstellungen (oben rechts) kann eingestellt werden, ob nur ein Coin oder alle Coins des entsprechenden Wertes aus dem Schatz entfernt werden sollen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau einen Coin aus dem Schatz, der den Wert hat, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Coin entfernen</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -158,6 +170,9 @@ padding:5px;
              </property>
              <property name="text">
               <string>Schatz loeschen</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -190,10 +205,13 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;importiert einen Schatz aus einer Textdatei. &lt;/p&gt;&lt;p&gt;In dieser Textdatei muessen die Werte aller zu uebernehmenden Coins, getrennt von einem Komma enthalten sein. &lt;/p&gt;&lt;p&gt;Beispiel: &lt;/p&gt;&lt;p&gt;122,53,12,9,12&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;importiert einen Schatz aus einer Textdatei. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Importieren</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -210,6 +228,9 @@ padding:5px;
              </property>
              <property name="text">
               <string>Exportieren</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -255,6 +276,9 @@ padding:5px;
              <property name="text">
               <string>Schatzt sortieren</string>
              </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="25" column="1">
@@ -288,6 +312,9 @@ padding:5px;
              <property name="text">
               <string>Partition(RUN)</string>
              </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="29" column="1">
@@ -297,6 +324,9 @@ padding:5px;
              </property>
              <property name="text">
               <string>Ergebnis sortieren</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -410,7 +440,7 @@ p, li { white-space: pre-wrap; }
         <item row="4" column="0">
          <widget class="QLabel" name="lbl_anzeigeRandomRangeMax">
           <property name="text">
-           <string>100</string>
+           <string>50</string>
           </property>
          </widget>
         </item>
@@ -449,7 +479,7 @@ p, li { white-space: pre-wrap; }
            <number>100</number>
           </property>
           <property name="sliderPosition">
-           <number>100</number>
+           <number>50</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -484,6 +514,9 @@ p, li { white-space: pre-wrap; }
           <property name="text">
            <string>Intervall Uebernehmen</string>
           </property>
+          <property name="autoDefault">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -506,6 +539,29 @@ p, li { white-space: pre-wrap; }
    <header location="global">customonlynumberslineedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>lineEdit_coinHinzufuegenWertEingeben</tabstop>
+  <tabstop>btn_einzelnenCoinHinzufuegen</tabstop>
+  <tabstop>lineEdit_randomFuellenAnzahlEingeben</tabstop>
+  <tabstop>btn_fill</tabstop>
+  <tabstop>lineEdit_coinEntfernen</tabstop>
+  <tabstop>btn_coinEntfernen</tabstop>
+  <tabstop>btn_clearStash</tabstop>
+  <tabstop>btn_import</tabstop>
+  <tabstop>btn_export</tabstop>
+  <tabstop>comboBox_sortKritWaehlen</tabstop>
+  <tabstop>btn_sort</tabstop>
+  <tabstop>btn_output_solution</tabstop>
+  <tabstop>comboBox_sortKriteriumWaehlenErgebnis</tabstop>
+  <tabstop>btn_sortErgebnis</tabstop>
+  <tabstop>textEdit_partitionBerechnen</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>textEdit_InfosZuPartition</tabstop>
+  <tabstop>textEdit_mitwirkende</tabstop>
+  <tabstop>horizontalSlider_randomRangeMax</tabstop>
+  <tabstop>horizontalSlider_randomRangeMin</tabstop>
+  <tabstop>btn_changeRandomRange</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

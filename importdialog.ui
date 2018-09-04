@@ -19,6 +19,15 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+font:10pt &quot;MS Shell Dlg 2&quot;;
+padding:5px;
+}
+
+
+</string>
+  </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="lbl_importInfo">
@@ -29,6 +38,9 @@
    </item>
    <item row="2" column="0">
     <widget class="QPushButton" name="btn_import">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;importiert einen Schatz aus einer Textdatei. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In dieser Textdatei muessen die Werte aller zu uebernehmenden Coins, getrennt von einem Komma und einem Leerzeichen enthalten sein. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Beispiel: &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;122, 53, 12, 9, 12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>Importieren</string>
      </property>
@@ -39,6 +51,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_importAdresse</tabstop>
+  <tabstop>btn_import</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
