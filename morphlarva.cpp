@@ -11,12 +11,26 @@ MorphLarva::MorphLarva() {
     success = false;
     goal = 0;
     strategy = 0;
-    qDebug("MorphLarva wurde gestartet");
+}
 
+MorphLarva::MorphLarva(const MorphLarva &copyLarva) {
+    this->overseer = copyLarva.overseer;
+    this->rootStash = new VectorStash(*copyLarva.rootStash);
+    this->memoryStash = new VectorStash();
+    this->nsa = copyLarva.nsa;
+    this->rng = new RNGesus();
+    this->success = copyLarva.success;
+    this->goal = copyLarva.goal;
+    this->strategy = copyLarva.strategy;
+}
+
+void mt_search(MorphLarva &worker) {
+    qDebug("mt_search wurde ausgeführt");
+    worker.search();
 }
 
     // Diese Funktion aus der GUI aufrufen zum starten der Berechnung!
-bool MorphLarva::run() {
+bool MorphLarva::runCalc() {
 
     // Abklappern ob startbereit
     if (rootStash == nullptr || nsa == nullptr) {
@@ -45,7 +59,50 @@ bool MorphLarva::run() {
     nsa->add("Data", "goal wurde auf " + QString::number(getGoal()) + " gesetzt");
     // SCHATZ BEGRADIGUNG ENDE
 
-    search();
+
+    // Multi Threading ########################################################################
+
+    quint8 num_threads = 2;
+    quint8 strat[] = { 1, 1 };
+    QString qds = "goal wurde auf " + QString::number(getGoal()) + " gesetzt";
+    qDebug() << qds;
+    qDebug("worker werden gestartet");
+    for (quint8 i = 0; i < num_threads; i++) {
+        worker[i] = new MorphLarva();
+        worker[i]->setOverseer(this);
+        worker[i]->setGoal(this->getGoal());
+        worker[i]->setStrategy(strat[i]);
+        worker[i]->setRootStash(new VectorStash((*rootStash)));
+        qDebug() << "worker[" << i << "] data: goal: " << worker[i]->getGoal() << "; strategy: "  << worker[i]->getStrategy();
+        //threads[i] = new std::thread(multithread_search, std::ref(*worker[i]));
+        qf[i] = QtConcurrent::run(mt_search, *worker[i]);
+    }
+
+    // Warteschleife
+
+    /*
+    while (this->success != true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    }
+
+
+    // Join nachdem Lösung gefunden wurde
+
+    qDebug("waitForFinished");
+    for (quint8 i = 0; i < num_threads; i++) {
+        //threads[i]->join();
+        //delete worker[i];
+        //delete threads[i];
+        //qf[i].waitForFinished();
+    }
+    */
+    qDebug("MT ENDE");
+    // Multi Threading Ende #################################################################################################################
+
+
+
+    //search();
     return true;
 }
 
@@ -61,6 +118,7 @@ void MorphLarva::setRootStash(VectorStash *stash) {
 void MorphLarva::setSolutionStash(VectorStash *stash) {
     this->success = true;
     this->solutionStash = stash;
+    qDebug("Lösung wurde gesetzt");
 }
 
 VectorStash *MorphLarva::getSolutionStash() {
@@ -73,6 +131,10 @@ void MorphLarva::setOverseer(MorphLarva *overseer) {
 
 MorphLarva* MorphLarva::getOverseer() {
     return overseer;
+}
+
+void MorphLarva::setSuccess(bool success) {
+    this->success = success;
 }
 
 bool MorphLarva::hasSuccess() {
@@ -95,24 +157,29 @@ quint16 MorphLarva::getGoal() {
     return goal;
 }
 
-// DÖDÖDÖDÖDÖM WICHTIGSTE FUNKTION
 void MorphLarva::search() {
-    // ToDo
-    nsa->add("Start", "search wurde gestartet");
-    searchChaosRandom();
-
+    qDebug("search() wurde ausgeführt");
+    switch (this->strategy) {
+        case 0:
+            break;
+        case 1:
+            this->searchChaosRandom();
+            break;
+        case 2:
+            //this->searchOrderSort();
+            break;
+    }
 }
 
 void MorphLarva::searchChaosRandom() {
-    nsa->add("start", "searchChaosRandom gestartet");
+    qDebug("searchChaosRandom wurde gestartet");
     Coin* me = nullptr;
     quint16 loopmax = rootStash->size() - 1;
     VectorStash* rootCopy;
-    //QString boolText = overseer->hasSuccess() ? "true" : "false";
 
     while (overseer->hasSuccess() != true) {
 
-        rootCopy = new VectorStash((*rootStash)); // Kopiert den rootStash
+        rootCopy = new VectorStash(*rootStash); // Kopiert den rootStash
 
         for (int i = 0; i < loopmax; i++) {
 
@@ -126,7 +193,8 @@ void MorphLarva::searchChaosRandom() {
             }
             if (memoryStash->sum() == goal) {
                 overseer->setSolutionStash(this->memoryStash);
-                nsa->add("finish","searchChaosRandom war Erfolgreich!");
+                qDebug("searchChaosRandom war Erfolgreich!");
+                //nsa->add("finish","searchChaosRandom war Erfolgreich!");
                 break;
             } // End Success = True
         } // End for
