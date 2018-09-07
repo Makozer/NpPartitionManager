@@ -165,7 +165,6 @@ void MainWindow::on_btn_output_solution_clicked() {
     QString neuerStatus = "Status:    Die Partition wird berechnet.";
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
 
-    overseer->setSuccess(false);
     overseer->runCalc();
     QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
     ergebnisString += overseer->getSolutionStash()->getGuiQString();
@@ -505,8 +504,6 @@ void MainWindow::on_btn_coinEntfernen_clicked()
 
 
 void MainWindow::on_btn_sortErgebnis_clicked() {
-
-    QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 
     if (ui->comboBox_sortKriteriumWaehlenErgebnis->currentText() != "<Sortierkriterium>") {
 
