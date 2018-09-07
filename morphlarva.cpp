@@ -62,7 +62,7 @@ bool MorphLarva::runCalc() {
 
     // Multi Threading ########################################################################
 
-    quint8 num_threads = 2;
+    quint8 num_threads = 1;
     quint8 strat[] = { 1, 1 };
     QString qds = "goal wurde auf " + QString::number(getGoal()) + " gesetzt";
     qDebug() << qds;
@@ -116,9 +116,13 @@ void MorphLarva::setRootStash(VectorStash *stash) {
 }
 
 void MorphLarva::setSolutionStash(VectorStash *stash) {
-    this->success = true;
-    this->solutionStash = stash;
-    qDebug("Lösung wurde gesetzt");
+    mutex.lock();
+    if (!this->hasSuccess()) {
+        this->success = true;
+        this->solutionStash = stash;
+        qDebug("Lösung wurde gesetzt");
+    }
+    mutex.unlock();
 }
 
 VectorStash *MorphLarva::getSolutionStash() {
@@ -166,7 +170,7 @@ void MorphLarva::search() {
             this->searchChaosRandom();
             break;
         case 2:
-            //this->searchOrderSort();
+            this->searchOrderSort();
             break;
     }
 }
@@ -198,6 +202,55 @@ void MorphLarva::searchChaosRandom() {
                 break;
             } // End Success = True
         } // End for
+    } // End while
+}
+
+void MorphLarva::searchOrderSort() {
+
+    VectorStash* rootCopy = nullptr;
+    quint16 calcMax = (((rootStash->sum() / 2) / 100) * 95);
+    Coin* me = nullptr;
+    Coin* coinSolution = nullptr;
+    quint8 iCount = 0;
+
+    while (overseer->hasSuccess() != true) {
+
+        rootCopy = new VectorStash(*rootStash);
+        me = nullptr;
+        coinSolution = nullptr;
+        iCount = 0;
+
+        while (memoryStash->size() < calcMax) {
+            me = rootCopy->takeCoinByPos(iCount);
+            memoryStash->addCoin(me);
+
+            //iCount++;
+        }
+
+
+        while (overseer->hasSuccess() != true) {
+
+            coinSolution = rootCopy->takeCoinByValue((goal - memoryStash->size()));
+
+            if (coinSolution != nullptr) {
+                memoryStash->addCoin(coinSolution);
+            } else {
+                me = rootCopy->takeCoinByRNG();
+                memoryStash->addCoin(me);
+            }
+
+            if (memoryStash->size() > goal) {
+                memoryStash->clear();
+                calcMax = ((calcMax / 100) * 95);
+                if (calcMax < ((goal / 100) * 60)) { calcMax = (((rootCopy->sum() / 2) / 100) * 95);	}
+                delete rootCopy;
+                break;
+            }
+            if (memoryStash->size() == goal) {
+                overseer->setSolutionStash(this->memoryStash);
+                break;
+            }
+        }
     } // End while
 }
 

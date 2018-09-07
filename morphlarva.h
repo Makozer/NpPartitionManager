@@ -51,6 +51,7 @@ private:
     MorphLarva* worker[8];
     //void mt_search(MorphLarva &worker);
     QFuture<void> qf[8];
+    QMutex mutex;
 
     // Funktionen
     void searchChaosRandom();

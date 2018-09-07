@@ -76,8 +76,9 @@ void VectorStash::fillRandom(quint16 size, quint16 min, quint16 max) {
 }
 
 void VectorStash::fillAscending(quint16 size) {
-    size += 1; // damit keine Warning kommt
-    // Falls mans noch iwann mal brauch ToDo, ansonsten rausstreichen, Random erfüllt den Job genauso :)
+    for (quint16 i = 1; i <= size; i++) {
+        this->addCoin(i);
+    }
 }
 
 Coin *VectorStash::getCoinByPos(quint16 pos) {
