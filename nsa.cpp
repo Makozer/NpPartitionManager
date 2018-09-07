@@ -8,7 +8,9 @@ void NSA::add(Report *report) {
 }
 
 void NSA::add(QString type, QString message) {
+    mutex.lock();
     reports.push_back(new Report(type, message));
+    mutex.unlock();
 }
 
 NSA::ReportList NSA::getList() {

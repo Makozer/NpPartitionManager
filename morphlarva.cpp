@@ -189,7 +189,7 @@ void MorphLarva::searchChaosRandom() {
 
             me = rootCopy->takeCoinByRNG();
             memoryStash->addCoin(me);
-            //delete me;
+
             if (memoryStash->sum() > goal) {
                 memoryStash->clear();
                 delete rootCopy;

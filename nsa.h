@@ -1,5 +1,6 @@
 #ifndef NSA_H
 #define NSA_H
+#include <QMutex>
 #include <vector>
 #include "report.h"
 
@@ -15,6 +16,7 @@ public:
     QString display(quint16 size);
 private:
     ReportList reports;
+    QMutex mutex;
 };
 
 #endif // NSA_H
