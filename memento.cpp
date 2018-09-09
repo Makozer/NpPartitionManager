@@ -11,9 +11,11 @@ void Memento::start() {
 
 void Memento::stop() {
     time += clock() - begin;
-    time = time / CLOCKS_PER_SEC;  // rescale to seconds
+    time = time / CLOCKS_PER_SEC;
 }
 
 double Memento::getSeconds() {
+    time += clock() - begin;
+    time = time / CLOCKS_PER_SEC;
     return time;
 }

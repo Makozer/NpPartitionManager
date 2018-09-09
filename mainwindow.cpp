@@ -12,6 +12,14 @@
 
 
 
+void MainWindow::displaySolution() {
+    // Martin Funktion ... sry fürs GUI rumwurschteln xD
+    // Slot für Lösungsausgabe sobald sie gefunden wurde :)   ----> Erkennbarkeit im Code: #########################################################################
+    ui->comboBox_sortKriteriumWaehlenErgebnis->setCurrentIndex(1); // Damit aufsteigend gewählt ist ^^
+    on_btn_sortErgebnis_clicked(); // "clickt" quasi als Code den Sortierbutton :D
+    QMessageBox::information(this, tr("Lösung gefunden!"), tr("Die Lösung für das gestellte Problem wurde gefunden!"));
+}
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
@@ -26,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Damit der overseer die zu nutzenden Sachen kennt :)
     overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
+
+    // Signal / Slot Verbindung
+    QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
 
     //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
     //randomisiert befuellt werden kann.)

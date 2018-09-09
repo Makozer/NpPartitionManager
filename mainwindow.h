@@ -18,7 +18,8 @@ class MainWindow;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-
+public slots:
+    void displaySolution();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

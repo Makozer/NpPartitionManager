@@ -1,6 +1,7 @@
 #ifndef VECTORSTASH_H
 #define VECTORSTASH_H
 // Vererbung?
+#include <QDebug>
 #include <QVector>
 #include <QString>
 #include "coin.h"

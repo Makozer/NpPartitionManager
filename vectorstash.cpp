@@ -10,6 +10,7 @@ VectorStash::VectorStash(const VectorStash &copyStash) {
     this->rng = new RNGesus();
     this->nsa = copyStash.nsa;
     this->coins = QVector<Coin*>(copyStash.coins);
+    this->total = copyStash.total;
 }
 
 VectorStash::~VectorStash() {
@@ -149,12 +150,14 @@ Coin *VectorStash::takeCoinByValue(quint16 value) {
 
 Coin *VectorStash::takeCoinByPos(quint16 pos) {
     Coin* me = coins.at(pos);
+    me->setPos(pos);
     this->removeCoinByPointer(me);
     return me;
 }
 
 Coin *VectorStash::takeCoinByRNG() {
     quint16 rngCoin = rng->getRng(0, (coins.size() - 1));
+    //qDebug() << "takeCoinByRNG Data: size=" << coins.size() << "| rngCoin=" << rngCoin;
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);
@@ -240,48 +243,3 @@ Coin *VectorStash::searchCoinByValue(VectorStash::CoinList coins, quint16 left, 
     if (pivot > lookup) { return searchCoinByValue(coins, left, pos, lookup); }
     return nullptr;
 }
-
-/*
- * old but gold but buggy
-void VectorStash::quickSortAsc(quint16 leftpos, quint16 rightpos) {
-    quint16 i = leftpos , j = rightpos;
-    Coin* tmp;
-
-    int pivot = coins[(leftpos + rightpos) / 2]->getValue();
-
-    while (i <= j) {
-        while (coins[i]->getValue() < pivot) { i++; }
-        while (coins[j]->getValue() > pivot) { j--; }
-        if (i <= j) {
-            tmp = coins[i];
-            coins[i] = coins[j];
-            coins[j] = tmp;
-            i++;
-            j--;
-        }
-    };
-    if (leftpos < j) { quickSortAsc(leftpos, j); }
-    if (i < rightpos) { quickSortAsc(i, rightpos); }
-}
-
-void VectorStash::quickSortDesc(quint16 leftpos, quint16 rightpos) {
-    quint16 i = leftpos, j = rightpos;
-    Coin* tmp;
-
-    int pivot = coins[(leftpos + rightpos) / 2]->getValue();
-
-    while (i <= j) {
-        while (coins[i]->getValue() > pivot) { i++; }
-        while (coins[j]->getValue() < pivot) { j--; }
-        if (i <= j) {
-            tmp = coins[i];
-            coins[i] = coins[j];
-            coins[j] = tmp;
-            i++;
-            j--;
-        }
-    };
-    if (leftpos < j) { quickSortDesc(leftpos, j); }
-    if (i < rightpos) { quickSortDesc(i, rightpos); }
-}
-*/

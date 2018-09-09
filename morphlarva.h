@@ -4,6 +4,8 @@
 #include <QString>
 #include <vectorstash.h>
 #include <nsa.h>
+#include <memento.h>
+#include <QObject>
 
 // Threading?? alt
 #include <thread>
@@ -21,6 +23,9 @@
 #include <QtConcurrent/QtConcurrent>
 
 class MorphLarva : public QThread {
+    Q_OBJECT
+signals:
+    void foundSolution();
 public:
     MorphLarva();
     MorphLarva(const MorphLarva &copyLarva);
@@ -30,6 +35,8 @@ public:
     void setNSA(NSA* nsa);
     void setRootStash(VectorStash* stash);    
     VectorStash* getSolutionStash();
+
+    bool stopCalc();
 
     // Unwichtig für GUI, trotzdem zwingend public sichtbar
     void setSolutionStash(VectorStash* stash);
@@ -45,12 +52,17 @@ public:
 
     void search();
 
+    // temporär
+    void debug();
+
 private:
     // Threading
     //std::thread* threads[8];
     MorphLarva* worker[8];
     //void mt_search(MorphLarva &worker);
-    QFuture<void> qf[8];
+    //QFuture<void> qf[8];
+    QVector<MorphLarva*> workers;
+    QVector<QFuture<void>> qfs;
     QMutex mutex;
 
     // Funktionen
@@ -66,8 +78,10 @@ private:
 
     NSA* nsa;
     RNGesus* rng;
+    Memento* timer;
 
     bool success;
+    bool cheatCoin;
     quint16 goal;
     quint8 strategy;
 
