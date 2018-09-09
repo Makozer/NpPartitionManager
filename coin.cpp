@@ -1,7 +1,17 @@
 #include "coin.h"
 
 Coin::Coin(quint16 value) {
-    this->value = value;
+    if (value > 0) {
+        this->value = value;
+    } else {
+        QString error = "Error: irgendwer hat versucht einen Coin mit dem Wert 0 zu erstellen ...";
+        throw std::runtime_error(error.toStdString());
+    }
+}
+
+Coin::Coin(const Coin &copyCoin) {
+    this->value = copyCoin.value;
+    this->pos = copyCoin.pos;
 }
 
 quint16 Coin::getValue() {

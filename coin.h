@@ -5,6 +5,7 @@
 class Coin {
 public:
     Coin(quint16 value);
+    Coin(const Coin &copyCoin);
     quint16 getValue();
     void setPos(quint16 pos);
     quint16 getPos();
