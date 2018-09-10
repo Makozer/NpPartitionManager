@@ -2,6 +2,9 @@
 #define EXPORTDIALOG_H
 
 #include <QDialog>
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
 
 namespace Ui {
 class ExportDialog;
@@ -19,6 +22,8 @@ public:
 
 private slots:
     void on_btn_exportBestaetigen_clicked();
+
+    void on_btn_exportDateiErstellen_clicked();
 
 private:
     Ui::ExportDialog *ui;

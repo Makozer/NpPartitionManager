@@ -322,9 +322,8 @@ void MainWindow::importSlot(std::string importierterStashString) {
     }
 
 
-    //Den Status, den stashinhalt und die stashsumme auf der Gui anzeigen:
+    //Den stashinhalt und die stashsumme auf der Gui anzeigen:
     ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
-    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
 }
 
@@ -336,22 +335,31 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
 
 
+//Wird ausgeloest,wenn der Import geklappt hat und eine datei importiert werden konnte.
+//kann leider nicht abfangen ob tatsaechlich ein schatz importiert wurde oder nur eine beliebige datei.
+void MainWindow::importHatGeklapptSlot() {
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
+}
+
+
+
+
+
+
 
 
 
 void MainWindow::on_btn_export_clicked()
 {
-
-
     //das Dialogfenster oeffnen:
     ExportDialog exportDia;
     exportDia.setModal(true);
-    exportDia.setFixedHeight(156);
+    exportDia.setFixedHeight(180);
     exportDia.setFixedWidth(400);
 
     //Daten uebergeben:
 
-    //stashginhalt:
+    //stashinhalt:
     QString inhaltsString = "Inhalt des Schatzes:\n";
     inhaltsString += "Summe aller Coinwerte: ";
     inhaltsString += QString::number(rootStash->sum());
@@ -372,6 +380,7 @@ void MainWindow::on_btn_export_clicked()
     }
 
     exportDia.exec();
+
 
     //neuen Status in einem QString speichern und an GUI uebergeben:
     QString neuerStatus = "Status:    Der Inhalt des Schatzes wurde exportiert.";
@@ -394,13 +403,14 @@ void MainWindow::on_btn_import_clicked()
     //das Dialogfenster oeffnen:
     ImportDialog *importDia = new ImportDialog();
     importDia->setModal(true);
-    importDia->setFixedHeight(156);
+    importDia->setFixedHeight(180);
     importDia->setFixedWidth(400);
 
     //Die connect verbindet die beide Fenster per SIGNAL-->SLOT.
     //Dadurch koennen per Event(signal) Informationen zwischen Klassen
     //transportiert werden.(in den Slot)
     QObject::connect(importDia,SIGNAL(importSignal(std::string)),this,SLOT(importSlot(std::string)));
+    QObject::connect(importDia,SIGNAL(importHatGeklapptSignal()),this,SLOT(importHatGeklapptSlot()));
 
     importDia->exec();
 
@@ -437,6 +447,21 @@ void MainWindow::on_btn_changeRandomRange_clicked()
         ui->textEdit_partitionBerechnen->setAktuellerStatus(changeStatus);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+void MainWindow::changeStatus(QString neuerStatus) {
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+}
+
 
 
 

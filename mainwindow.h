@@ -11,6 +11,7 @@
 #include "nsa.h"
 #include "CustomTextEdit.h"
 #include <string>
+#include <QFileDialog>
 
 namespace Ui {
 class MainWindow;
@@ -24,9 +25,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void changeRandomRange(int min, int max);
+    void changeStatus(QString neuerStatus);
 
 public slots:
     void importSlot(std::string importierterStashString);
+    void importHatGeklapptSlot();
 
 private slots:
     void on_btn_fill_clicked();

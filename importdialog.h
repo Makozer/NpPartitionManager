@@ -4,6 +4,9 @@
 #include <QDialog>
 #include "vectorstash.h"
 #include <string>
+#include <QFileDialog>
+#include <QDir>
+#include <QMessageBox>
 
 namespace Ui {
 class ImportDialog;
@@ -19,9 +22,12 @@ public:
 
 signals:
     void importSignal(std::string importierterStashString);
+    void importHatGeklapptSignal();
 
 private slots:
     void on_btn_import_clicked();
+
+    void on_btn_importAdresseWaehlen_clicked();
 
 private:
     Ui::ImportDialog *ui;
