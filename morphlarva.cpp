@@ -41,9 +41,13 @@ bool MorphLarva::runCalc() {
             stopCalc();
         } else {
             stopCalc();
-            return false;
+            return false; // bricht die Threads und den Vorgang ab wenn runCalc geclickt wird während er sucht.
         }
     }
+
+    // Aufräumen falls im Prozess abgebrochen wurde
+    removeCheatCoin();
+
     // Abklappern ob startbereit
     if (rootStash == nullptr || nsa == nullptr) {
         nsa->add("Error", "run konnte nicht gestartet werden aufgrund nullptr");
@@ -70,20 +74,15 @@ bool MorphLarva::runCalc() {
 
     // Schatz Begradigung
     // Damit der Schatz gerade teilbar ist :)
-    while (this->rootStash->sum() % 2 > 0) {
-        this->rootStash->addCoin(1);
-        cheatCoin = true; // Damit man weiß, dass hinterher der eine Cheatcoin wieder entfernt werden muss :D
-    }
+    addCheatCoin();
     // Begradigung Ende
 
     this->setGoal(rootStash->sum() / 2);
 
-
-
     // Multi Threading ####################################################################################################################
 
-    quint8 num_threads = 2;
-    quint8 strat[] = { 1, 2 };
+    quint8 num_threads = 1;
+    quint8 strat[] = { 2, 1 };
     qDebug() << "WorkerStart, overseer Data: size=" << rootStash->size() << "| sum=" << rootStash->sum() << "| goal=" << goal;
     for (quint8 i = 0; i < num_threads; i++) {
         workers.push_back(new MorphLarva());
@@ -114,15 +113,10 @@ void MorphLarva::setRootStash(VectorStash *stash) {
 void MorphLarva::setSolutionStash(VectorStash *stash) {
     mutex.lock();
     if (!this->hasSuccess()) {
-        this->success = true;
-        if (cheatCoin == true) {
-            // Falls ein Coin zur Begradigung eingesetzt wurde
-            stash->removeCoinByValue(1);
-            this->cheatCoin = false;
-            qDebug("cheatCoin wurde entfernt.");
-        }
+        this->success = true;        
         this->solutionStash = stash;
         this->timer->stop();
+        removeCheatCoin();
         qDebug() << "Lösung wurde gesetzt, Dauer: " << QString::number(timer->getSeconds());
     }
     emit foundSolution();
@@ -285,5 +279,26 @@ void MorphLarva::searchOrderSort() {
             }
         } // End while
     } // End while
+}
+
+bool MorphLarva::addCheatCoin() {
+    if (rootStash->sum() % 2 > 0) {
+        rootStash->addCoin(1);
+        cheatCoin = true; // Damit man weiß, dass hinterher der eine Cheatcoin wieder entfernt werden muss :D
+        qDebug("cheatCoin wurde hinzugefügt.");
+        return true;
+    }
+    return false;
+}
+
+bool MorphLarva::removeCheatCoin(){
+    if (cheatCoin == true && solutionStash->size() > 1) {
+        // Falls ein Coin zur Begradigung eingesetzt wurde
+        solutionStash->removeCoinByValue(1);
+        cheatCoin = false;
+        qDebug("cheatCoin wurde entfernt.");
+        return true;
+    }
+    return false;
 }
 

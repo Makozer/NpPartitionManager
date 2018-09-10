@@ -58,7 +58,7 @@ public:
 private:
     // Threading
     //std::thread* threads[8];
-    MorphLarva* worker[8];
+    //MorphLarva* worker[8];
     //void mt_search(MorphLarva &worker);
     //QFuture<void> qf[8];
     QVector<MorphLarva*> workers;
@@ -68,6 +68,11 @@ private:
     // Funktionen
     void searchChaosRandom();
     void searchOrderSort();
+
+    // CheatCoin -> falls Summe der Menge nicht glatt durch 2 teilbar, dann wird ein Coin mit dem Wert 1 hinzugefügt, damit glatt teilbar und selbe Algorithmen laufen
+    bool cheatCoin;
+    bool addCheatCoin();
+    bool removeCheatCoin();
 
     // Verschiedene Objekte
     MorphLarva* overseer;
@@ -81,7 +86,6 @@ private:
     Memento* timer;
 
     bool success;
-    bool cheatCoin;
     quint16 goal;
     quint8 strategy;
 
