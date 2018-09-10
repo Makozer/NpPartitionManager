@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>133</height>
+    <height>175</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,21 +23,14 @@ padding:5px;
 </string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="lbl_wohinSollExport">
-     <property name="text">
-      <string>Wohin soll der Schatz exportiert werden?</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="QLineEdit" name="lineEdit_exportEingabe">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Hier die gewuenschte Zieladresse eingeben.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Beispiel:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;C:\schatz.txt&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Alternativ zur Auswahl über den Explorer kann hier direkt der Dateipfad iengegeben werden.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Beispiel:&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;C:\schatz.txt&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="4" column="0">
     <widget class="QPushButton" name="btn_exportBestaetigen">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -53,8 +46,36 @@ padding:5px;
      </property>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="btn_exportDateiErstellen">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Den Explorer öffnen, um manuell den gewünschten Ort für den exportierten Schatz zu wählen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Exportpfad auswählen</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>btn_exportDateiErstellen</tabstop>
+  <tabstop>lineEdit_exportEingabe</tabstop>
+  <tabstop>btn_exportBestaetigen</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

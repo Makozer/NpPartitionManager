@@ -105,7 +105,7 @@ QString VectorStash::getQString() {
             inhalt += QString::number(this->getCoinByPos(i)->getValue());
         }
         else {
-            inhalt += ", ";
+            inhalt += ",";
             inhalt += QString::number(this->getCoinByPos(i)->getValue());
         }
     }

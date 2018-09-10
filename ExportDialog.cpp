@@ -58,10 +58,21 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
     //}
     //OUTDATED::ENDE
 
-
     exportStream << exportString;
+
     this->close();
 
 }
 
 
+
+void ExportDialog::on_btn_exportDateiErstellen_clicked()
+{
+    QString exportName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Data Text (*.txt);;All Files (*)"));
+    ui->lineEdit_exportEingabe->setText(exportName);
+
+    QFile file(exportName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::critical(this, tr("Fehler beim Oeffnen der Datei"),file.errorString());
+    }
+}

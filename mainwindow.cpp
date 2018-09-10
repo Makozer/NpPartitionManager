@@ -11,14 +11,28 @@
 
 
 
-
+//slot bekommt signal emitted, sobald ein ergebnis fuer die partition gefunden wurde !
 void MainWindow::displaySolution() {
-    // Martin Funktion ... sry fürs GUI rumwurschteln xD
-    // Slot für Lösungsausgabe sobald sie gefunden wurde :)   ----> Erkennbarkeit im Code: #########################################################################
-    ui->comboBox_sortKriteriumWaehlenErgebnis->setCurrentIndex(1); // Damit aufsteigend gewählt ist ^^
-    on_btn_sortErgebnis_clicked(); // "clickt" quasi als Code den Sortierbutton :D
+
+    //on_btn_sortErgebnis_clicked(); // "clickt" quasi als Code den Sortierbutton :D
+    QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
+    ergebnisString += overseer->getSolutionStash()->getGuiQString();
+    ergebnisString += "\n\nSumme des Ergebnisses: ";
+    ergebnisString += QString::number(overseer->getSolutionStash()->sum());
+
+    ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
+
+    //neuen Status in einem QString speichern, QString auf Gui anzeigen:
+    QString statusPWurdeBerechnet = "Status:    Die Partition wurde berechnet.";
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(statusPWurdeBerechnet);
+
     QMessageBox::information(this, tr("Lösung gefunden!"), tr("Die Lösung für das gestellte Problem wurde gefunden!"));
 }
+
+
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -177,23 +191,7 @@ void MainWindow::on_btn_output_solution_clicked() {
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
 
     overseer->runCalc();
-    QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
-    ergebnisString += overseer->getSolutionStash()->getGuiQString();
-    ergebnisString += "\n\nSumme des Ergebnisses: ";
-    ergebnisString += QString::number(overseer->getSolutionStash()->sum());
 
-    ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
-
-    //neuen Status in einem QString speichern, QString auf Gui anzeigen:
-    QString statusPWurdeBerechnet = "Status:    Die Partition wurde berechnet.";
-    ui->textEdit_partitionBerechnen->setAktuellerStatus(statusPWurdeBerechnet);
-
-
-
-
-
-    //QMessageBox::information(this, tr("NSA Report"), tr(this->nsa->display().toUtf8().constData()));
-    //QMessageBox::information(this, tr("Loesung"), tr(this->overseer->getSolutionStash()->display().toUtf8().constData()));
 }
 
 
@@ -303,7 +301,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
             //Fuer den allerletzten Coin:
             if(i == (eingeleseneZeile.size() - 1)) {
-                newCoinValue = qZeile.mid(letztesKommaMarkierer + 2).toInt();
+                newCoinValue = qZeile.mid(letztesKommaMarkierer + 1).toInt();
                 rootStash->addCoin(newCoinValue);
             }
 
@@ -316,7 +314,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
             //Fuer alle Coins dazwischen:
             else if (eingeleseneZeile[i] == ',') {
-                newCoinValue = qZeile.mid((letztesKommaMarkierer + 2), i - (letztesKommaMarkierer + 2)).toInt();
+                newCoinValue = qZeile.mid((letztesKommaMarkierer + 1), i - (letztesKommaMarkierer + 1)).toInt();
                 rootStash->addCoin(newCoinValue);
                 letztesKommaMarkierer = i;
             }
@@ -324,9 +322,8 @@ void MainWindow::importSlot(std::string importierterStashString) {
     }
 
 
-    //Den Status, den stashinhalt und die stashsumme auf der Gui anzeigen:
+    //Den stashinhalt und die stashsumme auf der Gui anzeigen:
     ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
-    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
 }
 
@@ -338,22 +335,31 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
 
 
+//Wird ausgeloest,wenn der Import geklappt hat und eine datei importiert werden konnte.
+//kann leider nicht abfangen ob tatsaechlich ein schatz importiert wurde oder nur eine beliebige datei.
+void MainWindow::importHatGeklapptSlot() {
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Ein Schatz wurde importiert.");
+}
+
+
+
+
+
+
 
 
 
 void MainWindow::on_btn_export_clicked()
 {
-
-
     //das Dialogfenster oeffnen:
     ExportDialog exportDia;
     exportDia.setModal(true);
-    exportDia.setFixedHeight(156);
+    exportDia.setFixedHeight(180);
     exportDia.setFixedWidth(400);
 
     //Daten uebergeben:
 
-    //stashginhalt:
+    //stashinhalt:
     QString inhaltsString = "Inhalt des Schatzes:\n";
     inhaltsString += "Summe aller Coinwerte: ";
     inhaltsString += QString::number(rootStash->sum());
@@ -374,6 +380,7 @@ void MainWindow::on_btn_export_clicked()
     }
 
     exportDia.exec();
+
 
     //neuen Status in einem QString speichern und an GUI uebergeben:
     QString neuerStatus = "Status:    Der Inhalt des Schatzes wurde exportiert.";
@@ -396,13 +403,14 @@ void MainWindow::on_btn_import_clicked()
     //das Dialogfenster oeffnen:
     ImportDialog *importDia = new ImportDialog();
     importDia->setModal(true);
-    importDia->setFixedHeight(156);
+    importDia->setFixedHeight(180);
     importDia->setFixedWidth(400);
 
     //Die connect verbindet die beide Fenster per SIGNAL-->SLOT.
     //Dadurch koennen per Event(signal) Informationen zwischen Klassen
     //transportiert werden.(in den Slot)
     QObject::connect(importDia,SIGNAL(importSignal(std::string)),this,SLOT(importSlot(std::string)));
+    QObject::connect(importDia,SIGNAL(importHatGeklapptSignal()),this,SLOT(importHatGeklapptSlot()));
 
     importDia->exec();
 
@@ -439,6 +447,21 @@ void MainWindow::on_btn_changeRandomRange_clicked()
         ui->textEdit_partitionBerechnen->setAktuellerStatus(changeStatus);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+void MainWindow::changeStatus(QString neuerStatus) {
+    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+}
+
 
 
 
@@ -537,7 +560,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
 
 
                 //Die Gui-anzeigen aktualisieren:
-                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in absteigender Weise sortiert.");
+                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Ergebnisschatz wurde in aufsteigender Weise sortiert.");
                 ui->textEdit_partitionBerechnen->setErgebnisInformationen(inhalt);
             }
             else if (sortKriterium == "Absteigend") {

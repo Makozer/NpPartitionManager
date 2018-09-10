@@ -81,7 +81,7 @@ padding:5px;
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt dem Schatz einen Coin hinzu, welcher den Wert besitzt, der neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Coin Hinzufuegen</string>
+              <string>Coin Hinzufügen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -169,7 +169,7 @@ padding:5px;
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt alle Coins aus dem Schatz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Schatz loeschen</string>
+              <string>Schatz löschen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
