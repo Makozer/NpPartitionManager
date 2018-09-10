@@ -169,6 +169,9 @@ Coin *VectorStash::takeCoinByRNG() {
 bool VectorStash::removeCoinByPos(quint16 pos) {
     Coin* me = coins.at(pos);
     total -= me->getValue();
+    if (coins.size() <= pos) {
+        qDebug() << "removeCoinByPos() | stash size: " << coins.size() << "; pos: " << pos;
+    }
     coins.remove(pos);
     return true;
 }
@@ -176,9 +179,13 @@ bool VectorStash::removeCoinByPos(quint16 pos) {
 bool VectorStash::removeCoinByValue(quint16 value) {
     // ToDo: evtl performantere Suche.
     quint16 max = coins.size();
+
     for (quint16 i = 0; i < max; i++) {
         if (coins[i]->getValue() == value) {
             total -= coins[i]->getValue();
+            if (coins.size() <= i) {
+                qDebug() << "removeCoinByValue() | stash size: " << coins.size() << "; pos: " << i;
+            }
             coins.remove(i);
             return true;
         }
@@ -193,6 +200,9 @@ bool VectorStash::removeCoinByIt(CoinList::iterator it) {
 
 bool VectorStash::removeCoinByPointer(Coin *pointer) {
     total -= pointer->getValue();
+    if (coins.size() <= pointer->getPos()) {
+        qDebug() << "removeCoinByPointer() | stash size: " << coins.size() << "; pos: " << pointer->getPos();
+    }
     coins.remove(pointer->getPos());
     return true;
 }
