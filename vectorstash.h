@@ -3,6 +3,7 @@
 // Vererbung?
 #include <QDebug>
 #include <QVector>
+#include <QList>
 #include <QString>
 #include "coin.h"
 #include "rngesus.h"
@@ -13,6 +14,7 @@ class VectorStash {
 public:
     VectorStash();
     VectorStash(VectorStash &copyStash); // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
+    VectorStash(QList<Coin*> &copyList);
     ~VectorStash(); // Destruktor
 
     // Überwachung
@@ -24,6 +26,7 @@ public:
     quint32 sum();
     QString display();
     void clear();
+    QList<Coin*> toList();
 
     // Hinzufügen von Werten
     void addCoin(Coin* pointer);

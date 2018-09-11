@@ -65,9 +65,10 @@ private:
     QVector<QFuture<void>> qfs;
     QMutex mutex;
 
-    // Funktionen
+    // SuchFunktionen
     void searchChaosRandom();
     void searchOrderSort();
+    void searchDance();
 
     // CheatCoin -> falls Summe der Menge nicht glatt durch 2 teilbar, dann wird ein Coin mit dem Wert 1 hinzugefügt, damit glatt teilbar und selbe Algorithmen laufen
     bool cheatCoin;

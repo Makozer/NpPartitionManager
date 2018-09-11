@@ -55,6 +55,16 @@ void VectorStash::clear() {
     coins.clear();
 }
 
+QList<Coin*> VectorStash::toList() {
+    QList<Coin*> output;
+    if (coins.size() > 0) {
+        for (quint16 i = 0; i < coins.size(); i++) {
+            output.push_back(coins[i]);
+        }
+    }
+    return output;
+}
+
 QVector<Coin*> VectorStash::deepCopy() {
     QVector<Coin*> output;
     if (coins.size() == 0) { return output; }

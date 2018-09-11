@@ -57,6 +57,10 @@ bool MorphLarva::runCalc() {
         nsa->add("Start", "Berechnung wurde gestartet");        
     }
 
+    this->rootStash->quickSortDesc();
+    this->setOverseer(this);
+    this->success = false;
+
     // ANALYSE !!!!!!!!!
     // TODO
     qDebug("Analyse start");
@@ -67,9 +71,6 @@ bool MorphLarva::runCalc() {
 
     // ANALYSE ENDE !!!!!!!!!!
 
-    this->rootStash->quickSortDesc();
-    this->setOverseer(this);
-    this->success = false;
     qDebug("Berechnung wurde gestartet");
 
     // Schatz Begradigung
@@ -173,6 +174,7 @@ quint16 MorphLarva::getGoal() {
 }
 
 void MorphLarva::search() {
+    // startet den jeweiligen Suchalgorithmus
     switch (this->strategy) {
         case 0:
             break;
@@ -181,6 +183,9 @@ void MorphLarva::search() {
             break;
         case 2:
             this->searchOrderSort();
+            break;
+        case 3:
+            this->searchDance();
             break;
     }
 }
@@ -281,6 +286,10 @@ void MorphLarva::searchOrderSort() {
             }
         } // End while
     } // End while
+}
+
+void MorphLarva::searchDance() {
+
 }
 
 bool MorphLarva::addCheatCoin() {
