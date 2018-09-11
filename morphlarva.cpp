@@ -89,12 +89,13 @@ bool MorphLarva::runCalc() {
         workers[i]->setOverseer(this);
         workers[i]->setGoal(this->getGoal());
         workers[i]->setStrategy(strat[i]);
-        workers[i]->setRootStash(new VectorStash(*rootStash));
-
+        workers[i]->setRootStash(new VectorStash(*rootStash));        
+    }
+    for (quint8 i = 0; i < num_threads; i++) {
+        qDebug() << "Starting worker" << i << "...";
         qfs.push_back(QtConcurrent::run(mt_search, *workers[i]));
         //qf[i] = QtConcurrent::run(mt_search, *worker[i]);
     }
-
     qDebug() << "MT Start vollzogen, Zeit: " << QString::number(timer->getSeconds());
     // Multi Threading Ende #################################################################################################################
 
@@ -230,7 +231,7 @@ void MorphLarva::searchOrderSort() {
     qDebug() << "calcMax=" << calcMax;
     Coin* me = nullptr;
     Coin* coinSolution = nullptr;
-    quint8 iCount = 0;
+    quint16 iCount = 0;
 
     while (overseer->hasSuccess() != true) {
 

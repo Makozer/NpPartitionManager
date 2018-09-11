@@ -13,6 +13,7 @@ VectorStash::VectorStash(VectorStash &copyStash) {
 }
 
 VectorStash::~VectorStash() {
+    clear();
     coins.clear();
     delete rng;
 }
@@ -46,13 +47,18 @@ QString VectorStash::display() {
 
 void VectorStash::clear() {
     total = 0;
+    if (coins.size() > 0) {
+        for (quint16 i = 0; i < coins.size(); i++) {
+            delete coins[i];
+        }
+    }
     coins.clear();
 }
 
 QVector<Coin*> VectorStash::deepCopy() {
     QVector<Coin*> output;
     if (coins.size() == 0) { return output; }
-    for (quint8 i = 0; i < coins.size(); i++) {
+    for (quint16 i = 0; i < coins.size(); i++) {
         output.push_back(new Coin(*coins[i]));
     }
     return output;
