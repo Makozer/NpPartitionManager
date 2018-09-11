@@ -31,5 +31,6 @@ Coin *ListStash::takeLast() {
 }
 
 QVector<Coin *> ListStash::toVector() {
-
+    QVector<Coin*> output;
+    return output;
 }
