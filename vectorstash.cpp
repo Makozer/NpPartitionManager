@@ -10,7 +10,7 @@ VectorStash::VectorStash(const VectorStash &copyStash) {
     this->rng = new RNGesus();
     this->nsa = copyStash.nsa;
     this->coins = QVector<Coin*>(copyStash.coins);
-    this->total = copyStash.total;
+    this->total = copyStash.total;    
 }
 
 VectorStash::~VectorStash() {
@@ -160,6 +160,9 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 Coin *VectorStash::takeCoinByRNG() {
     quint16 rngCoin = rng->getRng(0, (coins.size() - 1));
     //qDebug() << "takeCoinByRNG Data: size=" << coins.size() << "| rngCoin=" << rngCoin;
+    if (rngCoin >= coins.size()) {
+        qDebug() << "RNG COIN FAIL! Size: " << coins.size() << "| RNG: " << rngCoin;
+    }
     Coin* me = coins.at(rngCoin);
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);

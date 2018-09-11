@@ -81,8 +81,8 @@ bool MorphLarva::runCalc() {
 
     // Multi Threading ####################################################################################################################
 
-    quint8 num_threads = 1;
-    quint8 strat[] = { 2, 1 };
+    quint8 num_threads = 2;
+    quint8 strat[] = { 1, 2 };
     qDebug() << "WorkerStart, overseer Data: size=" << rootStash->size() << "| sum=" << rootStash->sum() << "| goal=" << goal;
     for (quint8 i = 0; i < num_threads; i++) {
         workers.push_back(new MorphLarva());
@@ -190,6 +190,12 @@ void MorphLarva::debug() {
 
 void MorphLarva::searchChaosRandom() {
     qDebug("searchChaosRandom wurde gestartet");
+    // Bugfix
+    for (quint8 i = 0; i < rootStash->size(); i++) {
+        qDebug() << "searchChaosRandom() Coin " << i << " Adresse: " << &rootStash[i];
+        if (i > 2) { break;}
+    }
+    // Initialisierung
     this->debug();
     Coin* me = nullptr;
     quint16 loopmax = rootStash->size() - 1;
@@ -221,6 +227,11 @@ void MorphLarva::searchChaosRandom() {
 
 void MorphLarva::searchOrderSort() {
     qDebug() << "searchOrderSort wurde gestartet";
+    // Bugfix
+    for (quint8 i = 0; i < rootStash->size(); i++) {
+        qDebug() << "searchOrderSort() Coin " << i << " Adresse: " << &rootStash[i];
+        if (i > 2) { break;}
+    }
     // Initialisierung
     this->debug();
     VectorStash* rootCopy = nullptr;
