@@ -190,11 +190,6 @@ void MorphLarva::debug() {
 
 void MorphLarva::searchChaosRandom() {
     qDebug("searchChaosRandom wurde gestartet");
-    // Bugfix
-    for (quint8 i = 0; i < rootStash->size(); i++) {
-        qDebug() << "searchChaosRandom() Coin " << i << " Adresse: " << &rootStash[i];
-        if (i > 2) { break;}
-    }
     // Initialisierung
     this->debug();
     Coin* me = nullptr;
@@ -227,11 +222,6 @@ void MorphLarva::searchChaosRandom() {
 
 void MorphLarva::searchOrderSort() {
     qDebug() << "searchOrderSort wurde gestartet";
-    // Bugfix
-    for (quint8 i = 0; i < rootStash->size(); i++) {
-        qDebug() << "searchOrderSort() Coin " << i << " Adresse: " << &rootStash[i];
-        if (i > 2) { break;}
-    }
     // Initialisierung
     this->debug();
     VectorStash* rootCopy = nullptr;

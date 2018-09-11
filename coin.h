@@ -1,6 +1,7 @@
 #ifndef COIN_H
 #define COIN_H
 #include <QString>
+#include <QDebug>
 
 class Coin {
 public:

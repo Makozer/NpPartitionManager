@@ -11,7 +11,6 @@ Coin::Coin(quint16 value) {
 
 Coin::Coin(const Coin &copyCoin) {
     this->value = copyCoin.value;
-    this->pos = copyCoin.pos;
 }
 
 quint16 Coin::getValue() {

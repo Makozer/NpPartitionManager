@@ -12,7 +12,7 @@ class VectorStash {
     typedef QVector<Coin*> CoinList;
 public:
     VectorStash();
-    VectorStash(const VectorStash &copyStash); // Copy Konstruktor
+    VectorStash(VectorStash &copyStash); // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
     ~VectorStash(); // Destruktor
 
     // Überwachung
@@ -57,6 +57,7 @@ public:
     bool isSortedDesc();
 private:
     // Funktionen
+    QVector<Coin*> deepCopy();
     Coin* searchCoinByValue(CoinList coins, quint16 left, quint16 right, quint16 lookup);
 
     // Objekte
