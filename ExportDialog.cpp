@@ -32,7 +32,7 @@ void ExportDialog::exportErgebnisFestlegen(QString ergebnis) {
 void ExportDialog::on_btn_exportBestaetigen_clicked()
 {
     std::ofstream exportStream;
-    exportStream.open(ui->lineEdit_exportEingabe->text().toStdString());
+    exportStream.open(ui->lbl_exportAdresse->text().toStdString());
     std::string exportString = exportInhalt.toStdString();
     exportString += "\n\n\n\n";
     exportString += exportErgebnis.toStdString();
@@ -69,10 +69,8 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
 void ExportDialog::on_btn_exportDateiErstellen_clicked()
 {
     QString exportName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Data Text (*.txt);;All Files (*)"));
-    ui->lineEdit_exportEingabe->setText(exportName);
+    ui->lbl_exportAdresse->setText(exportName);
 
-    QFile file(exportName);
-    if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::critical(this, tr("Fehler beim Oeffnen der Datei"),file.errorString());
-    }
+    ui->btn_exportBestaetigen->setEnabled(true);
 }
+

@@ -63,6 +63,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Notizen \
+    icon.rc \
     icon.rc
 
 RC_FILE = icon.rc

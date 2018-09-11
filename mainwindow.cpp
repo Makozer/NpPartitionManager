@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //titel aendern:
     this->setWindowTitle("NP Partition Manager");
+
     // Erstellen der wichtigen Instanzen
     overseer = new MorphLarva();
     nsa = new NSA();
@@ -42,6 +43,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 
+
+
+
+
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
 
 
 
@@ -82,22 +91,14 @@ void MainWindow::displaySolution() {
 
 
 
-
-
-
-MainWindow::~MainWindow() {
-    delete ui;
-}
-
-
-
-
-
 //Legt die neuen Grenzen fuer das randomisierte befuellen des schatzes fest:
 void MainWindow::changeRandomRange(int min, int max) {
     randomRangeMin = min;
     randomRangeMax = max;
 }
+
+
+
 
 
 
@@ -158,9 +159,8 @@ void MainWindow::on_btn_fill_clicked() {
 
 
 
+
 void MainWindow::on_btn_sort_clicked() {
-
-
 
     if (ui->comboBox_sortKritWaehlen->currentText() != "<Sortierkriterium>") {
         if ( rootStash->size() > 1) {
@@ -203,6 +203,7 @@ void MainWindow::on_btn_sort_clicked() {
 
 
 
+
 void MainWindow::on_btn_output_solution_clicked() {
 
     //neuen Status in einem QString speichern, QString auf Gui anzeigen:
@@ -212,6 +213,7 @@ void MainWindow::on_btn_output_solution_clicked() {
     overseer->runCalc();
 
 }
+
 
 
 
@@ -271,6 +273,8 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 
 
 
+
+
 void MainWindow::on_btn_clearStash_clicked()
 {
 
@@ -287,6 +291,11 @@ void MainWindow::on_btn_clearStash_clicked()
         QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
     }
 }
+
+
+
+
+
 
 
 

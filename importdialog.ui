@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>175</height>
+    <height>184</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -45,27 +45,14 @@ padding:5px;
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLineEdit" name="lineEdit_importAdresse">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Alternativ zur Suche im Explorer kann hier direkt der Dateipfad eingegeben werden.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="btn_import">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;importiert einen Schatz aus einer Textdatei. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In dieser Textdatei muessen die Werte aller zu uebernehmenden Coins, getrennt von einem Komma und einem Leerzeichen enthalten sein. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Beispiel: &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;122, 53, 12, 9, 12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="text">
-      <string>Importieren</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
+    <widget class="QLabel" name="lbl_importAdresse">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -78,11 +65,26 @@ padding:5px;
      </property>
     </spacer>
    </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="btn_import">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;importiert einen Schatz aus einer Textdatei. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In dieser Textdatei muessen die Werte aller zu uebernehmenden Coins, getrennt von einem Komma und einem Leerzeichen enthalten sein. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Beispiel: &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;122, 53, 12, 9, 12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Es muss erst eine Importadresse festgelegt werden, bevor ein Import stattfinden kann.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Importieren</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>btn_importAdresseWaehlen</tabstop>
-  <tabstop>lineEdit_importAdresse</tabstop>
   <tabstop>btn_import</tabstop>
  </tabstops>
  <resources/>
