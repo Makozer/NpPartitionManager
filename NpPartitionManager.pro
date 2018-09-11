@@ -62,4 +62,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Notizen
+    Notizen \
+    icon.rc
+
+RC_FILE = icon.rc

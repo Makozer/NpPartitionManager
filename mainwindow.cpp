@@ -11,10 +11,52 @@
 
 
 
+
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+    ui->setupUi(this);
+
+
+    //titel aendern:
+    this->setWindowTitle("NP Partition Manager");
+    // Erstellen der wichtigen Instanzen
+    overseer = new MorphLarva();
+    nsa = new NSA();
+    rootStash = new VectorStash();
+    zweiterSolutionstash = new VectorStash();
+
+    // Damit der overseer die zu nutzenden Sachen kennt :)
+    overseer->setNSA(nsa);
+    overseer->setRootStash(rootStash);
+
+    // Signal / Slot Verbindung
+    QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
+
+    //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
+    //randomisiert befuellt werden kann.)
+    randomRangeMin = 1;
+    randomRangeMax = 50;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //slot bekommt signal emitted, sobald ein ergebnis fuer die partition gefunden wurde !
 void MainWindow::displaySolution() {
 
-    //on_btn_sortErgebnis_clicked(); // "clickt" quasi als Code den Sortierbutton :D
     QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
     ergebnisString += overseer->getSolutionStash()->getGuiQString();
     ergebnisString += "\n\nSumme des Ergebnisses: ";
@@ -34,29 +76,6 @@ void MainWindow::displaySolution() {
 
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-    ui->setupUi(this);
-
-    // Wichtiger Part für die Schnittstellen
-    // Erstellen der wichtigen Instanzen
-    overseer = new MorphLarva();
-    nsa = new NSA();
-    rootStash = new VectorStash();
-    zweiterSolutionstash = new VectorStash();
-
-
-    // Damit der overseer die zu nutzenden Sachen kennt :)
-    overseer->setNSA(nsa);
-    overseer->setRootStash(rootStash);
-
-    // Signal / Slot Verbindung
-    QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
-
-    //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
-    //randomisiert befuellt werden kann.)
-    randomRangeMin = 1;
-    randomRangeMax = 50;
-}
 
 
 
