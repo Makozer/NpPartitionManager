@@ -47,8 +47,8 @@ public:
     bool hasSuccess();
     void setStrategy(quint8 strategy);
     quint8 getStrategy();
-    void setGoal(quint16 goal);
-    quint16 getGoal();
+    void setGoal(quint32 goal);
+    quint32 getGoal();
 
     void search();
 
@@ -87,7 +87,7 @@ private:
     Memento* timer;
 
     bool success;
-    quint16 goal;
+    quint32 goal;
     quint8 strategy;
 
 };

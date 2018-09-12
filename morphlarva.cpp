@@ -165,11 +165,11 @@ quint8 MorphLarva::getStrategy() {
     return strategy;
 }
 
-void MorphLarva::setGoal(quint16 goal) {
+void MorphLarva::setGoal(quint32 goal) {
     this->goal = goal;
 }
 
-quint16 MorphLarva::getGoal() {
+quint32 MorphLarva::getGoal() {
     return goal;
 }
 
