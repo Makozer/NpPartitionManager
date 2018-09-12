@@ -32,7 +32,13 @@ void ImportDialog::on_btn_importAdresseWaehlen_clicked()
     QString ausgewaehlterPfad = QFileDialog::getOpenFileName(this,"Schatz exportieren",QDir::homePath());
     QFileDialog filedia(this,"Schatz exportieren", "C:\\");
     ui->lbl_importAdresse->setText(ausgewaehlterPfad);
-    ui->btn_import->setEnabled(true);
+
+
+    //falls der nutzer tatsaechlich einen Pfad auswaehlt wird der importButton enabled,
+    //sodass der nutzer den import bestaetigen kann:
+    if (ausgewaehlterPfad.size() > 0) {
+        ui->btn_import->setEnabled(true);
+    }
 }
 
 

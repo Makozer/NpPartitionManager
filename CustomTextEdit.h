@@ -16,13 +16,14 @@ private:
     QString rootstashSum;
     QString rootstashInhalt;
     QString ergebnisInformationen;
+    QString anzahlCoins;
 public:
-    CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status:    Es wurde noch nichts getan."), rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0") { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum); }
+    CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status:    Es wurde noch nichts getan."), rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0"), anzahlCoins("0")  { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins); }
     void setAktuellerStatus(QString neuerStatus);
-    void setRootstashSum(QString neueRootstashSumme);
+    void setRootstashSum(QString neueRootstashSumme, QString neueAnzahlCoins);
     void setRootstashInhalt(QString neuerInhalt);
     void setErgebnisInformationen(QString neueErgebnisInfos);
-    void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum);
+    void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum, QString neueAnzahlCoins);
 };
 
 #endif // CUSTOMTEXTEDIT_H

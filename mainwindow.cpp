@@ -12,7 +12,7 @@
 
 
 
-
+//Konstruktor
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
@@ -20,18 +20,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //titel aendern:
     this->setWindowTitle("NP Partition Manager");
 
+
     // Erstellen der wichtigen Instanzen
     overseer = new MorphLarva();
     nsa = new NSA();
     rootStash = new VectorStash();
     zweiterSolutionstash = new VectorStash();
 
-    // Damit der overseer die zu nutzenden Sachen kennt :)
+    // Damit der overseer die zu nutzenden Sachen kennt:
     overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
 
+
     // Signal / Slot Verbindung
     QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
+
 
     //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
     //randomisiert befuellt werden kann.)
@@ -47,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 
-
+//Destruktor
 MainWindow::~MainWindow() {
     delete ui;
 }
@@ -70,12 +73,19 @@ void MainWindow::displaySolution() {
     ergebnisString += overseer->getSolutionStash()->getGuiQString();
     ergebnisString += "\n\nSumme des Ergebnisses: ";
     ergebnisString += QString::number(overseer->getSolutionStash()->sum());
+    ergebnisString += "    Anzahl Coins: ";
+    ergebnisString += QString::number(overseer->getSolutionStash()->size());
 
     ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
 
     //neuen Status in einem QString speichern, QString auf Gui anzeigen:
     QString statusPWurdeBerechnet = "Status:    Die Partition wurde berechnet.";
     ui->textEdit_partitionBerechnen->setAktuellerStatus(statusPWurdeBerechnet);
+
+    //enabled das sortieren des solutionstashes:
+    ui->comboBox_sortKriteriumWaehlenErgebnis->setEnabled(true);
+    ui->btn_sortErgebnis->setEnabled(true);
+
 
     QMessageBox::information(this, tr("Lösung gefunden!"), tr("Die Lösung für das gestellte Problem wurde gefunden!"));
 }
@@ -124,7 +134,6 @@ void MainWindow::on_btn_fill_clicked() {
         //Es werden so viele randomisierte Coins erzeugt, wie der Nutzer es befiehlt:
         for (int i = 0; i < randomAnzahl; i++) {
 
-            //ACHTUNG::MaxWert muss noch festgelegt werden
             //Es werden nur Coins bis zu einem gewissen Wert erzeugt, weil riesige Groessen nichtmehr greifbar fuer den Nutzer sind.
             rootStash->addRngCoin(randomRangeMin,randomRangeMax);
         }
@@ -142,8 +151,29 @@ void MainWindow::on_btn_fill_clicked() {
 
         //neue rootstashSumme in QString speichern und auf GUI anzeigen:
         QString neueRootstashSum = QString::number(rootStash->sum());
-        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum);
+        QString neueAnzahlCoins = QString::number(rootStash->size());
+        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum, neueAnzahlCoins);
         ui->lineEdit_coinHinzufuegenWertEingeben->clear();
+
+
+
+        //ggf die buttons enablen, die nur auf einen bereits bestehenden schatz angewendet werden koennen:
+
+        //fuer die buttons, die den bestehenden schatz dezimieren:
+        //falls der schatz min. einen coin enthaelt:
+        if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
+            ui->btn_clearStash->setEnabled(true);
+            ui->btn_coinEntfernen->setEnabled(true);
+        }
+
+        //fuer die elemente, die den schatz sortieren, exportieren und die partition berechnen:
+        //falls der schatz min. zwei coins enthaelt:
+        if (!ui->btn_output_solution->isEnabled() && rootStash->size() > 1) {
+            ui->comboBox_sortKritWaehlen->setEnabled(true);
+            ui->btn_sort->setEnabled(true);
+            ui->btn_output_solution->setEnabled(true);
+            ui->btn_export->setEnabled(true);
+        }
     }
     else {
         QMessageBox::critical(this,"Coins konnten nicht erstellt werden","Es wurde keine Coinanzahl im Textfeld eingegeben.");
@@ -162,29 +192,27 @@ void MainWindow::on_btn_fill_clicked() {
 
 void MainWindow::on_btn_sort_clicked() {
 
+    //Der Nutzer muss vorher ein Sortierkriterium ausgewaehlt haben, bevor sortiert werden kann:
     if (ui->comboBox_sortKritWaehlen->currentText() != "<Sortierkriterium>") {
-        if ( rootStash->size() > 1) {
 
-            //Die Auswahl aus der Combobox uebernehmen:
-            QString sortKriterium = ui->comboBox_sortKritWaehlen->currentText();
 
-            //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
-            //Inhalt in der Gui anzeigen lassen:
-            if (sortKriterium == "Aufsteigend") {
-                rootStash->quickSortAsc();
-                QString neuerInhalt = rootStash->getGuiQString();
-                ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
-            }
-            else if (sortKriterium == "Absteigend") {
-                rootStash->quickSortDesc();
-                QString neuerInhalt = rootStash->getGuiQString();
-                ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-                ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
-            }
+        //Die Auswahl aus der Combobox uebernehmen:
+        QString sortKriterium = ui->comboBox_sortKritWaehlen->currentText();
+
+
+        //Fuer gewahltes Verfahren sortieren und sowohl Status als auch neuen
+        //Inhalt in der Gui anzeigen lassen:
+        if (sortKriterium == "Aufsteigend") {
+            rootStash->quickSortAsc();
+            QString neuerInhalt = rootStash->getGuiQString();
+            ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
+            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
         }
-        else {
-            QMessageBox::critical(this,"Es kann nicht sortiert werden", "Der Schatz ist zu klein, als dass er sortiert werden koennte.");
+        else if (sortKriterium == "Absteigend") {
+            rootStash->quickSortDesc();
+            QString neuerInhalt = rootStash->getGuiQString();
+            ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
+            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
         }
     }
     else {
@@ -234,7 +262,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
     //der naechste coinwert vom Nutzer eingetragen werden kann.
 
 
-
+    //nur wenn die eingabe des nutzers mindestenz ein zeichen beinhaltet:
     if (ui->lineEdit_coinHinzufuegenWertEingeben->text().size() >  0) {
         int newCoinWert = ui->lineEdit_coinHinzufuegenWertEingeben->text().toInt();
 
@@ -254,9 +282,36 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 
         //neue rootstashSumme in QString speichern und auf GUI anzeigen:
         QString neueRootstashSum = QString::number(rootStash->sum());
-        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum);
+        QString neueAnzahlCoins = QString::number(rootStash->size());
+        ui->textEdit_partitionBerechnen->setRootstashSum(neueRootstashSum, neueAnzahlCoins);
         ui->lineEdit_coinHinzufuegenWertEingeben->clear();
+
+
+
+
+
+
+        //ggf die buttons enablen, die nur auf einen bereits bestehenden schatz angewendet werden koennen:
+
+        //fuer die buttons, die den bestehenden schatz dezimieren:
+        //falls der schatz min. einen coin enthaelt:
+        if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
+            ui->btn_clearStash->setEnabled(true);
+            ui->btn_coinEntfernen->setEnabled(true);
+        }
+
+        //fuer die elemente, die den schatz sortieren, exportieren und die partition berechnen:
+        //falls der schatz min. zwei coins enthaelt:
+        if (!ui->btn_output_solution->isEnabled() && rootStash->size() > 1) {
+            ui->comboBox_sortKritWaehlen->setEnabled(true);
+            ui->btn_sort->setEnabled(true);
+            ui->btn_output_solution->setEnabled(true);
+            ui->btn_export->setEnabled(true);
+        }
     }
+
+
+    //falls der nutzer also vorher keinen wert eingegeben haben sollte:
     else {
         QMessageBox::critical(this, "Coin konnte nicht erstellt werden", "Es wurde kein Coinwert im Textfeld eingegeben.");
     }
@@ -278,18 +333,25 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 void MainWindow::on_btn_clearStash_clicked()
 {
 
-    if (rootStash->size() > 0) {
-        rootStash->clear();
 
-        //Neuen Status und neuen StashInhalt auf GUI anzeigen,sowie Ergebnis entfernen:
-        ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
-        ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
-        ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
-        ui->textEdit_partitionBerechnen->setErgebnisInformationen("");
-    }
-    else {
-        QMessageBox::information(this, "Schatz ist leer", "Der Schatz ist bereits leer.");
-    }
+    rootStash->clear();
+
+    //Neuen Status und neuen StashInhalt auf GUI anzeigen,sowie Ergebnis entfernen bzw das alte Ergebnis verbergen:
+    ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
+    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()),QString::number(rootStash->size()));
+    ui->textEdit_partitionBerechnen->setErgebnisInformationen("");
+
+
+    //disablen saemtlicher funktionen, die nur auf bestehende schaetze angewendet werden koennen:
+    ui->comboBox_sortKriteriumWaehlenErgebnis->setEnabled(false);
+    ui->btn_sortErgebnis->setEnabled(false);
+    ui->btn_export->setEnabled(false);
+    ui->btn_clearStash->setEnabled(false);
+    ui->btn_coinEntfernen->setEnabled(false);
+    ui->comboBox_sortKritWaehlen->setEnabled(false);
+    ui->btn_sort->setEnabled(false);
+    ui->btn_output_solution->setEnabled(false);
 }
 
 
@@ -352,7 +414,27 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
     //Den stashinhalt und die stashsumme auf der Gui anzeigen:
     ui->textEdit_partitionBerechnen->setRootstashInhalt(rootStash->getGuiQString());
-    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
+    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()), QString::number(rootStash->size()));
+
+
+
+    //ggf die buttons enablen, die nur auf einen bereits bestehenden schatz angewendet werden koennen:
+
+    //fuer die buttons, die den bestehenden schatz dezimieren oder exportieren:
+    //falls der schatz min. einen coin enthaelt:
+    if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
+        ui->btn_clearStash->setEnabled(true);
+        ui->btn_coinEntfernen->setEnabled(true);
+        ui->btn_export->setEnabled(true);
+    }
+
+    //fuer die elemente, die den schatz sortieren und die partition berechnen:
+    //falls der schatz min. zwei coins enthaelt:
+    if (!ui->btn_output_solution->isEnabled() && rootStash->size() > 1) {
+        ui->comboBox_sortKritWaehlen->setEnabled(true);
+        ui->btn_sort->setEnabled(true);
+        ui->btn_output_solution->setEnabled(true);
+    }
 }
 
 
@@ -391,16 +473,20 @@ void MainWindow::on_btn_export_clicked()
     QString inhaltsString = "Inhalt des Schatzes:\n";
     inhaltsString += "Summe aller Coinwerte: ";
     inhaltsString += QString::number(rootStash->sum());
+    inhaltsString += "    Anzahl Coins: ";
+    inhaltsString += QString::number(rootStash->size());
     inhaltsString += "\nAlle Coins:\n";
     inhaltsString += rootStash->getQString();
     exportDia.exportInhaltFestlegen(inhaltsString);
 
     //ggf ergebnis mit uebergeben, falls es eines gibt:
     if (overseer->hasSuccess()) {
-        QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n";
+        QString ergebnisString = "\nDie Partition liefert folgendes Ergebnis:\n";
         ergebnisString += overseer->getSolutionStash()->getQString();
         ergebnisString += "\n\nSumme des Ergebnisses: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->sum());
+        ergebnisString += "    Anzahl Coins: ";
+        ergebnisString += QString::number(overseer->getSolutionStash()->size());
         exportDia.exportErgebnisFestlegen(ergebnisString);
     }
     else {
@@ -512,6 +598,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     int zuEntfernenderWert = ui->lineEdit_coinEntfernen->text().toInt();
 
 
+    //suchalgorithmus ###################################################################################################################################################################################
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz:
     bool found = false;
     for (int i = 0; i < rootStash->size(); i++) {
@@ -549,9 +636,34 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     }
 
     ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
-    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()));
+    ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()), QString::number(rootStash->size()));
+
+
+    //falls vorher ein Ergebnis existiert hat wird es hiermit verborgen, sodass der Nutzer nicht den
+    //rootstash aendert und dazu ein falsches ergebnis angezeigt bekomt:
+    ui->textEdit_partitionBerechnen->setErgebnisInformationen("");
 
     ui->lineEdit_coinEntfernen->clear();
+
+
+
+    //ggf die buttons disablen, die nur auf einen bereits bestehenden schatz angewendet werden koennen:
+
+    //fuer die buttons, die den bestehenden schatz dezimieren, oder exportieren:
+    //falls der schatz weniger als einen coin enthaelt:
+    if (ui->btn_clearStash->isEnabled() && rootStash->size() == 0) {
+        ui->btn_clearStash->setEnabled(false);
+        ui->btn_coinEntfernen->setEnabled(false);
+        ui->btn_export->setEnabled(false);
+    }
+
+    //fuer die elemente, die den schatz sortieren und die partition berechnen:
+    //falls der schatz weniger als zwei coins enthaelt:
+    if (ui->btn_output_solution->isEnabled() && rootStash->size() < 2) {
+        ui->comboBox_sortKritWaehlen->setEnabled(false);
+        ui->btn_sort->setEnabled(false);
+        ui->btn_output_solution->setEnabled(false);
+    }
 }
 
 
@@ -584,6 +696,8 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 inhalt += overseer->getSolutionStash()->getGuiQString();
                 inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
+                inhalt += "    Anzahl Coins: ";
+                inhalt += QString::number(overseer->getSolutionStash()->size());
 
 
 
@@ -600,6 +714,8 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 inhalt += overseer->getSolutionStash()->getGuiQString();
                 inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
+                inhalt += "    Anzahl Coins: ";
+                inhalt += QString::number(overseer->getSolutionStash()->size());
 
 
 
@@ -608,6 +724,9 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 ui->textEdit_partitionBerechnen->setErgebnisInformationen(inhalt);
             }
         }
+
+
+        //eigentlich irrelevant durch das disablen des buttons aber man wiess ja nie ###########################################################################################################################################################################################
         else {
             QMessageBox::critical(this,"Es kann nicht sortiert werden", "Es liegt kein Ergebnisschatz vor, der sortiert werden koennte.");
         }

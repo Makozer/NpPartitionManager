@@ -71,6 +71,11 @@ void ExportDialog::on_btn_exportDateiErstellen_clicked()
     QString exportName = QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("Data Text (*.txt);;All Files (*)"));
     ui->lbl_exportAdresse->setText(exportName);
 
-    ui->btn_exportBestaetigen->setEnabled(true);
+
+    //nur wenn der nutzer tatsaechlich einen exportpfad auswaehlt,
+    //wird der button enabled, der den export bestaetigt:
+    if (exportName.size() > 0) {
+        ui->btn_exportBestaetigen->setEnabled(true);
+    }
 }
 
