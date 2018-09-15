@@ -9,7 +9,16 @@ VectorStash::VectorStash(VectorStash &copyStash) {
     this->rng = new RNGesus();
     this->nsa = copyStash.nsa;
     this->coins = copyStash.deepCopy();
-    this->total = copyStash.total;    
+    this->total = copyStash.total;
+}
+
+VectorStash::VectorStash(QVector<Coin *> *copyVector) {
+    total = 0;
+    if (copyVector->size() > 0) {
+        for (quint16 i = 0; i < copyVector->size(); i++) {
+            addCoin(copyVector->at(i));
+        }
+    }
 }
 
 VectorStash::~VectorStash() {
@@ -55,11 +64,11 @@ void VectorStash::clear() {
     coins.clear();
 }
 
-QList<Coin*> VectorStash::toList() {
-    QList<Coin*> output;
+QVector<Coin *> *VectorStash::exportVector() {
+    QVector<Coin*> *output = new QVector<Coin*>();
     if (coins.size() > 0) {
         for (quint16 i = 0; i < coins.size(); i++) {
-            output.push_back(coins[i]);
+            output->push_back(coins[i]);
         }
     }
     return output;

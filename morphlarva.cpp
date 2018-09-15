@@ -54,7 +54,7 @@ bool MorphLarva::runCalc() {
         return false;
     } else {
         timer->start();
-        nsa->add("Start", "Berechnung wurde gestartet");        
+        nsa->add("Start", "Berechnung wurde gestartet");
     }
 
     this->rootStash->quickSortDesc();
@@ -63,7 +63,7 @@ bool MorphLarva::runCalc() {
 
     // ANALYSE !!!!!!!!!
     // TODO
-    qDebug("Analyse start");
+    qDebug("Analyse ...");
     if (rootStash->size() < 2) {
         // Abbruch bei zu wenig Münzen.
         return false;
@@ -71,7 +71,7 @@ bool MorphLarva::runCalc() {
 
     // ANALYSE ENDE !!!!!!!!!!
 
-    qDebug("Berechnung wurde gestartet");
+    qDebug("Berechnung ...");
 
     // Schatz Begradigung
     // Damit der Schatz gerade teilbar ist :)
@@ -82,18 +82,18 @@ bool MorphLarva::runCalc() {
 
     // Multi Threading ####################################################################################################################
 
-    quint8 num_threads = 2;
-    quint8 strat[] = { 1, 2 };
+    quint8 num_threads = 3;
+    quint8 strat[] = { 1, 2, 3 };
     qDebug() << "WorkerStart, overseer Data: size=" << rootStash->size() << "| sum=" << rootStash->sum() << "| goal=" << goal;
     for (quint8 i = 0; i < num_threads; i++) {
         workers.push_back(new MorphLarva());
         workers[i]->setOverseer(this);
         workers[i]->setGoal(this->getGoal());
         workers[i]->setStrategy(strat[i]);
-        workers[i]->setRootStash(new VectorStash(*rootStash));        
+        workers[i]->setRootStash(new VectorStash(*rootStash));
     }
     for (quint8 i = 0; i < num_threads; i++) {
-        qDebug() << "Starting worker" << i << "...";
+        //qDebug() << "Starting worker" << i << "...";
         qfs.push_back(QtConcurrent::run(mt_search, *workers[i]));
         //qf[i] = QtConcurrent::run(mt_search, *worker[i]);
     }
@@ -115,7 +115,7 @@ void MorphLarva::setRootStash(VectorStash *stash) {
 void MorphLarva::setSolutionStash(VectorStash *stash) {
     mutex.lock();
     if (!this->hasSuccess()) {
-        this->success = true;        
+        this->success = true;
         this->solutionStash = stash;
         this->timer->stop();
         removeCheatCoin();
@@ -136,7 +136,7 @@ bool MorphLarva::stopCalc() {
         qfs[i].waitForFinished();
     }
     qfs.clear();
-    qDebug("Threads wurden abgebrochen/gelöscht.");
+    qDebug("Threads wurden abgebrochen/gelöscht und bereinigt ...");
     success = false;
     return true;
 }
@@ -175,6 +175,7 @@ quint32 MorphLarva::getGoal() {
 
 void MorphLarva::search() {
     // startet den jeweiligen Suchalgorithmus
+    this->debug();
     switch (this->strategy) {
         case 0:
             break;
@@ -185,19 +186,23 @@ void MorphLarva::search() {
             this->searchOrderSort();
             break;
         case 3:
-            this->searchDance();
+            this->searchDanceJinJang();
+            break;
+        case 4:
+            //this->searchDanceS();
+            break;
+        case 5:
+            //this->searchFaculty();
             break;
     }
 }
 
 void MorphLarva::debug() {
-    qDebug() << "MorphLarva Data:\nrootSize: " << rootStash->size() << "| rootSum: " << rootStash->sum() << "| goal: " << goal;
+    qDebug() << "MorphLarva Data: | strategy: " << strategy << "| rootSize: " << rootStash->size() << "| rootSum: " << rootStash->sum() << "| goal: " << goal;
 }
 
 void MorphLarva::searchChaosRandom() {
-    qDebug("searchChaosRandom wurde gestartet");
     // Initialisierung
-    this->debug();
     Coin* me = nullptr;
     quint16 loopmax = rootStash->size() - 1;
     VectorStash* rootCopy;
@@ -227,13 +232,10 @@ void MorphLarva::searchChaosRandom() {
 }
 
 void MorphLarva::searchOrderSort() {
-    qDebug() << "searchOrderSort wurde gestartet";
     // Initialisierung
-    this->debug();
     VectorStash* rootCopy = nullptr;
     // calcMax legt fest wie hoch der anfängliche memoryStash befüllt werden soll, damit der fehlende Rest gesucht werden kann.
     quint16 calcMax = (((rootStash->sum() / 2.00) / 100.00) * 95.00);
-    qDebug() << "calcMax=" << calcMax;
     Coin* me = nullptr;
     Coin* coinSolution = nullptr;
     quint16 iCount = 0;
@@ -265,9 +267,8 @@ void MorphLarva::searchOrderSort() {
             // Sucht ob es eine exakt fehlende Münze gibt die man nur hinzufügen müsste um die Lösung zu finden.
             coinSolution = rootCopy->takeCoinByValue((goal - memoryStash->sum()));
             if (coinSolution != nullptr) {
-                qDebug("coinsolution found!");
                 memoryStash->addCoin(coinSolution);
-            } else {                
+            } else {
                 me = rootCopy->takeCoinByRNG();
                 memoryStash->addCoin(me);
             }
@@ -281,6 +282,7 @@ void MorphLarva::searchOrderSort() {
                 break;
             }
             if (memoryStash->sum() == goal) {
+                qDebug() << "searchOrderSort() war erfolgreich!";
                 overseer->setSolutionStash(this->memoryStash);
                 break;
             }
@@ -288,15 +290,37 @@ void MorphLarva::searchOrderSort() {
     } // End while
 }
 
-void MorphLarva::searchDance() {
+void MorphLarva::searchDanceJinJang() {
+    ListStash* jin = new ListStash(rootStash->exportVector());
+    ListStash* jang = new ListStash();
+    quint16 i = 0;
+
+    while (jin->sum() != jang->sum() && overseer->hasSuccess() != true) {
+
+        for (i = 0; i <= 1337; i++) { // Schleife, damit nicht so oft der overseer auf success gefragt wird
+            if (jin->sum() > jang->sum())  { jang->addBack(jin->takeFirst()); }
+            if (jin->sum() < jang->sum())  { jin->addBack(jang->takeFirst()); }
+            if (jin->sum() == jang->sum()) {
+                qDebug() << "searchDanceJinJang() war erfolgreich!";
+                overseer->setSolutionStash(new VectorStash(jin->toVector()));
+                break; }
+        }
+    }
+}
+
+void MorphLarva::searchDanceS() {
+
+}
+
+void MorphLarva::searchFaculty() {
 
 }
 
 bool MorphLarva::addCheatCoin() {
     if (rootStash->sum() % 2 > 0) {
+        qDebug() << "cheatCoin wird hinzugefügt, ursprüngliche root sum: " << rootStash->sum();
         rootStash->addCoin(1);
         cheatCoin = true; // Damit man weiß, dass hinterher der eine Cheatcoin wieder entfernt werden muss :D
-        qDebug("cheatCoin wurde hinzugefügt.");
         return true;
     }
     return false;
@@ -312,4 +336,3 @@ bool MorphLarva::removeCheatCoin(){
     }
     return false;
 }
-

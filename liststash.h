@@ -10,7 +10,7 @@ class ListStash {
     typedef QList<Coin*> CoinList;
 public:
     ListStash();
-    ListStash(QVector<Coin*> &copyVector);
+    ListStash(QVector<Coin*> *copyVector);
     quint32 sum();
 
     void addFront(Coin* coin);
@@ -19,7 +19,9 @@ public:
     Coin* takeFirst();
     Coin* takeLast();
 
-    QVector<Coin*> toVector();
+    Coin* searchntake(quint16 value); // https://youtu.be/StRVJO9Zq3o
+
+    QVector<Coin*> *toVector();
 private:
     CoinList coins;
     RNGesus* rng;

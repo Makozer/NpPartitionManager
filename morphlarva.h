@@ -3,6 +3,7 @@
 #include <QVector>
 #include <QString>
 #include <vectorstash.h>
+#include <liststash.h>
 #include <nsa.h>
 #include <memento.h>
 #include <QObject>
@@ -33,7 +34,7 @@ public:
     // Das wichtigste für die GUI ;)
     bool runCalc(); // startet den Suchvorgang
     void setNSA(NSA* nsa);
-    void setRootStash(VectorStash* stash);    
+    void setRootStash(VectorStash* stash);
     VectorStash* getSolutionStash();
 
     bool stopCalc();
@@ -68,7 +69,10 @@ private:
     // SuchFunktionen
     void searchChaosRandom();
     void searchOrderSort();
-    void searchDance();
+    void searchDanceJinJang();
+    void searchDanceS();
+    void searchFaculty();
+    //void searchFaculty(irgendwelche parameter xD);
 
     // CheatCoin -> falls Summe der Menge nicht glatt durch 2 teilbar, dann wird ein Coin mit dem Wert 1 hinzugefügt, damit glatt teilbar und selbe Algorithmen laufen
     bool cheatCoin;

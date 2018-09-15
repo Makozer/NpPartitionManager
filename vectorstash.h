@@ -14,7 +14,7 @@ class VectorStash {
 public:
     VectorStash();
     VectorStash(VectorStash &copyStash); // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
-    VectorStash(QList<Coin*> &copyList);
+    VectorStash(QVector<Coin*> *copyVector);
     ~VectorStash(); // Destruktor
 
     // Überwachung
@@ -26,7 +26,7 @@ public:
     quint32 sum();
     QString display();
     void clear();
-    QList<Coin*> toList();
+    QVector<Coin*> *exportVector();
 
     // Hinzufügen von Werten
     void addCoin(Coin* pointer);
