@@ -36,47 +36,23 @@ bool MorphLarva::runCalc() {
     // Diese Funktion aus der GUI aufrufen zum starten der Berechnung!
 
     // Aufräumen bzw stoppen der Threads:
-    if(qfs.size() > 0) {
-        if (!qfs[0].isRunning()) {
-            stopCalc();
-        } else {
-            stopCalc();
-            return false; // bricht die Threads und den Vorgang ab wenn runCalc geclickt wird während er sucht.
-        }
-    }
-
-    // Aufräumen falls im Prozess abgebrochen wurde
-    removeCheatCoin();
+    if (!cleanup()) { return false; }
 
     // Abklappern ob startbereit
-    if (rootStash == nullptr || nsa == nullptr) {
-        nsa->add("Error", "run konnte nicht gestartet werden aufgrund nullptr");
-        return false;
-    } else {
-        timer->start();
-        nsa->add("Start", "Berechnung wurde gestartet");
-    }
+    if (!readycheck()) { return false; }
 
     this->rootStash->quickSortDesc();
     this->setOverseer(this);
     this->success = false;
 
-    // ANALYSE !!!!!!!!!
-    // TODO
+    // Analyse
     qDebug("Analyse ...");
-    if (rootStash->size() < 2) {
-        // Abbruch bei zu wenig Münzen.
-        return false;
-    }
-
-    // ANALYSE ENDE !!!!!!!!!!
+    if (!analysis()) { return false; }
 
     qDebug("Berechnung ...");
 
-    // Schatz Begradigung
-    // Damit der Schatz gerade teilbar ist :)
+    // Schatz Begradigung -> Damit der Schatz gerade teilbar ist :)
     addCheatCoin();
-    // Begradigung Ende
 
     this->setGoal(rootStash->sum() / 2);
 
@@ -93,9 +69,7 @@ bool MorphLarva::runCalc() {
         workers[i]->setRootStash(new VectorStash(*rootStash));
     }
     for (quint8 i = 0; i < num_threads; i++) {
-        //qDebug() << "Starting worker" << i << "...";
         qfs.push_back(QtConcurrent::run(mt_search, *workers[i]));
-        //qf[i] = QtConcurrent::run(mt_search, *worker[i]);
     }
     qDebug() << "MT Start vollzogen, Zeit: " << QString::number(timer->getSeconds());
     // Multi Threading Ende #################################################################################################################
@@ -189,16 +163,49 @@ void MorphLarva::search() {
             this->searchDanceJinJang();
             break;
         case 4:
-            //this->searchDanceS();
+            this->searchDanceS();
             break;
         case 5:
-            //this->searchFaculty();
+            this->searchFaculty();
             break;
     }
 }
 
 void MorphLarva::debug() {
     qDebug() << "MorphLarva Data: | strategy: " << strategy << "| rootSize: " << rootStash->size() << "| rootSum: " << rootStash->sum() << "| goal: " << goal;
+}
+
+bool MorphLarva::cleanup() {
+    if(qfs.size() > 0) {
+        if (!qfs[0].isRunning()) {
+            stopCalc();
+        } else {
+            stopCalc();
+            return false; // bricht die Threads und den Vorgang ab wenn runCalc geclickt wird während er sucht.
+        }
+    }
+    timer->stop();
+    removeCheatCoin();
+    return true;
+}
+
+bool MorphLarva::readycheck() {
+    if (rootStash == nullptr || nsa == nullptr) {
+        qDebug("run konnte nicht gestartet werden aufgrund nullptr");
+        return false;
+    } else {
+        timer->start();
+        qDebug("Vorgang gültig, starten der Prozesse ...");
+        return true;
+    }
+}
+
+bool MorphLarva::analysis() {
+    if (rootStash->size() < 2) {
+        // Abbruch bei zu wenig Münzen.
+        return false;
+    }
+    return true;
 }
 
 void MorphLarva::searchChaosRandom() {
@@ -313,6 +320,11 @@ void MorphLarva::searchDanceS() {
 }
 
 void MorphLarva::searchFaculty() {
+
+}
+
+void MorphLarva::searchFaculty(int &picked) {
+    // Rekursiver Aufruf zum durchtesten von allen Kombinationen
 
 }
 

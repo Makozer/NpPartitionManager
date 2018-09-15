@@ -8,18 +8,12 @@
 #include <memento.h>
 #include <QObject>
 
-// Threading?? alt
-#include <thread>
-#include <chrono>
 // Qt Threading
 #include <QMutex>
 #include <QSize>
-#include <QThread>
 #include <QWaitCondition>
-// Conq
 #include <QDebug>
 #include <QThread>
-#include <QString>
 #include <QApplication>
 #include <QtConcurrent/QtConcurrent>
 
@@ -35,9 +29,7 @@ public:
     bool runCalc(); // startet den Suchvorgang
     void setNSA(NSA* nsa);
     void setRootStash(VectorStash* stash);
-    VectorStash* getSolutionStash();
-
-    bool stopCalc();
+    VectorStash* getSolutionStash();    
 
     // Unwichtig für GUI, trotzdem zwingend public sichtbar
     void setSolutionStash(VectorStash* stash);
@@ -53,18 +45,20 @@ public:
 
     void search();
 
-    // temporär
-    void debug();
-
 private:
     // Threading
-    //std::thread* threads[8];
-    //MorphLarva* worker[8];
-    //void mt_search(MorphLarva &worker);
-    //QFuture<void> qf[8];
     QVector<MorphLarva*> workers;
     QVector<QFuture<void>> qfs;
     QMutex mutex;
+
+    // Analyse & cleanup / readycheck / stop
+    bool stopCalc();
+    bool cleanup();
+    bool readycheck();
+    bool analysis();
+
+    // temporär
+    void debug();
 
     // SuchFunktionen
     void searchChaosRandom();
@@ -72,9 +66,9 @@ private:
     void searchDanceJinJang();
     void searchDanceS();
     void searchFaculty();
-    //void searchFaculty(irgendwelche parameter xD);
+    void searchFaculty(int &picked);
 
-    // CheatCoin -> falls Summe der Menge nicht glatt durch 2 teilbar, dann wird ein Coin mit dem Wert 1 hinzugefügt, damit glatt teilbar und selbe Algorithmen laufen
+    // CheatCoin
     bool cheatCoin;
     bool addCheatCoin();
     bool removeCheatCoin();
