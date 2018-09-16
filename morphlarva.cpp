@@ -58,8 +58,8 @@ bool MorphLarva::runCalc() {
 
     // Multi Threading ####################################################################################################################
 
-    quint8 num_threads = 3;
-    quint8 strat[] = { 1, 2, 3 };
+    quint8 num_threads = 4;
+    quint8 strat[] = { 5, 3, 2, 1 };
     qDebug() << "WorkerStart, overseer Data: size=" << rootStash->size() << "| sum=" << rootStash->sum() << "| goal=" << goal;
     for (quint8 i = 0; i < num_threads; i++) {
         workers.push_back(new MorphLarva());
@@ -94,9 +94,16 @@ void MorphLarva::setSolutionStash(VectorStash *stash) {
         this->timer->stop();
         removeCheatCoin();
         qDebug() << "Lösung wurde gesetzt, Dauer: " << QString::number(timer->getSeconds());
+        emit foundSolution();
     }
-    emit foundSolution();
     mutex.unlock();
+}
+
+void MorphLarva::setNoSolution() {
+    this->success = true; // Damit die anderen Threads gestoppt werden.
+    this->timer->stop();
+    qDebug() << "searchFaculty() sagt, dass es keine Lösung gibt. Dauer: " << QString::number(timer->getSeconds());
+    emit noSolution();
 }
 
 VectorStash *MorphLarva::getSolutionStash() {
@@ -320,13 +327,58 @@ void MorphLarva::searchDanceS() {
 }
 
 void MorphLarva::searchFaculty() {
+    // Die Funktion wird bis maximale Fakultät von 2 - fMax ausgeführt, maximal 256 aufgrund von quint8
+    if (rootStash->size() < fMax && rootStash->size() > 2) {
+        qDebug() << "searchFaculty wird ausgeführt";
 
+        for (quint8 i = 0; i < rootStash->size(); i++) {
+            QVector<quint8> *picked = new QVector<quint8>;
+            picked->push_back(i);
+            searchFaculty(1, picked);
+            delete picked;
+        }
+
+        if (!overseer->hasSuccess()) {
+            // Wenn die Fakultät komplett durchgelaufen ist und nichts gefunden wurde, dann wird das Signal gegeben, dass keine Lösung möglich ist.
+            overseer->setNoSolution();
+        }
+    } else {
+        qDebug("Coin Anzahl > fMax");
+    }
 }
 
-void MorphLarva::searchFaculty(int &picked) {
+void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
     // Rekursiver Aufruf zum durchtesten von allen Kombinationen
 
+    // Berechnen bisheriger Summe
+    quint32 tempSum = 0;
+    for (quint8 i = 0; i < picked->size(); i ++) {
+            tempSum += rootStash->getCoinByPos((*picked)[i])->getValue();
+    }
+
+    if (tempSum < goal) {
+        for (quint8 i = pos; i < rootStash->size(); i++) {
+            if (!picked->contains(i)) { // Überprüft ob die Position bereits genommen wurde
+                // Befüllen des neuen Arrays
+                QVector<quint8> *pickedNew = new QVector<quint8>;
+                for (quint8 j = 0; j < pos; j++) {
+                        pickedNew->push_back((*picked)[j]);
+                }
+                pickedNew->push_back(i);
+                searchFaculty(pos + 1, pickedNew);
+                delete pickedNew;
+            }
+        }
+    } else {
+        if (tempSum == goal) {
+            VectorStash *solution = new VectorStash();
+            // befüllen des Lösungsschatzes
+            qDebug("searchFaculty() fand eine Lösung.");
+            overseer->setSolutionStash(solution);
+        }
+    }
 }
+
 
 bool MorphLarva::addCheatCoin() {
     if (rootStash->sum() % 2 > 0) {

@@ -118,7 +118,7 @@ void VectorStash::fillAscending(quint16 size) {
 }
 
 Coin *VectorStash::getCoinByPos(quint16 pos) {
-    return coins.at(pos);
+    return coins[pos];
 }
 
 Coin *VectorStash::getCoinByValue(quint16 value) {

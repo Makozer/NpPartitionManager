@@ -21,6 +21,7 @@ class MorphLarva : public QThread {
     Q_OBJECT
 signals:
     void foundSolution();
+    void noSolution();
 public:
     MorphLarva();
     MorphLarva(const MorphLarva &copyLarva);
@@ -33,6 +34,7 @@ public:
 
     // Unwichtig für GUI, trotzdem zwingend public sichtbar
     void setSolutionStash(VectorStash* stash);
+    void setNoSolution();
     void setOverseer(MorphLarva* overseer);
     MorphLarva* getOverseer();
 
@@ -58,15 +60,16 @@ private:
     bool analysis();
 
     // temporär
-    void debug();
+    void debug();    
 
     // SuchFunktionen
     void searchChaosRandom();
     void searchOrderSort();
     void searchDanceJinJang();
     void searchDanceS();
+    static const quint8 fMax = 16; // Legt fest, wie weit maximal bei der Fakultätssuche gesucht werden soll. Siehe Textdatei facultyresearch.txt
     void searchFaculty();
-    void searchFaculty(int &picked);
+    void searchFaculty(quint8 pos, QVector<quint8> *picked);
 
     // CheatCoin
     bool cheatCoin;
@@ -83,6 +86,7 @@ private:
     NSA* nsa;
     RNGesus* rng;
     Memento* timer;
+
 
     bool success;
     quint32 goal;
