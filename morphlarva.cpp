@@ -352,7 +352,7 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
 
     // Berechnen bisheriger Summe
     quint32 tempSum = 0;
-    for (quint8 i = 0; i < picked->size(); i ++) {
+    for (quint8 i = 0; i < picked->size(); i++) {
             tempSum += rootStash->getCoinByPos((*picked)[i])->getValue();
     }
 
@@ -371,10 +371,14 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
         }
     } else {
         if (tempSum == goal) {
-            VectorStash *solution = new VectorStash();
-            // befüllen des Lösungsschatzes
-            qDebug("searchFaculty() fand eine Lösung.");
-            overseer->setSolutionStash(solution);
+            if (!overseer->hasSuccess()) {
+                VectorStash *solution = new VectorStash();
+                for (quint8 i = 0; i < picked->size(); i++) {
+                    solution->addCoin(rootStash->getCoinByPos(picked->at(i)));
+                }
+                qDebug("searchFaculty() fand eine Lösung.");
+                overseer->setSolutionStash(solution);
+            }
         }
     }
 }
