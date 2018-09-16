@@ -22,6 +22,7 @@ class MorphLarva : public QThread {
 signals:
     void foundSolution();
     void noSolution();
+    void message(QString message);
 public:
     MorphLarva();
     MorphLarva(const MorphLarva &copyLarva);
@@ -70,6 +71,7 @@ private:
     static const quint8 fMax = 16; // Legt fest, wie weit maximal bei der Fakultätssuche gesucht werden soll. Siehe Textdatei facultyresearch.txt
     void searchFaculty();
     void searchFaculty(quint8 pos, QVector<quint8> *picked);
+    void searchPseudoPoly();
 
     // CheatCoin
     bool cheatCoin;

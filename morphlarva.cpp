@@ -212,6 +212,10 @@ bool MorphLarva::analysis() {
         // Abbruch bei zu wenig Münzen.
         return false;
     }
+    if (rootStash->getCoinByPos(0)->getValue() > goal) {
+        // Abbruch falls eine Münze größer ist als die gesuchte Hälfte
+        return false;
+    }
     return true;
 }
 
@@ -381,6 +385,27 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
             }
         }
     }
+}
+
+void MorphLarva::searchPseudoPoly() {
+    // Quelle: https://en.wikipedia.org/wiki/Partition_problem#Methods
+    /*
+     * INPUT:  A list of integers S
+       OUTPUT: True if S can be partitioned into two subsets that have equal sum
+       function find_partition(S):
+            n ← |S| // Anzahl der Elemente
+            K ← sum(S)
+            P ← empty boolean table of size ([K/2] + 1) by (n + 1)
+            initialize top row (P(0,x)) of P to True
+            initialize leftmost column (P(x, 0)) of P, except for P(0, 0) to False
+            for i from 1 to [K/2]
+                for j from 1 to n
+                    if (i-S[j]) >= 0
+                        P(i, j) ← P(i, j-1) or P(i-S[j], j-1)
+                    else
+                        P(i, j) ← P(i, j-1)
+            return P([K/2] , n)
+     */
 }
 
 
