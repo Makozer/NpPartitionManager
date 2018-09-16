@@ -44,6 +44,7 @@ bool MorphLarva::runCalc() {
     this->rootStash->quickSortDesc();
     this->setOverseer(this);
     this->success = false;
+    this->setGoal(rootStash->sum() / 2);
 
     // Analyse
     qDebug("Analyse ...");
@@ -210,10 +211,12 @@ bool MorphLarva::readycheck() {
 bool MorphLarva::analysis() {
     if (rootStash->size() < 2) {
         // Abbruch bei zu wenig Münzen.
+        qDebug("Error: zu wenig Münzen");
         return false;
     }
     if (rootStash->getCoinByPos(0)->getValue() > goal) {
         // Abbruch falls eine Münze größer ist als die gesuchte Hälfte
+        qDebug("Error: erster Coin größer als gesuchte Hälfte");
         return false;
     }
     return true;
