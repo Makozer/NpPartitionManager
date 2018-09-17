@@ -101,10 +101,19 @@ void MorphLarva::setSolutionStash(VectorStash *stash) {
 }
 
 void MorphLarva::setNoSolution() {
-    this->success = true; // Damit die anderen Threads gestoppt werden.
-    this->timer->stop();
-    qDebug() << "searchFaculty() sagt, dass es keine Lösung gibt. Dauer: " << QString::number(timer->getSeconds());
-    emit noSolution();
+    mutex.lock();
+    if (!this->hasSuccess()) {
+        this->success = true; // Damit die anderen Threads gestoppt werden.
+        this->timer->stop();
+        removeCheatCoin();
+        qDebug() << "searchFaculty() sagt, dass es keine Lösung gibt. Dauer: " << QString::number(timer->getSeconds());
+        emit noSolution();
+    }
+    mutex.unlock();
+}
+
+void MorphLarva::setMessage(QString msg) {
+    emit message(msg);
 }
 
 VectorStash *MorphLarva::getSolutionStash() {
@@ -211,11 +220,13 @@ bool MorphLarva::readycheck() {
 bool MorphLarva::analysis() {
     if (rootStash->size() < 2) {
         // Abbruch bei zu wenig Münzen.
+        overseer->message("Zu wenig Werte im Schatz!");
         qDebug("Error: zu wenig Münzen");
         return false;
     }
     if (rootStash->getCoinByPos(0)->getValue() > goal) {
         // Abbruch falls eine Münze größer ist als die gesuchte Hälfte
+        overseer->message("Ein Wert ist größer als die gesuchte Hälfte!");
         qDebug("Error: erster Coin größer als gesuchte Hälfte");
         return false;
     }

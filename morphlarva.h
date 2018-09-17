@@ -36,6 +36,7 @@ public:
     // Unwichtig für GUI, trotzdem zwingend public sichtbar
     void setSolutionStash(VectorStash* stash);
     void setNoSolution();
+    void setMessage(QString msg);
     void setOverseer(MorphLarva* overseer);
     MorphLarva* getOverseer();
 
