@@ -85,7 +85,7 @@ void VectorStash::addCoin(quint16 value) {
 }
 
 void VectorStash::addRngCoin(quint16 min, quint16 max) {
-    if (min > 0 && max > min) {
+    if (min > 0 && max >= min) {
         this->addCoin(rng->getRng(min, max));
     }
 }
