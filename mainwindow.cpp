@@ -316,7 +316,7 @@ void MainWindow::on_btn_output_solution_clicked() {
         //suche komplett abbrechen ##########################################################################################################################################
         //overseer->cleanup(); // private ??
 
-
+        overseer->runCalc();
         ui->btn_output_solution->setText("Berechnen");
         ui->btn_output_solution->setWurdeGeklickt(false);
     }

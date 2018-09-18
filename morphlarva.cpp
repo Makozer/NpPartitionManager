@@ -62,7 +62,7 @@ bool MorphLarva::runCalc() {
     // Multi Threading ####################################################################################################################
 
     quint8 num_threads = 4;
-    quint8 strat[] = { 5, 3, 2, 1 };
+    quint8 strat[] = { 3, 2, 5, 1 };
     qDebug() << "WorkerStart, overseer Data: size=" << rootStash->size() << "| sum=" << rootStash->sum() << "| goal=" << goal;
     for (quint8 i = 0; i < num_threads; i++) {
         workers.push_back(new MorphLarva());
@@ -196,11 +196,12 @@ void MorphLarva::debug() {
 
 bool MorphLarva::cleanup() {
     if(qfs.size() > 0) {
+        qDebug() << "cleanup: size > 0";
         if (!qfs[0].isRunning()) {
+            qDebug() << "Threads nicht am laufen.";
             stopCalc();
         } else {
             stopCalc();
-            qDebug("setMessage sollte als Signal geworfen werden ...");
             overseer->setMessage("Der laufende Vorgang wurde abgebrochen.");
             return false; // bricht die Threads und den Vorgang ab wenn runCalc geclickt wird während er sucht.
         }
@@ -364,7 +365,7 @@ void MorphLarva::searchFaculty() {
             overseer->setNoSolution();
         }
     } else {
-        qDebug("Coin Anzahl > fMax");
+        qDebug("searchFaculty wurde nicht gestartet: Coin Anzahl > fMax");
     }
 }
 
