@@ -6,7 +6,6 @@ MorphLarva::MorphLarva() {
 
     rootStash = nullptr;
     solutionStash = new VectorStash();
-    nsa = nullptr;
     timer = new Memento();
 
     success = false;
@@ -19,7 +18,6 @@ MorphLarva::MorphLarva(const MorphLarva &copyLarva) {
     this->overseer = copyLarva.overseer;
     this->rootStash = new VectorStash(*copyLarva.rootStash);
     this->memoryStash = new VectorStash();
-    this->nsa = copyLarva.nsa;
     this->rng = new RNGesus();
     this->timer = new Memento();
     this->success = copyLarva.success;
@@ -77,11 +75,6 @@ bool MorphLarva::runCalc() {
 
     return true;
 }
-
-void MorphLarva::setNSA(NSA *nsa) {
-    this->nsa = nsa;
-}
-
 
 void MorphLarva::setRootStash(VectorStash *stash) {
     this->rootStash = stash;
@@ -209,7 +202,7 @@ bool MorphLarva::cleanup() {
 }
 
 bool MorphLarva::readycheck() {
-    if (rootStash == nullptr || nsa == nullptr) {
+    if (rootStash == nullptr) {
         qDebug("run konnte nicht gestartet werden aufgrund nullptr");
         return false;
     } else {
@@ -258,7 +251,6 @@ void MorphLarva::searchChaosRandom() {
             if (memoryStash->sum() == goal) {
                 overseer->setSolutionStash(this->memoryStash);
                 qDebug("searchChaosRandom war Erfolgreich!");
-                //nsa->add("finish","searchChaosRandom war Erfolgreich!");
                 break;
             } // End Success = True
         } // End for

@@ -7,7 +7,6 @@
 #include <QString>
 #include "coin.h"
 #include "rngesus.h"
-#include "nsa.h"
 
 class VectorStash {
     typedef QVector<Coin*> CoinList;
@@ -16,10 +15,6 @@ public:
     VectorStash(VectorStash &copyStash); // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
     VectorStash(QVector<Coin*> *copyVector);
     ~VectorStash(); // Destruktor
-
-    // Überwachung
-    void setNSA(NSA* nsa);
-    NSA* getNSA();
 
     // Generelle Schatzfunktionen
     quint16 size();
@@ -66,7 +61,6 @@ private:
     // Objekte
     CoinList coins;
     RNGesus* rng;
-    NSA* nsa;
 
     // Variablen
     quint32 total; // Die Summe des gesamten Schatzes

@@ -4,7 +4,6 @@
 #include <QList>
 #include <coin.h>
 #include <rngesus.h>
-#include <nsa.h>
 
 class ListStash {
     typedef QList<Coin*> CoinList;
@@ -25,7 +24,6 @@ public:
 private:
     CoinList coins;
     RNGesus* rng;
-    NSA* nsa;
 
     // Variablen
     quint32 total; // Die Summe des gesamten Schatzes

@@ -4,7 +4,6 @@
 #include <QString>
 #include <vectorstash.h>
 #include <liststash.h>
-#include <nsa.h>
 #include <memento.h>
 #include <QObject>
 
@@ -29,7 +28,6 @@ public:
 
     // Das wichtigste für die GUI ;)
     bool runCalc(); // startet den Suchvorgang
-    void setNSA(NSA* nsa);
     void setRootStash(VectorStash* stash);
     VectorStash* getSolutionStash();    
 
@@ -86,7 +84,6 @@ private:
     VectorStash* memoryStash;
     VectorStash* solutionStash;
 
-    NSA* nsa;
     RNGesus* rng;
     Memento* timer;
 

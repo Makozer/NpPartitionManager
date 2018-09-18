@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include "morphlarva.h"
 #include "vectorstash.h"
-#include "nsa.h"
 #include "CustomTextEdit.h"
 #include <string>
 #include <QFileDialog>
@@ -62,7 +61,6 @@ private:
 
 
     MorphLarva* overseer;
-    NSA* nsa;
     VectorStash* rootStash;
     int randomRangeMin;
     int randomRangeMax;

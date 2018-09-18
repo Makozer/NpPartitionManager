@@ -7,7 +7,6 @@ VectorStash::VectorStash() {
 
 VectorStash::VectorStash(VectorStash &copyStash) {
     this->rng = new RNGesus();
-    this->nsa = copyStash.nsa;
     this->coins = copyStash.deepCopy();
     this->total = copyStash.total;
 }
@@ -25,14 +24,6 @@ VectorStash::~VectorStash() {
     clear();
     coins.clear();
     delete rng;
-}
-
-void VectorStash::setNSA(NSA *nsa) {
-    this->nsa = nsa;
-}
-
-NSA *VectorStash::getNSA() {
-    return nsa;
 }
 
 quint16 VectorStash::size() {

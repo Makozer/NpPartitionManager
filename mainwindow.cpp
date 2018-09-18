@@ -23,12 +23,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Erstellen der wichtigen Instanzen
     overseer = new MorphLarva();
-    nsa = new NSA();
     rootStash = new VectorStash();
     zweiterSolutionstash = new VectorStash();
 
     // Damit der overseer die zu nutzenden Sachen kennt:
-    overseer->setNSA(nsa);
     overseer->setRootStash(rootStash);
 
 
