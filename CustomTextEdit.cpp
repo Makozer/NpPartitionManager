@@ -26,6 +26,10 @@ void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashIn
 
 }
 
+
+
+
+//die jeweiligen setter aller teile der gui:
 void CustomTextEdit::setAktuellerStatus(QString neuerStatus) {
     aktuellerStatus = neuerStatus;
     baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins);
@@ -48,6 +52,21 @@ void CustomTextEdit::setRootstashInhalt(QString neuerInhalt) {
 void CustomTextEdit::setErgebnisInformationen(QString neueErgebnisInfos) {
     ergebnisInformationen = neueErgebnisInfos;
     baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins);
+}
+
+
+//der zeit setter, damit auch fuer den export die zeit konserviert wird, sodass sie beim
+//export wieder ausgegeben werden kann:
+void CustomTextEdit::setZeit(QString zeit) {
+    this->zeit = zeit;
+}
+
+
+
+
+//getter
+QString CustomTextEdit::getZeit() {
+    return zeit;
 }
 
 

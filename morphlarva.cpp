@@ -94,8 +94,10 @@ void MorphLarva::setSolutionStash(VectorStash *stash) {
         this->solutionStash = stash;
         this->timer->stop();
         removeCheatCoin();
+
         qDebug() << "Lösung wurde gesetzt, Dauer: " << QString::number(timer->getSeconds());
-        emit foundSolution();
+        qDebug() << "milanTEST";
+        emit foundSolution(QString::number(timer->getSeconds()));
     }
     mutex.unlock();
 }

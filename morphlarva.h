@@ -20,7 +20,7 @@
 class MorphLarva : public QThread {
     Q_OBJECT
 signals:
-    void foundSolution();
+    void foundSolution(QString zeit);
     void noSolution();
     void message(QString message);
 public:

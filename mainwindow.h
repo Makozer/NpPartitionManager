@@ -19,17 +19,18 @@ class MainWindow;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-public slots:
-    void displaySolution();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void changeRandomRange(int min, int max);
+
     void changeStatus(QString neuerStatus);
 
 public slots:
     void importSlot(std::string importierterStashString);
     void importHatGeklapptSlot();
+    void noSolutionSlot();
+    void displaySolution(QString zeit);
+    void catchMessage(QString message);
 
 private slots:
     void on_btn_fill_clicked();
@@ -46,17 +47,20 @@ private slots:
 
     void on_btn_import_clicked();
 
-    void on_btn_changeRandomRange_clicked();
-
     void on_btn_coinEntfernen_clicked();
 
     void on_btn_sortErgebnis_clicked();
 
+    void on_horizontalSlider_randomRangeMax_valueChanged(int value);
+
+    void on_horizontalSlider_randomRangeMin_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
+    void changedRandomRange();
 
 
-    // 6 Objekte die benötigt werden, siehe Konstruktor für zweiten Part der wichtig ist :)
+
     MorphLarva* overseer;
     NSA* nsa;
     VectorStash* rootStash;

@@ -62,7 +62,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Den Wert eines neuen Coins eingeben, der dem Schatz hinzugefügt werden soll. Bitte nur den Wert einer einzigen Münze eintragen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Den neuen Wert eingeben, der dem Schatz hinzugefügt werden soll. Bitte nur einen einzigen Wert eintragen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string/>
@@ -78,10 +78,10 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt dem Schatz einen Coin hinzu, welcher den Wert besitzt, der neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt dem Schatz einen Wert hinzu, welcher neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Coin Hinzufügen</string>
+              <string>Wert Hinzufügen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -100,7 +100,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Bitte die anzahl an Münzen eingeben, die dem mit randomizierten Werten Schatz hinzugefügt werdne sollen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Bitte die anzahl an Werten eingeben, die dem mit zufällig erweiterten Schatz hinzugefügt werden sollen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -146,7 +146,7 @@ padding:5px;
            <item row="14" column="0">
             <widget class="QLineEdit" name="lineEdit_coinEntfernen">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Geben Sie hier den Wert für den zu entfernenden Coin ein.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Geben Sie hier den zu entfernenden Wert ein.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -156,10 +156,10 @@ padding:5px;
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau einen Coin aus dem Schatz, der den Wert hat, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau ein mal den  Wert aus dem Schatz, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Coin entfernen</string>
+              <string>Wert entfernen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -172,7 +172,7 @@ padding:5px;
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt alle Coins aus dem Schatz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt alle Werte aus dem Schatz und setzt alles zurück.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Schatz löschen</string>
@@ -317,7 +317,7 @@ padding:5px;
             </widget>
            </item>
            <item row="27" column="1">
-            <widget class="QPushButton" name="btn_output_solution">
+            <widget class="CustomButton" name="btn_output_solution">
              <property name="enabled">
               <bool>false</bool>
              </property>
@@ -327,8 +327,14 @@ padding:5px;
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;berechnet die Partition.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font:bold;</string>
+             </property>
              <property name="text">
-              <string>Partition(RUN)</string>
+              <string>Berechnen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -443,21 +449,30 @@ p, li { white-space: pre-wrap; }
         <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="lbl_einstellungenRandomRange">
           <property name="text">
-           <string>Das Intervall, in welchem die randomisierten Coins erstellt werden veraendern:</string>
+           <string>Das Intervall, in welchem die zufälligen Werte erstellt werden verändern:</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="lbl_untereRandomGRenze">
+        <item row="1" column="0">
+         <widget class="QLabel" name="lbl_randomObereGrenze">
           <property name="text">
-           <string>Neue untere Grenze:</string>
+           <string>Neue obere Grenze:</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="lbl_anzeigeRandomRangeMin">
-          <property name="text">
-           <string>1</string>
+        <item row="2" column="0" colspan="2">
+         <widget class="QSlider" name="horizontalSlider_randomRangeMax">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="sliderPosition">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -481,6 +496,13 @@ p, li { white-space: pre-wrap; }
           </property>
          </spacer>
         </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="lbl_untereRandomGRenze">
+          <property name="text">
+           <string>Neue untere Grenze:</string>
+          </property>
+         </widget>
+        </item>
         <item row="7" column="0" colspan="2">
          <widget class="QSlider" name="horizontalSlider_randomRangeMin">
           <property name="minimum">
@@ -494,52 +516,10 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QSlider" name="horizontalSlider_randomRangeMax">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="sliderPosition">
-           <number>50</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="lbl_randomObereGrenze">
+        <item row="10" column="0">
+         <widget class="QLabel" name="lbl_anzeigeRandomRangeMin">
           <property name="text">
-           <string>Neue obere Grenze:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="0">
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="12" column="0">
-         <widget class="QPushButton" name="btn_changeRandomRange">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Diese Grenzen annehmen, sodass beim randomisierten hinzufügen von Coins lediglich Coins mit Werten innerhalb dieser Grenzen erstellt werden.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;Es handelt sich um inklusive Grenzen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Intervall Uebernehmen</string>
-          </property>
-          <property name="autoDefault">
-           <bool>true</bool>
+           <string>1</string>
           </property>
          </widget>
         </item>
@@ -561,6 +541,11 @@ p, li { white-space: pre-wrap; }
    <class>CustomOnlyNumbersLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">customonlynumberslineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CustomButton</class>
+   <extends>QPushButton</extends>
+   <header>custombutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -584,7 +569,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>textEdit_mitwirkende</tabstop>
   <tabstop>horizontalSlider_randomRangeMax</tabstop>
   <tabstop>horizontalSlider_randomRangeMin</tabstop>
-  <tabstop>btn_changeRandomRange</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -599,8 +583,8 @@ p, li { white-space: pre-wrap; }
      <y>148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>70</x>
-     <y>191</y>
+     <x>64</x>
+     <y>209</y>
     </hint>
    </hints>
   </connection>

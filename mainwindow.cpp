@@ -32,8 +32,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     overseer->setRootStash(rootStash);
 
 
-    // Signal / Slot Verbindung
-    QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
+    //grundlegende Signal / Slot Verbindung
+    QObject::connect(overseer, SIGNAL(foundSolution(QString)), this, SLOT(displaySolution(QString)));
+    QObject::connect(overseer, SIGNAL(noSolution()), this, SLOT(noSolutionSlot()));
+    QObject::connect(overseer, SIGNAL(message(QString)), this, SLOT(catchMessage(QString)));
 
 
     //standardmaessige randomRangeWerte: (Diese bestimmen, in welcher Range
@@ -67,15 +69,32 @@ MainWindow::~MainWindow() {
 
 
 //slot bekommt signal emitted, sobald ein ergebnis fuer die partition gefunden wurde !
-void MainWindow::displaySolution() {
+void MainWindow::displaySolution(QString zeit) {
 
-    QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n";
-    ergebnisString += overseer->getSolutionStash()->getGuiQString();
-    ergebnisString += "\n\nSumme des Ergebnisses: ";
+
+    //zunaechst wird der button zurueckgesetzt, welcher die berechnung startet
+    //und seinen text aendert, sobald er ein mal geklickt wurde.
+    //Dadurch wird er wieder zum berechnen klickbar gemacht:
+    ui->btn_output_solution->setWurdeGeklickt(false);
+    ui->btn_output_solution->setText("Berechnen");
+
+
+
+    //die uebergebene durchlaufzeit speichern, damit sie nich tnur hier verwendet werden kann,
+    //sondern im export.
+    ui->textEdit_partitionBerechnen->setZeit(zeit);
+
+    //das Ergebnis darstellen:
+    QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
+    ergebnisString += "Dauer: ";
+    //###################################################################################################################################einheit?
+    ergebnisString += ui->textEdit_partitionBerechnen->getZeit();
+    ergebnisString += "\nSumme des Ergebnisses: ";
     ergebnisString += QString::number(overseer->getSolutionStash()->sum());
-    ergebnisString += "    Anzahl Coins: ";
+    ergebnisString += "    Anzahl Werte: ";
     ergebnisString += QString::number(overseer->getSolutionStash()->size());
-
+    ergebnisString += "\nAlle Werte:\n";
+    ergebnisString += overseer->getSolutionStash()->getGuiQString();
     ui->textEdit_partitionBerechnen->setErgebnisInformationen(ergebnisString);
 
     //neuen Status in einem QString speichern, QString auf Gui anzeigen:
@@ -98,13 +117,71 @@ void MainWindow::displaySolution() {
 
 
 
+void MainWindow::noSolutionSlot() {
+
+    //zunaechst wird der button zurueckgesetzt, welcher die berechnung startet
+    //und seinen text aendert, sobald er ein mal geklickt wurde.
+    //Dadurch wird er wieder zum berechnen klickbar gemacht:
+    ui->btn_output_solution->setWurdeGeklickt(false);
+    ui->btn_output_solution->setText("Berechnen");
+
+
+
+
+    //gibt dem nutzer die information, dass keine lösung gefunden wurde:
+    QMessageBox::critical(this, "Keine Lösung gefunden", "Mit den vorliegenden Werten konnte keine Partition gebildet werden.");
+
+    //den status aktualisieren:
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Es wurde versucht die Partition zu berechnen, doch es gab kein Ergebnis.");
+}
+
+
+
+void MainWindow::catchMessage(QString message) {
+
+
+    //zunaechst wird der button zurueckgesetzt, welcher die berechnung startet
+    //und seinen text aendert, sobald er ein mal geklickt wurde.
+    //Dadurch wird er wieder zum berechnen klickbar gemacht:
+    ui->btn_output_solution->setWurdeGeklickt(false);
+    ui->btn_output_solution->setText("Berechnen");
+
+
+
+
+    //gibt dem Nutzer die benötigten informationen, was genau in einem spezialfall,
+    //der eine solche message erforderlich macht vorliegt und zu problemen führt:
+    QMessageBox::critical(this, "Keine Lösung gefunden", message);
+}
+
+
+
 
 
 
 //Legt die neuen Grenzen fuer das randomisierte befuellen des schatzes fest:
-void MainWindow::changeRandomRange(int min, int max) {
-    randomRangeMin = min;
-    randomRangeMax = max;
+void MainWindow::changedRandomRange() {
+
+    //Wenn der Nutzer lustig ist und den Minimalwert groesser waehlt, als den Maximalwert:
+    if (ui->horizontalSlider_randomRangeMin->value() > ui->horizontalSlider_randomRangeMax->value()) {
+        QMessageBox::critical(this, "Range konnte nicht veraendert werden",
+                              "Der Minimalwert wurde groesser gewaehlt als der Maximalwert. "
+                              "Beide Werte werden zurueckgesetzt.");
+        ui->horizontalSlider_randomRangeMin->setValue(0);
+        ui->horizontalSlider_randomRangeMax->setValue(50);
+    }
+    else {
+
+
+
+        //Den Status aktualisieren:
+        QString changeStatus = "Status:    Random hinzugefuegte Zahlen liegen nun im Bereich zwischen ";
+        changeStatus += QString::number(randomRangeMin);
+        changeStatus += " und ";
+        changeStatus += QString::number(randomRangeMax);
+        ui->textEdit_partitionBerechnen->setAktuellerStatus(changeStatus);
+    }
+
 }
 
 
@@ -121,7 +198,7 @@ void MainWindow::on_btn_fill_clicked() {
 
     //Falls der Nutzer lustig drauf ist und 0 random coins hinzufuegen will:
     if (ui->lineEdit_randomFuellenAnzahlEingeben->text().toInt() == 0) {
-        //dann passiert nichts! das verhindert, dass nichtmehr "ller" bei inhalt des Schatzes auf der GUI angezeigt wird.
+        //dann passiert nichts! das verhindert, dass nichtmehr "leer" bei inhalt des Schatzes auf der GUI angezeigt wird.
     }
 
     //Falls der Nutzer eine gewoehnliche Eingabe taetigt:
@@ -145,7 +222,7 @@ void MainWindow::on_btn_fill_clicked() {
         //neuen Status in einem QString speichern, QString auf Gui anzeigen:
         QString neuerStatus = "Status:    Dem Schatz wurden ";
         neuerStatus += ui->lineEdit_randomFuellenAnzahlEingeben->text();
-        neuerStatus += " Coins mit zufaelligen Werten hinzugefuegt.";
+        neuerStatus += " zufaellige Werten hinzugefuegt.";
         ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
         ui->lineEdit_randomFuellenAnzahlEingeben->clear();
 
@@ -176,7 +253,7 @@ void MainWindow::on_btn_fill_clicked() {
         }
     }
     else {
-        QMessageBox::critical(this,"Coins konnten nicht erstellt werden","Es wurde keine Coinanzahl im Textfeld eingegeben.");
+        QMessageBox::critical(this,"Werte konnten nicht erstellt werden","Es wurde keine Wertanzahl im Textfeld eingegeben.");
     }
 }
 
@@ -234,12 +311,40 @@ void MainWindow::on_btn_sort_clicked() {
 
 void MainWindow::on_btn_output_solution_clicked() {
 
-    //neuen Status in einem QString speichern, QString auf Gui anzeigen:
-    QString neuerStatus = "Status:    Die Partition wird berechnet.";
-    ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+    //falls der btn waehrend der berechnung, also wiederholt geklickt wird:
+    if (ui->btn_output_solution->getWurdeGeklickt()) {
+        //suche komplett abbrechen ##########################################################################################################################################
+        QMessageBox::information(this, "Berechnung abgebrochen", "SIe haben die Berechnung abgebrochen.");
+    }
 
-    overseer->runCalc();
+    //falls der btn das erste mal geklickt wird, so wird die partition berechnet
+    else {
 
+        //Dem Nutzer signalisieren, dass ein erneuter Klick den
+        //partitionierungsvorgang abbricht, indem der Text und die
+        //farbe des btn geaendert wird:
+        ui->btn_output_solution->setWurdeGeklickt(true);
+        ui->btn_output_solution->setText("Abbrechen");
+
+        //um die farbe zu aendern:
+        QPalette palette = ui->btn_output_solution->palette();
+        palette.setColor(QPalette::Button, QColor(200,0,0));
+        ui->btn_output_solution->setPalette(palette);
+        ui->btn_output_solution->repaint();
+        qDebug() << "abbrechen steht auf dem button"; //#############################################################################################################
+
+
+
+
+        //neuen Status in einem QString speichern, QString auf Gui anzeigen:
+        QString neuerStatus = "Status:    Die Partition wird berechnet.";
+        ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
+
+        overseer->runCalc();
+
+        //zurueckgesetzt werden wurdeGeklickt und der text des buttons in displaySolution()
+        //und dessen alternativen, fuer den fall das keine loesung existiert!
+    }
 }
 
 
@@ -275,7 +380,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 
 
         //neuen Status in einem QString speichern und an GUI uebergeben:
-        QString neuerStatus = "Status:    Ein Coin mit dem Wert ";
+        QString neuerStatus = "Status:    Der Wert ";
         neuerStatus += ui->lineEdit_coinHinzufuegenWertEingeben->text();
         neuerStatus += " wurde dem Schatz hinzugefuegt.";
         ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
@@ -313,7 +418,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 
     //falls der nutzer also vorher keinen wert eingegeben haben sollte:
     else {
-        QMessageBox::critical(this, "Coin konnte nicht erstellt werden", "Es wurde kein Coinwert im Textfeld eingegeben.");
+        QMessageBox::critical(this, "Wert konnte nicht erstellt werden", "Es wurde keine Wertgroesse im Textfeld eingegeben.");
     }
 
 }
@@ -471,22 +576,26 @@ void MainWindow::on_btn_export_clicked()
 
     //stashinhalt:
     QString inhaltsString = "Inhalt des Schatzes:\n";
-    inhaltsString += "Summe aller Coinwerte: ";
+    inhaltsString += "Summe aller Werte: ";
     inhaltsString += QString::number(rootStash->sum());
-    inhaltsString += "    Anzahl Coins: ";
+    inhaltsString += "    Anzahl Werte: ";
     inhaltsString += QString::number(rootStash->size());
-    inhaltsString += "\nAlle Coins:\n";
+    inhaltsString += "\nAlle Werte:\n";
     inhaltsString += rootStash->getQString();
     exportDia.exportInhaltFestlegen(inhaltsString);
 
     //ggf ergebnis mit uebergeben, falls es eines gibt:
     if (overseer->hasSuccess()) {
-        QString ergebnisString = "\nDie Partition liefert folgendes Ergebnis:\n";
-        ergebnisString += overseer->getSolutionStash()->getQString();
-        ergebnisString += "\n\nSumme des Ergebnisses: ";
+        QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
+        ergebnisString += "Dauer: ";
+        //###################################################################################################################################einheit?
+        ergebnisString += ui->textEdit_partitionBerechnen->getZeit();
+        ergebnisString += "\nSumme des Ergebnisses: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->sum());
-        ergebnisString += "    Anzahl Coins: ";
+        ergebnisString += "    Anzahl Werte: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->size());
+        ergebnisString += "\nAlle Werte:\n";
+        ergebnisString += overseer->getSolutionStash()->getGuiQString();
         exportDia.exportErgebnisFestlegen(ergebnisString);
     }
     else {
@@ -539,30 +648,6 @@ void MainWindow::on_btn_import_clicked()
 
 
 
-void MainWindow::on_btn_changeRandomRange_clicked()
-{
-
-    //Wenn der Nutzer lustig ist und den Minimalwert groesser waehlt, als den Maximalwert:
-    if (ui->horizontalSlider_randomRangeMin->value() > ui->horizontalSlider_randomRangeMax->value()) {
-        QMessageBox::critical(this, "Range konnte nicht veraendert werden", "Der Minimalwert wurde groesser gewaehlt als der Maximalwert.");
-    }
-    else {
-
-        //setzt den neuen Bereich fest und informiert den Nutzer:
-        randomRangeMin = ui->horizontalSlider_randomRangeMin->value();
-        randomRangeMax = ui->horizontalSlider_randomRangeMax->value();
-        QMessageBox::information(this, "Erfolg", "Das Intervall wurde erfolgreich geaendert.");
-
-        //Den Status aktualisieren:
-        QString changeStatus = "Status:    Random hinzugefuegte Zahlen liegen nun im Bereich zwischen ";
-        changeStatus += QString::number(randomRangeMin);
-        changeStatus += " und ";
-        changeStatus += QString::number(randomRangeMax);
-        ui->textEdit_partitionBerechnen->setAktuellerStatus(changeStatus);
-    }
-}
-
-
 
 
 
@@ -613,17 +698,17 @@ void MainWindow::on_btn_coinEntfernen_clicked()
 
 
     //Wenn kein entsprechender Coin existiert wird eine ensprechende Nachricht in einer Messagebox ausgegeben:
-    QString fehlermeldung = "In diesem Schatz existiert kein Coin mit dem Wert ";
+    QString fehlermeldung = "In diesem Schatz existiert kein Wert der Groesse ";
     fehlermeldung += ui->lineEdit_coinEntfernen->text();
     if (!found) {
-        QMessageBox::critical(this, "Coin konnte nicht entfernt werden.", fehlermeldung);
+        QMessageBox::critical(this, "Wert konnte nicht entfernt werden.", fehlermeldung);
     }
 
 
 
     //Status, Stashsumme und Stashinhalt wird aktualisiert und auf Gui angezeigt:
 
-    QString neuerStatus = "Status:    Ein Coin mit dem Wert ";
+    QString neuerStatus = "Status:    Der Wert ";
     neuerStatus += ui->lineEdit_coinEntfernen->text();
     neuerStatus += " wurde aus dem Schatz entfernt.";
 
@@ -696,7 +781,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 inhalt += overseer->getSolutionStash()->getGuiQString();
                 inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
-                inhalt += "    Anzahl Coins: ";
+                inhalt += "    Anzahl Werte: ";
                 inhalt += QString::number(overseer->getSolutionStash()->size());
 
 
@@ -714,7 +799,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
                 inhalt += overseer->getSolutionStash()->getGuiQString();
                 inhalt += "\n\nSumme des Ergebnisses: ";
                 inhalt += QString::number(overseer->getSolutionStash()->sum());
-                inhalt += "    Anzahl Coins: ";
+                inhalt += "    Anzahl Werte: ";
                 inhalt += QString::number(overseer->getSolutionStash()->size());
 
 
@@ -734,4 +819,24 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
     else {
         QMessageBox::critical(this, "Es kann nicht sortiert werden", "Es wurde kein Sortierkriterium ausgewaehlt.");
     }
+}
+
+
+
+
+
+void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(int value)
+{
+    randomRangeMax = value;
+    changedRandomRange();
+}
+
+
+
+
+
+void MainWindow::on_horizontalSlider_randomRangeMin_valueChanged(int value)
+{
+    randomRangeMin = value;
+    changedRandomRange();
 }

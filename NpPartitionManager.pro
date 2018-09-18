@@ -36,7 +36,8 @@ SOURCES += \
     CustomOnlyNumbersLineEdit.cpp \
     ExportDialog.cpp \
     importdialog.cpp \
-    liststash.cpp
+    liststash.cpp \
+    custombutton.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     CustomOnlyNumbersLineEdit.h \
     ExportDialog.h \
     importdialog.h \
-    liststash.h
+    liststash.h \
+    custombutton.h
 
 FORMS += \
         mainwindow.ui \
