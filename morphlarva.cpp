@@ -200,6 +200,8 @@ bool MorphLarva::cleanup() {
             stopCalc();
         } else {
             stopCalc();
+            qDebug("setMessage sollte als Signal geworfen werden ...");
+            overseer->setMessage("Der laufende Vorgang wurde abgebrochen.");
             return false; // bricht die Threads und den Vorgang ab wenn runCalc geclickt wird während er sucht.
         }
     }
@@ -222,13 +224,13 @@ bool MorphLarva::readycheck() {
 bool MorphLarva::analysis() {
     if (rootStash->size() < 2) {
         // Abbruch bei zu wenig Münzen.
-        overseer->message("Zu wenig Werte im Schatz!");
+        overseer->setMessage("Zu wenig Werte im Schatz!");
         qDebug("Error: zu wenig Münzen");
         return false;
     }
     if (rootStash->getCoinByPos(0)->getValue() > goal) {
         // Abbruch falls eine Münze größer ist als die gesuchte Hälfte
-        overseer->message("Ein Wert ist größer als die gesuchte Hälfte!");
+        overseer->setMessage("Ein Wert ist größer als die gesuchte Hälfte!");
         qDebug("Error: erster Coin größer als gesuchte Hälfte");
         return false;
     }

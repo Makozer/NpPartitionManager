@@ -314,7 +314,11 @@ void MainWindow::on_btn_output_solution_clicked() {
     //falls der btn waehrend der berechnung, also wiederholt geklickt wird:
     if (ui->btn_output_solution->getWurdeGeklickt()) {
         //suche komplett abbrechen ##########################################################################################################################################
-        QMessageBox::information(this, "Berechnung abgebrochen", "SIe haben die Berechnung abgebrochen.");
+        //overseer->cleanup(); // private ??
+
+
+        ui->btn_output_solution->setText("Berechnen");
+        ui->btn_output_solution->setWurdeGeklickt(false);
     }
 
     //falls der btn das erste mal geklickt wird, so wird die partition berechnet
@@ -325,16 +329,6 @@ void MainWindow::on_btn_output_solution_clicked() {
         //farbe des btn geaendert wird:
         ui->btn_output_solution->setWurdeGeklickt(true);
         ui->btn_output_solution->setText("Abbrechen");
-
-        //um die farbe zu aendern:
-        QPalette palette = ui->btn_output_solution->palette();
-        palette.setColor(QPalette::Button, QColor(200,0,0));
-        ui->btn_output_solution->setPalette(palette);
-        ui->btn_output_solution->repaint();
-        qDebug() << "abbrechen steht auf dem button"; //#############################################################################################################
-
-
-
 
         //neuen Status in einem QString speichern, QString auf Gui anzeigen:
         QString neuerStatus = "Status:    Die Partition wird berechnet.";
@@ -569,7 +563,7 @@ void MainWindow::on_btn_export_clicked()
     //das Dialogfenster oeffnen:
     ExportDialog exportDia;
     exportDia.setModal(true);
-    exportDia.setFixedHeight(180);
+    exportDia.setFixedHeight(220);
     exportDia.setFixedWidth(400);
 
     //Daten uebergeben:
@@ -626,7 +620,7 @@ void MainWindow::on_btn_import_clicked()
     //das Dialogfenster oeffnen:
     ImportDialog *importDia = new ImportDialog();
     importDia->setModal(true);
-    importDia->setFixedHeight(180);
+    importDia->setFixedHeight(220);
     importDia->setFixedWidth(400);
 
     //Die connect verbindet die beide Fenster per SIGNAL-->SLOT.

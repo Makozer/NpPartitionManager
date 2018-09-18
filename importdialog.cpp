@@ -7,7 +7,7 @@
 
 ImportDialog::ImportDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ImportDialog)
+    ui(new Ui::ImportDialog), pfad("")
 {
     ui->setupUi(this);
 }
@@ -29,14 +29,17 @@ ImportDialog::~ImportDialog()
 void ImportDialog::on_btn_importAdresseWaehlen_clicked()
 {
     //Das QFileDialogfenster oeffnen:
-    QString ausgewaehlterPfad = QFileDialog::getOpenFileName(this,"Schatz exportieren",QDir::homePath());
-    QFileDialog filedia(this,"Schatz exportieren", "C:\\");
-    ui->lbl_importAdresse->setText(ausgewaehlterPfad);
+    QString ausgewaehlt = "Ausgewählt: ";
+    pfad = QFileDialog::getOpenFileName(this,"Schatz exportieren",QDir::homePath());
+    ausgewaehlt += pfad;
+    QFileDialog filedia(this,"Schatz exportieren", QDir::homePath());
+    ui->lbl_importAdresse->setText(ausgewaehlt);
+
 
 
     //falls der nutzer tatsaechlich einen Pfad auswaehlt wird der importButton enabled,
     //sodass der nutzer den import bestaetigen kann:
-    if (ausgewaehlterPfad.size() > 0) {
+    if (pfad.size() > 0) {
         ui->btn_import->setEnabled(true);
     }
 }
@@ -52,17 +55,13 @@ void ImportDialog::on_btn_import_clicked()
 {
 
 
-    if (ui->lbl_importAdresse->text().size() > 0) {
-        std::string streamAdresse = ui->lbl_importAdresse->text().toStdString();
+    if (pfad.size() > 0) {
+        std::string streamAdresse = pfad.toStdString();
         //Die Signale werden abgefeuert, sie geben dem mainwindow den neuen status und die streamadresse:
         emit importSignal(streamAdresse);
         emit importHatGeklapptSignal();
+        pfad.clear();
     }
-
-    //falls der btn am anfang nicht disabled ist:
-    //else {
-    //    QMessageBox::critical(this,"Import Fehlgeschlagen", "Es wurde kein Dateipfad ausgewaehlt");
-    //}
     close();
 
 }

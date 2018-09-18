@@ -26,7 +26,7 @@ padding:5px;
    <item row="1" column="0">
     <widget class="QPushButton" name="btn_exportDateiErstellen">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Den Explorer öffnen, um manuell den gewünschten Ort für den exportierten Schatz zu wählen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Den Explorer öffnen, um manuell den gewünschten Ort für  die Menge auszuwählen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>Exportpfad auswählen</string>
@@ -65,7 +65,7 @@ padding:5px;
       </sizepolicy>
      </property>
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exportiert den Inhalt des gesamten Schatzes in die erste Zeile einer Textdatei.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exportiert den Inhalt der Menge in die erste Zeile einer Textdatei.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="whatsThis">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Es muss erst eine exportadresse festgelegt werden, bevor ein Export stattfinden kann.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

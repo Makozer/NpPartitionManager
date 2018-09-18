@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>202</height>
+    <width>601</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,13 +49,13 @@ padding:5px;
      </property>
     </spacer>
    </item>
-   <item row="4" column="1">
+   <item row="6" column="0">
     <widget class="QPushButton" name="btn_import">
      <property name="enabled">
       <bool>false</bool>
      </property>
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;importiert einen Schatz aus einer Textdatei. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In dieser Textdatei muessen die Werte aller zu uebernehmenden Coins, getrennt von einem Komma und einem Leerzeichen enthalten sein. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Beispiel: &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;122, 53, 12, 9, 12&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;importiert eine Menge aus einer Textdatei. &lt;/p&gt;&lt;p&gt;In dieser Textdatei muessen die Werte, getrennt von einem Komma enthalten sein. &lt;/p&gt;&lt;p&gt;Beispiel: &lt;/p&gt;&lt;p&gt;122,53,12,9,12&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="whatsThis">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Es muss erst eine Importadresse festgelegt werden, bevor ein Import stattfinden kann.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -65,7 +65,7 @@ padding:5px;
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="0" column="0">
     <widget class="QPushButton" name="btn_importAdresseWaehlen">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -81,10 +81,17 @@ padding:5px;
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="lbl_info">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Import&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Beispiel einer gültigen Datei zum importieren von Werten:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Datei: &amp;quot;beispiel.txt&amp;quot;&lt;br/&gt;Inhalt: &amp;quot;2,3,5,7,11,13,17,19,23,29,31,37,41&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Der Import benötigt eine Textdatei. Beispiel:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Datei: menge.txt    Inhalt: 12,3,92,126</string>
      </property>
     </widget>
    </item>

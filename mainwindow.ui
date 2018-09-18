@@ -27,7 +27,7 @@ padding:5px;
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_berechnung">
        <attribute name="title">
@@ -49,7 +49,7 @@ padding:5px;
            <item row="7" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzErweiternInfo">
              <property name="text">
-              <string>Funktionen, die den Schatz erweitern:</string>
+              <string>Funktionen, die die Menge erweitern:</string>
              </property>
             </widget>
            </item>
@@ -78,7 +78,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt dem Schatz einen Wert hinzu, welcher neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt der Menge einen Wert hinzu, welcher neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Wert Hinzufügen</string>
@@ -113,7 +113,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fuegt dem Schatz eine Menge Coins hinzu, wobei die Anzahl dieser Coins im Textfeld neben diesem Knoipf vom Nutzer festgelegt werden kann.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Hinweis: &lt;/p&gt;&lt;p&gt;In den Einstellungen (oben rechts) kann das Intervall für die Werte der randomisiert erstellten COins gewählt werden.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fuegt der Menge eine Menge Coins hinzu, wobei die Anzahl dieser Coins im Textfeld neben diesem Knoipf vom Nutzer festgelegt werden kann.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Hinweis: &lt;/p&gt;&lt;p&gt;In den Einstellungen (oben rechts) kann das Intervall für die randomisierten Werte gewählt werden.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Random füllen</string>
@@ -139,7 +139,7 @@ padding:5px;
            <item row="13" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzVerkleinernInfo">
              <property name="text">
-              <string>Funktionen, die den Schatz verkleinern:</string>
+              <string>Funktionen, die die Menge verkleinern:</string>
              </property>
             </widget>
            </item>
@@ -156,7 +156,7 @@ padding:5px;
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau ein mal den  Wert aus dem Schatz, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau ein mal den Wert aus der Menge, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Wert entfernen</string>
@@ -172,10 +172,10 @@ padding:5px;
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt alle Werte aus dem Schatz und setzt alles zurück.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt alle Werte aus der Menge und setzt alles zurück.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Schatz löschen</string>
+              <string>Menge löschen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -211,7 +211,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;importiert einen Schatz aus einer Textdatei. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;importiert einee Menge aus einer Textdatei. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Importieren</string>
@@ -233,7 +233,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exportiert den gesamten aktuellen Schatz in eine Textdatei an einen gewaehlten Ort. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exportiert aktuelle Menge in eine Textdatei an einen gewaehlten Ort. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Exportieren</string>
@@ -286,10 +286,10 @@ padding:5px;
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sortieren Sie den Schatz. Wählen Sie zuvor, nach welchem Kriterium Sortiert werden soll.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sortieren Sie die Menge. Wählen Sie zuvor, nach welchem Kriterium Sortiert werden soll.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Schatzt sortieren</string>
+              <string>Menge sortieren</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>

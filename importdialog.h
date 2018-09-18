@@ -31,6 +31,7 @@ private slots:
 
 private:
     Ui::ImportDialog *ui;
+    QString pfad;
 
 };
 
