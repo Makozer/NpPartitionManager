@@ -1,3 +1,7 @@
+/* Memento moriendum esse
+ * Klasse, die als Stopuhr bzw Timer eingesetzt wird.
+ * https://www.youtube.com/watch?v=U7-60tyLQhA
+ */
 #ifndef MEMENTO_H
 #define MEMENTO_H
 #include <time.h>

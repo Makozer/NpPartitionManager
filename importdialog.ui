@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>184</height>
+    <width>511</width>
+    <height>202</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,22 +29,6 @@ padding:5px;
 </string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QPushButton" name="btn_importAdresseWaehlen">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Öffnet den Explorer und ermöglicht eine manuelle Suche der gewünschten .txt Datei.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="text">
-      <string>Importpfad auswählen</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="lbl_importAdresse">
      <property name="text">
@@ -65,7 +49,7 @@ padding:5px;
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="1">
     <widget class="QPushButton" name="btn_import">
      <property name="enabled">
       <bool>false</bool>
@@ -81,12 +65,31 @@ padding:5px;
      </property>
     </widget>
    </item>
+   <item row="4" column="0">
+    <widget class="QPushButton" name="btn_importAdresseWaehlen">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Öffnet den Explorer und ermöglicht eine manuelle Suche der gewünschten .txt Datei.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Importpfad auswählen</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lbl_info">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Import&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Beispiel einer gültigen Datei zum importieren von Werten:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Datei: &amp;quot;beispiel.txt&amp;quot;&lt;br/&gt;Inhalt: &amp;quot;2,3,5,7,11,13,17,19,23,29,31,37,41&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>btn_importAdresseWaehlen</tabstop>
-  <tabstop>btn_import</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

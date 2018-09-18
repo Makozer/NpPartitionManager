@@ -25,6 +25,7 @@ signals:
 public:
     MorphLarva();
     MorphLarva(const MorphLarva &copyLarva);
+    ~MorphLarva();
 
     // Das wichtigste für die GUI ;)
     bool runCalc(); // startet den Suchvorgang

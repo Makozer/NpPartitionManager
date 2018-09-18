@@ -25,6 +25,10 @@ MorphLarva::MorphLarva(const MorphLarva &copyLarva) {
     this->strategy = copyLarva.strategy;
 }
 
+MorphLarva::~MorphLarva() {
+    cleanup();
+}
+
 void mt_search(MorphLarva &worker) {
     // Diese Funktion muss so sein, damit das Multithreading starten kann.
     worker.search();
