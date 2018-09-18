@@ -71,7 +71,6 @@ MainWindow::~MainWindow() {
 //slot bekommt signal emitted, sobald ein ergebnis fuer die partition gefunden wurde !
 void MainWindow::displaySolution() {
 
-    QString zeit = QString::number(overseer->getTimer()->getSeconds());
     //zunaechst wird der button zurueckgesetzt, welcher die berechnung startet
     //und seinen text aendert, sobald er ein mal geklickt wurde.
     //Dadurch wird er wieder zum berechnen klickbar gemacht:
@@ -79,16 +78,11 @@ void MainWindow::displaySolution() {
     ui->btn_output_solution->setText("Berechnen");
 
 
-
-    //die uebergebene durchlaufzeit speichern, damit sie nich tnur hier verwendet werden kann,
-    //sondern im export.
-    ui->textEdit_partitionBerechnen->setZeit(zeit);
-
     //das Ergebnis darstellen:
     QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
     ergebnisString += "Dauer: ";
-    //###################################################################################################################################einheit?
-    ergebnisString += ui->textEdit_partitionBerechnen->getZeit();
+    ergebnisString += QString::number(overseer->getTimer()->getSeconds());
+    ergebnisString += " Sekunden";
     ergebnisString += "\nSumme des Ergebnisses: ";
     ergebnisString += QString::number(overseer->getSolutionStash()->sum());
     ergebnisString += "    Anzahl Werte: ";
@@ -220,9 +214,9 @@ void MainWindow::on_btn_fill_clicked() {
         ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
 
         //neuen Status in einem QString speichern, QString auf Gui anzeigen:
-        QString neuerStatus = "Status:    Dem Schatz wurden ";
+        QString neuerStatus = "Status:    Der Menge wurden ";
         neuerStatus += ui->lineEdit_randomFuellenAnzahlEingeben->text();
-        neuerStatus += " zufaellige Werten hinzugefuegt.";
+        neuerStatus += " zufaellige Werte hinzugefuegt.";
         ui->textEdit_partitionBerechnen->setAktuellerStatus(neuerStatus);
         ui->lineEdit_randomFuellenAnzahlEingeben->clear();
 
@@ -240,6 +234,7 @@ void MainWindow::on_btn_fill_clicked() {
         //falls der schatz min. einen coin enthaelt:
         if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
             ui->btn_clearStash->setEnabled(true);
+            ui->lineEdit_coinEntfernen->setEnabled(true);
             ui->btn_coinEntfernen->setEnabled(true);
         }
 
@@ -283,13 +278,13 @@ void MainWindow::on_btn_sort_clicked() {
             rootStash->quickSortAsc();
             QString neuerInhalt = rootStash->getGuiQString();
             ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aufsteigender Weise sortiert.");
+            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die Menge wurde in aufsteigender Weise sortiert.");
         }
         else if (sortKriterium == "Absteigend") {
             rootStash->quickSortDesc();
             QString neuerInhalt = rootStash->getGuiQString();
             ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der Schatz wurde in aubsteigender Weise sortiert.");
+            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die Menge wurde in aubsteigender Weise sortiert.");
         }
     }
     else {
@@ -313,12 +308,16 @@ void MainWindow::on_btn_output_solution_clicked() {
 
     //falls der btn waehrend der berechnung, also wiederholt geklickt wird:
     if (ui->btn_output_solution->getWurdeGeklickt()) {
-        //suche komplett abbrechen ##########################################################################################################################################
-        //overseer->cleanup(); // private ??
+
+
 
         overseer->runCalc();
         ui->btn_output_solution->setText("Berechnen");
         ui->btn_output_solution->setWurdeGeklickt(false);
+
+
+        //den status aktualisieren:
+        ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die berechnung wurde abgebrochen");
     }
 
     //falls der btn das erste mal geklickt wird, so wird die partition berechnet
@@ -396,6 +395,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
         //falls der schatz min. einen coin enthaelt:
         if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
             ui->btn_clearStash->setEnabled(true);
+            ui->lineEdit_coinEntfernen->setEnabled(true);
             ui->btn_coinEntfernen->setEnabled(true);
         }
 
@@ -437,7 +437,7 @@ void MainWindow::on_btn_clearStash_clicked()
 
     //Neuen Status und neuen StashInhalt auf GUI anzeigen,sowie Ergebnis entfernen bzw das alte Ergebnis verbergen:
     ui->textEdit_partitionBerechnen->setRootstashInhalt("leer");
-    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Der alte Schatz wurde geloescht.");
+    ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die alte Menge wurde gelöscht.");
     ui->textEdit_partitionBerechnen->setRootstashSum(QString::number(rootStash->sum()),QString::number(rootStash->size()));
     ui->textEdit_partitionBerechnen->setErgebnisInformationen("");
 
@@ -446,6 +446,7 @@ void MainWindow::on_btn_clearStash_clicked()
     ui->comboBox_sortKriteriumWaehlenErgebnis->setEnabled(false);
     ui->btn_sortErgebnis->setEnabled(false);
     ui->btn_export->setEnabled(false);
+    ui->lineEdit_coinEntfernen->setEnabled(false);
     ui->btn_clearStash->setEnabled(false);
     ui->btn_coinEntfernen->setEnabled(false);
     ui->comboBox_sortKritWaehlen->setEnabled(false);
@@ -523,6 +524,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
     //falls der schatz min. einen coin enthaelt:
     if (!ui->btn_clearStash->isEnabled() && rootStash->size() > 0) {
         ui->btn_clearStash->setEnabled(true);
+        ui->lineEdit_coinEntfernen->setEnabled(true);
         ui->btn_coinEntfernen->setEnabled(true);
         ui->btn_export->setEnabled(true);
     }
@@ -582,8 +584,8 @@ void MainWindow::on_btn_export_clicked()
     if (overseer->hasSuccess()) {
         QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
         ergebnisString += "Dauer: ";
-        //###################################################################################################################################einheit?
-        ergebnisString += ui->textEdit_partitionBerechnen->getZeit();
+        ergebnisString += overseer->getTimer()->getSeconds();
+        ergebnisString += " Sekunden";
         ergebnisString += "\nSumme des Ergebnisses: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->sum());
         ergebnisString += "    Anzahl Werte: ";
@@ -676,7 +678,6 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //Nutzerwunschwert speichern:
     int zuEntfernenderWert = ui->lineEdit_coinEntfernen->text().toInt();
 
-
     //suchalgorithmus ###################################################################################################################################################################################
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz:
     bool found = false;
@@ -692,7 +693,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
 
 
     //Wenn kein entsprechender Coin existiert wird eine ensprechende Nachricht in einer Messagebox ausgegeben:
-    QString fehlermeldung = "In diesem Schatz existiert kein Wert der Groesse ";
+    QString fehlermeldung = "In dieser Menge existiert kein Wert der Groesse ";
     fehlermeldung += ui->lineEdit_coinEntfernen->text();
     if (!found) {
         QMessageBox::critical(this, "Wert konnte nicht entfernt werden.", fehlermeldung);
@@ -704,7 +705,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
 
     QString neuerStatus = "Status:    Der Wert ";
     neuerStatus += ui->lineEdit_coinEntfernen->text();
-    neuerStatus += " wurde aus dem Schatz entfernt.";
+    neuerStatus += " wurde aus der Menge entfernt.";
 
     //Damit nicht einfach nichts als inhalt fuer den rootstash steht, steht dort, falls der stash leer ist "leer"
     if (rootStash->size() > 0) {
@@ -732,6 +733,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //falls der schatz weniger als einen coin enthaelt:
     if (ui->btn_clearStash->isEnabled() && rootStash->size() == 0) {
         ui->btn_clearStash->setEnabled(false);
+        ui->lineEdit_coinEntfernen->setEnabled(false);
         ui->btn_coinEntfernen->setEnabled(false);
         ui->btn_export->setEnabled(false);
     }

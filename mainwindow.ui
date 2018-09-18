@@ -145,6 +145,9 @@ padding:5px;
            </item>
            <item row="14" column="0">
             <widget class="QLineEdit" name="lineEdit_coinEntfernen">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="toolTip">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Geben Sie hier den zu entfernenden Wert ein.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -328,7 +331,7 @@ padding:5px;
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;berechnet die Partition.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="styleSheet">
               <string notr="true">font:bold;</string>

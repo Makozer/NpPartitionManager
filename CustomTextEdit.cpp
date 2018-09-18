@@ -11,12 +11,12 @@ void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashIn
 
     gesamterText += aktuellerStatus;
     gesamterText += "\n\n\n";
-    gesamterText += "Inhalt des Schatzes:\n";
-    gesamterText += "Summe aller Coinwerte: ";
+    gesamterText += "Inhalt der Menge:\n";
+    gesamterText += "Summe aller Werte: ";
     gesamterText += rootstashSum;
-    gesamterText += "    Anzahl Coins: ";
+    gesamterText += "    Anzahl Werte: ";
     gesamterText += anzahlCoins;
-    gesamterText += "\nAlle Coins:\n";
+    gesamterText += "\nAlle Werte:\n";
     gesamterText += rootstashInhalt;
     gesamterText += "\n\n\n\n";
     gesamterText += ergebnisInformationen;
@@ -53,21 +53,3 @@ void CustomTextEdit::setErgebnisInformationen(QString neueErgebnisInfos) {
     ergebnisInformationen = neueErgebnisInfos;
     baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins);
 }
-
-
-//der zeit setter, damit auch fuer den export die zeit konserviert wird, sodass sie beim
-//export wieder ausgegeben werden kann:
-void CustomTextEdit::setZeit(QString zeit) {
-    this->zeit = zeit;
-}
-
-
-
-
-//getter
-QString CustomTextEdit::getZeit() {
-    return zeit;
-}
-
-
-

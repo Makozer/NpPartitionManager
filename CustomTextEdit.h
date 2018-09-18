@@ -17,7 +17,6 @@ private:
     QString rootstashInhalt;
     QString ergebnisInformationen;
     QString anzahlCoins;
-    QString zeit;
 public:
     CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status:    Es wurde noch nichts getan."), rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0"), anzahlCoins("0")  { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins); }
     void setAktuellerStatus(QString neuerStatus);
@@ -25,8 +24,6 @@ public:
     void setRootstashInhalt(QString neuerInhalt);
     void setErgebnisInformationen(QString neueErgebnisInfos);
     void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum, QString neueAnzahlCoins);
-    void setZeit(QString zeit);
-    QString getZeit();
 };
 
 #endif // CUSTOMTEXTEDIT_H
