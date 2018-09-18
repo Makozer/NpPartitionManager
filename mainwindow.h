@@ -28,7 +28,7 @@ public slots:
     void importSlot(std::string importierterStashString);
     void importHatGeklapptSlot();
     void noSolutionSlot();
-    void displaySolution(QString zeit);
+    void displaySolution();
     void catchMessage(QString message);
 
 private slots:

@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     //grundlegende Signal / Slot Verbindung
-    QObject::connect(overseer, SIGNAL(foundSolution(QString)), this, SLOT(displaySolution(QString)));
+    QObject::connect(overseer, SIGNAL(foundSolution()), this, SLOT(displaySolution()));
     QObject::connect(overseer, SIGNAL(noSolution()), this, SLOT(noSolutionSlot()));
     QObject::connect(overseer, SIGNAL(message(QString)), this, SLOT(catchMessage(QString)));
 
@@ -67,9 +67,9 @@ MainWindow::~MainWindow() {
 
 
 //slot bekommt signal emitted, sobald ein ergebnis fuer die partition gefunden wurde !
-void MainWindow::displaySolution(QString zeit) {
+void MainWindow::displaySolution() {
 
-
+    QString zeit = QString::number(overseer->getTimer()->getSeconds());
     //zunaechst wird der button zurueckgesetzt, welcher die berechnung startet
     //und seinen text aendert, sobald er ein mal geklickt wurde.
     //Dadurch wird er wieder zum berechnen klickbar gemacht:

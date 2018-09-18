@@ -19,7 +19,7 @@
 class MorphLarva : public QThread {
     Q_OBJECT
 signals:
-    void foundSolution(QString zeit);
+    void foundSolution();
     void noSolution();
     void message(QString message);
 public:
@@ -29,7 +29,8 @@ public:
     // Das wichtigste für die GUI ;)
     bool runCalc(); // startet den Suchvorgang
     void setRootStash(VectorStash* stash);
-    VectorStash* getSolutionStash();    
+    VectorStash *getSolutionStash();
+    Memento *getTimer();
 
     // Unwichtig für GUI, trotzdem zwingend public sichtbar
     void setSolutionStash(VectorStash* stash);
