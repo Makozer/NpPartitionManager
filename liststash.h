@@ -1,3 +1,7 @@
+/* Beschreibung:
+ * Die Klasse ListStash ist eine simple Liste die Coins haben kann und den gesamten Wert speichert, der in ihr ist.
+ * Zuständigkeit: Martin
+ */
 #ifndef LISTSTASH_H
 #define LISTSTASH_H
 #include <QDebug>

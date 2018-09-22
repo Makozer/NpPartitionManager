@@ -4,7 +4,6 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
-    w.show();
-
+    w.show();  // zeig dich!!! :D
     return a.exec();
 }

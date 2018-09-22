@@ -1,3 +1,10 @@
+/* Beschreibung:
+ * Veraltete, inzwischen nicht mehr genutzte Klasse.
+ * Sie sollte ursprünglich sowas wie eine "Entwicklerkonsole" bieten in der man den Fortschritt der Arbeiter verfolgen kann.
+ * Aufgrund Zeitmangels und GROßEN Performance Problemen aber wieder verworfen.
+ * Zuständigkeit: Martin
+ */
+
 #ifndef NSA_H
 #define NSA_H
 #include <QMutex>

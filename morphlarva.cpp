@@ -327,6 +327,7 @@ void MorphLarva::searchOrderSort() {
 }
 
 void MorphLarva::searchDanceJinJang() {
+    // Schneller performanter Suchalgorithmus der zwei gleichgroße Mengen bildet und solange Coins hin und her schmeißt, bis die Lösung da ist
     ListStash* jin = new ListStash(rootStash->exportVector());
     ListStash* jang = new ListStash();
     quint16 i = 0;
@@ -345,7 +346,7 @@ void MorphLarva::searchDanceJinJang() {
 }
 
 void MorphLarva::searchDanceS() {
-
+    // To Do
 }
 
 void MorphLarva::searchFaculty() {
@@ -407,6 +408,7 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
 
 void MorphLarva::searchPseudoPoly() {
     // Quelle: https://en.wikipedia.org/wiki/Partition_problem#Methods
+    // To Do!!!
     /*
      * INPUT:  A list of integers S
        OUTPUT: True if S can be partitioned into two subsets that have equal sum

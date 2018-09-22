@@ -1,3 +1,9 @@
+/* Beschreibung:
+ * Veraltete, inzwischen nicht mehr genutzte Klasse.
+ * Sie sollte ursprünglich ein Bericht in der NSA Klasse sein.
+ * Zuständigkeit: Martin
+ */
+
 #ifndef REPORT_H
 #define REPORT_H
 #include <QString>

@@ -1,3 +1,10 @@
+/* Beschreibung:
+ * Die "Basisklasse" in der Werte ( als Coins ) abgespeichert werden, sie basiert auf einem QVector.
+ * Sie ist sehr umfangreich und bietet allerlei Funktionen um die in ihr enthaltenen Werte zu managen.
+ *
+ * Zuständigkeit: Martin
+ */
+
 #ifndef VECTORSTASH_H
 #define VECTORSTASH_H
 // Vererbung?
@@ -12,16 +19,16 @@ class VectorStash {
     typedef QVector<Coin*> CoinList;
 public:
     VectorStash();
-    VectorStash(VectorStash &copyStash); // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
-    VectorStash(QVector<Coin*> *copyVector);
-    ~VectorStash(); // Destruktor
+    VectorStash(VectorStash &copyStash);         // Copy Konstruktor, ohne const weil C++ rumheult wegen member methoden
+    VectorStash(QVector<Coin*> *copyVector);     // Konstruktor mit dem von einem reinen Vektor zu einem VectorStash konvertiert wird
+    ~VectorStash();                              // Destruktor
 
     // Generelle Schatzfunktionen
-    quint16 size();
-    quint32 sum();
-    QString display();
-    void clear();
-    QVector<Coin*> *exportVector();
+    quint16 size();                              // Gibt die Anzahl an Werten im VectorStash zurück
+    quint32 sum();                               // Gibt die Summe der Anzahl der Werte im VectorStash zurück
+    QString display();                           // Gibt einen QString mit allen Werten zurück
+    void clear();                                // Löscht den kompletten Inhalt
+    QVector<Coin*> *exportVector();              // Export Funktion zur Rückgabe als deep copy QVector
 
     // Hinzufügen von Werten
     void addCoin(Coin* pointer);
@@ -49,21 +56,23 @@ public:
     bool removeCoinByPointer(Coin* pointer);
 
     // Sortierung
-    void quickSortAsc();
-    void quickSortDesc();
-    bool isSortedAsc();
-    bool isSortedDesc();
+    void quickSortAsc();                         // Sortiert den Schatz aufsteigend
+    void quickSortDesc();                        // Sortiert den Schatz absteigend
+    bool isSortedAsc();                          // Kontrolle ob aufsteigend sortiert ist
+    bool isSortedDesc();                         // Kontrolle ob absteigend sortiert ist
 private:
     // Funktionen
-    QVector<Coin*> deepCopy();
-    Coin* searchCoinByValue(CoinList coins, quint16 left, quint16 right, quint16 lookup);
+    QVector<Coin*> deepCopy();                   // Gibt eine Deep Copy als QVector zurück
+
+    // Suche nach einem Coin mit spezifiziertem Wert, coins muss vorher absteigend sortiert sein
+    Coin* searchCoinByValue(quint16 left, quint16 right, quint16 lookup);
 
     // Objekte
-    CoinList coins;
+    CoinList coins;                              // Vector der die Coins speichert
     RNGesus* rng;
 
     // Variablen
-    quint32 total; // Die Summe des gesamten Schatzes
+    quint32 total;                               // Die Summe des gesamten Schatzes
 };
 
 #endif // VECTORSTASH_H

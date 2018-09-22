@@ -113,10 +113,11 @@ Coin *VectorStash::getCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::getCoinByValue(quint16 value) {
-    return searchCoinByValue(coins, 0, coins.size() - 1, value);
+    return searchCoinByValue(0, coins.size() - 1, value);
 }
 
 QString VectorStash::getQString() {
+    // Zuständigkeit: Milan
 
     QString inhalt;
     for(int i = 0; i < this->size(); i++) {
@@ -137,6 +138,7 @@ QString VectorStash::getQString() {
 }
 
 QString VectorStash::getGuiQString() {
+    // Zuständigkeit: Milan
 
     //stashInhalt in einem QString speichern:
     QString inhalt;
@@ -169,7 +171,7 @@ QString VectorStash::getGuiQString() {
 
 
 Coin *VectorStash::takeCoinByValue(quint16 value) {
-    Coin* me = searchCoinByValue(coins, 0, coins.size() - 1, value);
+    Coin* me = searchCoinByValue(0, coins.size() - 1, value);
     if (me != nullptr) {
         this->removeCoinByPointer(me);
     }
@@ -257,17 +259,17 @@ bool VectorStash::isSortedDesc() {
     return true;
 }
 
-Coin *VectorStash::searchCoinByValue(VectorStash::CoinList coins, quint16 left, quint16 right, quint16 lookup) {
+Coin *VectorStash::searchCoinByValue(quint16 left, quint16 right, quint16 lookup) {
     // ACHTUNG! Das Array muss vorher Descending Sortiert sein!
     int pos = (left + right) / 2;
     int pivot = coins[pos]->getValue();
     if (pivot == lookup) {
         Coin* me = coins.at(pos);
-        me->setPos(pos);
+        me->setPos(pos); // Gibt dem Coin als Wert an welcher Stelle er "sitzt" :)
         return me;
     }
     if (left == right) { return nullptr; }
-    if (pivot < lookup) { return searchCoinByValue(coins, pos + 1, right, lookup); }
-    if (pivot > lookup) { return searchCoinByValue(coins, left, pos, lookup); }
+    if (pivot < lookup) { return searchCoinByValue(pos + 1, right, lookup); }
+    if (pivot > lookup) { return searchCoinByValue(left, pos, lookup); }
     return nullptr;
 }

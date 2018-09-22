@@ -1,4 +1,8 @@
-// Praise RNGesus
+/* Beschreibung:
+ * Praise RNGesus!
+ * Diese Klasse liefert einen Zufallszahlengenerator
+ * Zuständigkeit: Martin
+ */
 #ifndef RNGESUS_H
 #define RNGESUS_H
 #include <random>
