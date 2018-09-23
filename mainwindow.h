@@ -50,9 +50,9 @@ private slots:
 
     void on_btn_sortErgebnis_clicked();
 
-    void on_horizontalSlider_randomRangeMax_valueChanged(int value);
+    void on_horizontalSlider_randomRangeMax_valueChanged(quint16 value);
 
-    void on_horizontalSlider_randomRangeMin_valueChanged(int value);
+    void on_horizontalSlider_randomRangeMin_valueChanged(quint16 value);
 
 private:
     Ui::MainWindow *ui;
@@ -62,8 +62,8 @@ private:
 
     MorphLarva* overseer;
     VectorStash* rootStash;
-    int randomRangeMin;
-    int randomRangeMax;
+    quint16 randomRangeMin;
+    quint16 randomRangeMax;
     VectorStash* zweiterSolutionstash;
 
 };

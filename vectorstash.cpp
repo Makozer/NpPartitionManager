@@ -27,7 +27,7 @@ VectorStash::~VectorStash() {
 }
 
 quint16 VectorStash::size() {
-    return coins.size();
+    return static_cast<quint16>(coins.size());
 }
 
 quint32 VectorStash::sum() {
@@ -36,7 +36,7 @@ quint32 VectorStash::sum() {
 
 QString VectorStash::display() {
     QString output = "";
-    quint16 max = coins.size();
+    quint16 max = static_cast<quint16>(coins.size());
     if (max > 0) {
         for(quint16 i = 0; i < max; i++) {
             output += QString::number(coins.at(i)->getValue()) + "\n";
@@ -86,19 +86,19 @@ void VectorStash::addCoin(quint16 value) {
 
 void VectorStash::addRngCoin(quint16 min, quint16 max) {
     if (min > 0 && max >= min) {
-        this->addCoin(rng->getRng(min, max));
+        this->addCoin(static_cast<quint16>(rng->getRng(static_cast<qint16>(min), static_cast<qint16>(max))));
     }
 }
 
 void VectorStash::fillRandom(quint16 size) {
     for (quint16 i = 0; i < size; i++) {
-        this->addCoin(rng->getRng(1, size));
+        this->addCoin(static_cast<quint16>(rng->getRng(1, static_cast<qint16>(size))));
     }
 }
 
 void VectorStash::fillRandom(quint16 size, quint16 min, quint16 max) {
     for (quint16 i = 0; i < size; i++) {
-        this->addCoin(rng->getRng(min, max));
+        this->addCoin(static_cast<quint16>(rng->getRng(static_cast<qint16>(min), static_cast<qint16>(max))));
     }
 }
 
@@ -113,14 +113,14 @@ Coin *VectorStash::getCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::getCoinByValue(quint16 value) {
-    return searchCoinByValue(0, coins.size() - 1, value);
+    return searchCoinByValue(0, static_cast<quint16>(coins.size() - 1), value);
 }
 
 QString VectorStash::getQString() {
     // Zuständigkeit: Milan
 
     QString inhalt;
-    for(int i = 0; i < this->size(); i++) {
+    for(quint16 i = 0; i < this->size(); i++) {
 
 
         //um das vorangehende Komma vor dem ersten Eintrag zu vermeiden wird diese Fallunterscheidung eingebaut:
@@ -142,7 +142,7 @@ QString VectorStash::getGuiQString() {
 
     //stashInhalt in einem QString speichern:
     QString inhalt;
-    for(int i = 0; i < this->size(); i++) {
+    for(quint16 i = 0; i < this->size(); i++) {
 
 
         //um das vorangehende Komma vor dem ersten Eintrag zu vermeiden wird diese Fallunterscheidung eingebaut:
@@ -171,7 +171,7 @@ QString VectorStash::getGuiQString() {
 
 
 Coin *VectorStash::takeCoinByValue(quint16 value) {
-    Coin* me = searchCoinByValue(0, coins.size() - 1, value);
+    Coin* me = searchCoinByValue(0, static_cast<quint16>(coins.size() - 1), value);
     if (me != nullptr) {
         this->removeCoinByPointer(me);
     }
@@ -186,7 +186,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
-    quint16 rngCoin = rng->getRng(0, (coins.size() - 1));
+    quint16 rngCoin = static_cast<quint16>(rng->getRng(0, static_cast<qint16>(coins.size() - 1)));
     Coin* me = coins[rngCoin];
     me->setPos(rngCoin);
     this->removeCoinByPointer(me);
@@ -202,7 +202,7 @@ bool VectorStash::removeCoinByPos(quint16 pos) {
 
 bool VectorStash::removeCoinByValue(quint16 value) {
     // ToDo: evtl performantere Suche.
-    quint16 max = coins.size();
+    quint16 max = static_cast<quint16>(coins.size());
 
     for (quint16 i = 0; i < max; i++) {
         if (coins[i]->getValue() == value) {
@@ -215,6 +215,7 @@ bool VectorStash::removeCoinByValue(quint16 value) {
 }
 
 bool VectorStash::removeCoinByIt(CoinList::iterator it) {
+    if (it) {return false;}
     // Muss das sein? x_x
     return true;
 }
@@ -261,8 +262,8 @@ bool VectorStash::isSortedDesc() {
 
 Coin *VectorStash::searchCoinByValue(quint16 left, quint16 right, quint16 lookup) {
     // ACHTUNG! Das Array muss vorher Descending Sortiert sein!
-    int pos = (left + right) / 2;
-    int pivot = coins[pos]->getValue();
+    quint16 pos = (left + right) / 2;
+    quint16 pivot = coins[pos]->getValue();
     if (pivot == lookup) {
         Coin* me = coins.at(pos);
         me->setPos(pos); // Gibt dem Coin als Wert an welcher Stelle er "sitzt" :)

@@ -200,10 +200,10 @@ void MainWindow::on_btn_fill_clicked() {
 
         //Der Nutzer uebergibt per Eingabe einen QString an das System. Hier wird er
         //in eine integervariable umgewandelt:
-        int randomAnzahl = ui->lineEdit_randomFuellenAnzahlEingeben->text().toInt();
+        quint16 randomAnzahl = static_cast<quint16>(ui->lineEdit_randomFuellenAnzahlEingeben->text().toInt());
 
         //Es werden so viele randomisierte Coins erzeugt, wie der Nutzer es befiehlt:
-        for (int i = 0; i < randomAnzahl; i++) {
+        for (quint16 i = 0; i < randomAnzahl; i++) {
 
             //Es werden nur Coins bis zu einem gewissen Wert erzeugt, weil riesige Groessen nichtmehr greifbar fuer den Nutzer sind.
             rootStash->addRngCoin(randomRangeMin,randomRangeMax);
@@ -364,7 +364,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
     if (ui->lineEdit_coinHinzufuegenWertEingeben->text().size() >  0) {
         int newCoinWert = ui->lineEdit_coinHinzufuegenWertEingeben->text().toInt();
 
-        rootStash->addCoin(newCoinWert);
+        rootStash->addCoin(static_cast<quint16>(newCoinWert));
 
 
         //neuen rootstashInhalt in einem QString speichern und an GUI uebergeben:
@@ -487,25 +487,25 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
 
         //Es wird ueber die gesamte eingelesene Zeile iteriert:
-        for(int i = 0; i < eingeleseneZeile.size(); i++) {
+        for(quint16 i = 0; i < eingeleseneZeile.size(); i++) {
 
             //Fuer den allerletzten Coin:
             if(i == (eingeleseneZeile.size() - 1)) {
                 newCoinValue = qZeile.mid(letztesKommaMarkierer + 1).toInt();
-                rootStash->addCoin(newCoinValue);
+                rootStash->addCoin(static_cast<quint16>(newCoinValue));
             }
 
             //Fuer den allerersten Coin:
             else if (letztesKommaMarkierer == 0 && eingeleseneZeile[i] == ',') {
                 newCoinValue = qZeile.left(i).toInt();
-                rootStash->addCoin(newCoinValue);
+                rootStash->addCoin(static_cast<quint16>(newCoinValue));
                 letztesKommaMarkierer = i;
             }
 
             //Fuer alle Coins dazwischen:
             else if (eingeleseneZeile[i] == ',') {
                 newCoinValue = qZeile.mid((letztesKommaMarkierer + 1), i - (letztesKommaMarkierer + 1)).toInt();
-                rootStash->addCoin(newCoinValue);
+                rootStash->addCoin(static_cast<quint16>(newCoinValue));
                 letztesKommaMarkierer = i;
             }
         }
@@ -584,7 +584,7 @@ void MainWindow::on_btn_export_clicked()
     if (overseer->hasSuccess()) {
         QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
         ergebnisString += "Dauer: ";
-        ergebnisString += overseer->getTimer()->getSeconds();
+        ergebnisString += static_cast<char>(overseer->getTimer()->getSeconds());
         ergebnisString += " Sekunden";
         ergebnisString += "\nSumme des Ergebnisses: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->sum());
@@ -676,12 +676,12 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //eingegebenen Wert gibt, so wird eine Messagebox angezeigt:
 
     //Nutzerwunschwert speichern:
-    int zuEntfernenderWert = ui->lineEdit_coinEntfernen->text().toInt();
+    quint16 zuEntfernenderWert = static_cast<quint16>(ui->lineEdit_coinEntfernen->text().toInt());
 
     //suchalgorithmus ###################################################################################################################################################################################
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz:
     bool found = false;
-    for (int i = 0; i < rootStash->size(); i++) {
+    for (quint16 i = 0; i < rootStash->size(); i++) {
         if (rootStash->getCoinByPos(i)->getValue() == zuEntfernenderWert) {
             rootStash->removeCoinByValue(zuEntfernenderWert);
             found = true;
@@ -821,7 +821,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
 
 
 
-void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(int value)
+void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(quint16 value)
 {
     randomRangeMax = value;
     changedRandomRange();
@@ -831,7 +831,7 @@ void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(int value)
 
 
 
-void MainWindow::on_horizontalSlider_randomRangeMin_valueChanged(int value)
+void MainWindow::on_horizontalSlider_randomRangeMin_valueChanged(quint16 value)
 {
     randomRangeMin = value;
     changedRandomRange();

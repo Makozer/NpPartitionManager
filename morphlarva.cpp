@@ -124,7 +124,7 @@ Memento *MorphLarva::getTimer() {
 
 bool MorphLarva::stopCalc() {
     success = true; // Fake Erfolg damit die Threads aufhören zu laufen... anders ging es nicht :D
-    quint8 tCount = qfs.size();
+    quint8 tCount = static_cast<quint8>(qfs.size());
     for(quint8 i = 0; i < tCount; i++) {
         qfs[i].waitForFinished();
     }
@@ -271,7 +271,7 @@ void MorphLarva::searchOrderSort() {
     // Initialisierung
     VectorStash* rootCopy = nullptr;
     // calcMax legt fest wie hoch der anfängliche memoryStash befüllt werden soll, damit der fehlende Rest gesucht werden kann.
-    quint16 calcMax = (((rootStash->sum() / 2.00) / 100.00) * 95.00);
+    quint16 calcMax = static_cast<quint16>((((rootStash->sum() / 2.00) / 100.00) * 95.00));
     Coin* me = nullptr;
     Coin* coinSolution = nullptr;
     quint16 iCount = 0;
@@ -301,7 +301,7 @@ void MorphLarva::searchOrderSort() {
         while (overseer->hasSuccess() != true) {
 
             // Sucht ob es eine exakt fehlende Münze gibt die man nur hinzufügen müsste um die Lösung zu finden.
-            coinSolution = rootCopy->takeCoinByValue((goal - memoryStash->sum()));
+            coinSolution = rootCopy->takeCoinByValue(static_cast<quint16>(goal - memoryStash->sum()));
             if (coinSolution != nullptr) {
                 memoryStash->addCoin(coinSolution);
             } else {
@@ -312,8 +312,8 @@ void MorphLarva::searchOrderSort() {
             // Fallunterscheidung ob memory zu voll oder goal exakt gefunden
             if (memoryStash->sum() > goal) {
                 memoryStash->clear();
-                calcMax = ((calcMax / 100.00) * 95.00);
-                if (calcMax < ((goal / 100.00) * 60.00)) { calcMax = (((rootCopy->sum() / 2) / 100.00) * 95.00);	}
+                calcMax = static_cast<quint16>((calcMax / 100.00) * 95.00);
+                if (calcMax < ((goal / 100.00) * 60.00)) { calcMax = static_cast<quint16>(((rootCopy->sum() / 2) / 100.00) * 95.00);	}
                 delete rootCopy;
                 break;
             }
