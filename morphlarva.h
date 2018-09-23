@@ -54,12 +54,12 @@ public:
     void setOverseer(MorphLarva* overseer);      // setzt die Klasse als Overseer, die alle anderen überwacht
     MorphLarva* getOverseer();
 
-    void setSuccess(bool success);
-    bool hasSuccess();
+    void setSuccess(bool success);               // Setzen des Erfolges
+    bool hasSuccess();                           // Abfrage ob der Overseer bereits fündig geworden ist
     void setStrategy(quint8 strategy);           // legt die Strategie der suchenden Klasse fest
     quint8 getStrategy();
     void setGoal(quint32 goal);                  // setzt das Ziel
-    quint32 getGoal();
+    quint32 getGoal();                           // Mitteilen welcher Wert als Menge gesucht ist
 
     void search();                               // startet im jeweiligen Sucher den Vorgang, dass nach dem festgelegten Algorithmus gesucht wird
 
@@ -101,8 +101,8 @@ private:
     VectorStash* memoryStash;                    // Der "Arbeitsspeicher" der jeweiligen Arbeiterklasse
     VectorStash* solutionStash;                  // Falls gesetzt: die Lösungsmenge
 
-    RNGesus* rng;
-    Memento* timer;
+    RNGesus* rng;                                // Zufallsgenerierende Klasse
+    Memento* timer;                              // "Stoppuhr" Klasse
 
 
     bool success;                                // bool ob die Lösung gefunden wurde

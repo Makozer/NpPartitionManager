@@ -13,11 +13,11 @@ public:
     Coin(quint16 value);
     Coin(const Coin &copyCoin);
     quint16 getValue();
-    void setPos(quint16 pos);
+    void setPos(quint16 pos);   // Speichert im jeweiligen Coin die Position wo er sich in der jeweiligen Menge befindet
     quint16 getPos();
 private:
-    quint16 pos; // Um manche Vorgänge deutlich leichter zu machen bzw redundantes suchen zu vermeiden ist es ganz gut wenn der Coin wissen KANN wo er ist :)
-    quint16 value; // Der Wert vom einzelnen Coin
+    quint16 pos;                // Um manche Vorgänge deutlich leichter zu machen bzw redundantes suchen zu vermeiden ist es ganz gut wenn der Coin wissen KANN wo er ist :)
+    quint16 value;              // Der Wert vom einzelnen Coin
 };
 
 #endif // COIN_H

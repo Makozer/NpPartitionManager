@@ -4,10 +4,8 @@
  *
  * Zuständigkeit: Martin
  */
-
 #ifndef VECTORSTASH_H
 #define VECTORSTASH_H
-// Vererbung?
 #include <QDebug>
 #include <QVector>
 #include <QList>
@@ -69,7 +67,7 @@ private:
 
     // Objekte
     CoinList coins;                              // Vector der die Coins speichert
-    RNGesus* rng;
+    RNGesus* rng;                                // Zufallsgenerierende Klasse
 
     // Variablen
     quint32 total;                               // Die Summe des gesamten Schatzes

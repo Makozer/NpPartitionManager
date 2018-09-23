@@ -27,10 +27,12 @@ VectorStash::~VectorStash() {
 }
 
 quint16 VectorStash::size() {
+    // Rückgabe der Anzahl der im VectorStash befindlichen Elemente
     return static_cast<quint16>(coins.size());
 }
 
 quint32 VectorStash::sum() {
+    // Rückgabe der Summe aller im VectorStash befindlicher Elemente
     return total;
 }
 
@@ -46,6 +48,7 @@ QString VectorStash::display() {
 }
 
 void VectorStash::clear() {
+    // Resettet den VectorStash
     total = 0;
     if (coins.size() > 0) {
         for (quint16 i = 0; i < coins.size(); i++) {
@@ -56,6 +59,7 @@ void VectorStash::clear() {
 }
 
 QVector<Coin *> *VectorStash::exportVector() {
+    // Kopiert den Inhalt und übergibt ihn als Vector
     QVector<Coin*> *output = new QVector<Coin*>();
     if (coins.size() > 0) {
         for (quint16 i = 0; i < coins.size(); i++) {
@@ -66,6 +70,7 @@ QVector<Coin *> *VectorStash::exportVector() {
 }
 
 QVector<Coin*> VectorStash::deepCopy() {
+    // Erstellt eine "tiefe" Kopie als QVector
     QVector<Coin*> output;
     if (coins.size() == 0) { return output; }
     for (quint16 i = 0; i < coins.size(); i++) {
@@ -186,6 +191,7 @@ Coin *VectorStash::takeCoinByPos(quint16 pos) {
 }
 
 Coin *VectorStash::takeCoinByRNG() {
+    // Wählt einen zufälligen Coin aus, legt diesen in den Zwischenspeicher, entfernt ihn aus der Menge und übergibt ihn
     quint16 rngCoin = static_cast<quint16>(rng->getRng(0, static_cast<qint16>(coins.size() - 1)));
     Coin* me = coins[rngCoin];
     me->setPos(rngCoin);
@@ -262,6 +268,7 @@ bool VectorStash::isSortedDesc() {
 
 Coin *VectorStash::searchCoinByValue(quint16 left, quint16 right, quint16 lookup) {
     // ACHTUNG! Das Array muss vorher Descending Sortiert sein!
+    // Suchalgorithmus an QuickSort angelehnt :D
     quint16 pos = (left + right) / 2;
     quint16 pivot = coins[pos]->getValue();
     if (pivot == lookup) {

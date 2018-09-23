@@ -14,8 +14,8 @@ public:
     void stop();
     double getSeconds();
 private:
-    double time;
-    double begin;
+    double time;                                 // Gespeicherte Zeitdauer
+    double begin;                                // Wann die Messung began
 };
 
 #endif // MEMENTO_H
