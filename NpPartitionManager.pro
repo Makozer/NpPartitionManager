@@ -25,8 +25,6 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    nsa.cpp \
-    report.cpp \
     coin.cpp \
     memento.cpp \
     rngesus.cpp \
@@ -41,8 +39,6 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    nsa.h \
-    report.h \
     coin.h \
     memento.h \
     rngesus.h \
