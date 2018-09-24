@@ -49,7 +49,7 @@ padding:5px;
            <item row="7" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzErweiternInfo">
              <property name="text">
-              <string>Funktionen, die die Menge erweitern:</string>
+              <string>Funktionen, die die Menge vergrößern:</string>
              </property>
             </widget>
            </item>
@@ -91,7 +91,7 @@ padding:5px;
              </property>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="10" column="0">
             <widget class="CustomOnlyNumbersLineEdit" name="lineEdit_randomFuellenAnzahlEingeben">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -102,9 +102,15 @@ padding:5px;
              <property name="toolTip">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Bitte die anzahl an Werten eingeben, die dem mit zufällig erweiterten Schatz hinzugefügt werden sollen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="10" column="1">
             <widget class="QPushButton" name="btn_fill">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -123,7 +129,7 @@ padding:5px;
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="11" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -136,14 +142,14 @@ padding:5px;
              </property>
             </spacer>
            </item>
-           <item row="13" column="0" colspan="2">
+           <item row="12" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzVerkleinernInfo">
              <property name="text">
               <string>Funktionen, die die Menge verkleinern:</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="13" column="0">
             <widget class="QLineEdit" name="lineEdit_coinEntfernen">
              <property name="enabled">
               <bool>false</bool>
@@ -153,7 +159,7 @@ padding:5px;
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="13" column="1">
             <widget class="QPushButton" name="btn_coinEntfernen">
              <property name="enabled">
               <bool>false</bool>
@@ -344,22 +350,6 @@ padding:5px;
              </property>
             </widget>
            </item>
-           <item row="29" column="1">
-            <widget class="QPushButton" name="btn_sortErgebnis">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sortiert das Ergebnis entsprechend dem ausgewählten Sortierverfahren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Ergebnis sortieren</string>
-             </property>
-             <property name="autoDefault">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="29" column="0">
             <widget class="QComboBox" name="comboBox_sortKriteriumWaehlenErgebnis">
              <property name="enabled">
@@ -387,6 +377,48 @@ padding:5px;
               </property>
              </item>
             </widget>
+           </item>
+           <item row="29" column="1">
+            <widget class="QPushButton" name="btn_sortErgebnis">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sortiert das Ergebnis entsprechend dem ausgewählten Sortierverfahren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Ergebnis sortieren</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="1">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="9" column="1">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
