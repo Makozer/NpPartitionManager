@@ -23,38 +23,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    coin.cpp \
-    memento.cpp \
-    rngesus.cpp \
-    vectorstash.cpp \
-    morphlarva.cpp \
-    CustomTextEdit.cpp \
-    CustomOnlyNumbersLineEdit.cpp \
-    ExportDialog.cpp \
-    importdialog.cpp \
-    liststash.cpp \
-    custombutton.cpp
+    BackEnd/coin.cpp \
+    BackEnd/liststash.cpp \
+    BackEnd/memento.cpp \
+    BackEnd/morphlarva.cpp \
+    BackEnd/rngesus.cpp \
+    BackEnd/vectorstash.cpp \
+    GUI/custombutton.cpp \
+    GUI/CustomOnlyNumbersLineEdit.cpp \
+    GUI/CustomTextEdit.cpp \
+    GUI/ExportDialog.cpp \
+    GUI/importdialog.cpp \
+    GUI/mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    coin.h \
-    memento.h \
-    rngesus.h \
-    vectorstash.h \
-    morphlarva.h \
-    CustomTextEdit.h \
-    CustomOnlyNumbersLineEdit.h \
-    ExportDialog.h \
-    importdialog.h \
-    liststash.h \
-    custombutton.h
+    BackEnd/coin.h \
+    BackEnd/liststash.h \
+    BackEnd/memento.h \
+    BackEnd/morphlarva.h \
+    BackEnd/rngesus.h \
+    BackEnd/vectorstash.h \
+    GUI/custombutton.h \
+    GUI/CustomOnlyNumbersLineEdit.h \
+    GUI/CustomTextEdit.h \
+    GUI/ExportDialog.h \
+    GUI/importdialog.h \
+    GUI/mainwindow.h
 
 FORMS += \
-        mainwindow.ui \
-    exportdialog.ui \
-    importdialog.ui
+    GUI/exportdialog.ui \
+    GUI/importdialog.ui \
+    GUI/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -62,9 +61,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Notizen \
-    icon.rc \
-    icon.rc \
-    facultyresearch.txt
+    facultyresearch.txt \
+    icon/uniIcon.ico \
+    icon/icon.rc \
+    icon/icon.rc.bin
 
-RC_FILE = icon.rc
+RC_FILE = icon/icon.rc
