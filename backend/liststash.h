@@ -6,8 +6,8 @@
 #define LISTSTASH_H
 #include <QDebug>
 #include <QList>
-#include <coin.h>
-#include <rngesus.h>
+#include "coin.h"
+#include "rngesus.h"
 
 class ListStash {
     typedef QList<Coin*> CoinList;

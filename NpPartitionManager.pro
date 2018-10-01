@@ -34,7 +34,8 @@ SOURCES += \
     GUI/CustomTextEdit.cpp \
     GUI/ExportDialog.cpp \
     GUI/importdialog.cpp \
-    GUI/mainwindow.cpp
+    GUI/mainwindow.cpp \
+    main.cpp
 
 HEADERS += \
     BackEnd/coin.h \

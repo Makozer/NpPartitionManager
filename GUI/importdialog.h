@@ -2,7 +2,7 @@
 #define IMPORTDIALOG_H
 
 #include <QDialog>
-#include "vectorstash.h"
+#include "BackEnd/vectorstash.h"
 #include <string>
 #include <QFileDialog>
 #include <QDir>

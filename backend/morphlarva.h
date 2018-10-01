@@ -15,9 +15,9 @@
 #define MORPHLARVA_H
 #include <QVector>
 #include <QString>
-#include <vectorstash.h>
-#include <liststash.h>
-#include <memento.h>
+#include "vectorstash.h"
+#include "liststash.h"
+#include "memento.h"
 #include <QObject>
 
 // Qt Threading

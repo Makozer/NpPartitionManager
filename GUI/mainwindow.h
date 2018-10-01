@@ -6,8 +6,8 @@
 #include <QString>
 #include <QVector>
 #include <QMessageBox>
-#include "morphlarva.h"
-#include "vectorstash.h"
+#include "BackEnd/morphlarva.h"
+#include "BackEnd/vectorstash.h"
 #include "CustomTextEdit.h"
 #include <string>
 #include <QFileDialog>

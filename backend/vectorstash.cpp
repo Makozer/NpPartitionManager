@@ -220,6 +220,15 @@ bool VectorStash::removeCoinByValue(quint16 value) {
     return false;
 }
 
+bool VectorStash::removeCoinByRNG() {
+    // Löscht einen zufälligen Coin
+    if (coins.size() > 0) {
+        quint16 rngCoin = static_cast<quint16>(rng->getRng(0, static_cast<qint16>(coins.size() - 1)));
+        this->removeCoinByPos(rngCoin);
+        return true;
+    } else {return false;}
+}
+
 bool VectorStash::removeCoinByIt(CoinList::iterator it) {
     if (it) {return false;}
     // Muss das sein? x_x

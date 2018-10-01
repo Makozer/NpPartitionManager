@@ -50,6 +50,7 @@ public:
     // Entfernen von Werten
     bool removeCoinByPos(quint16 pos);
     bool removeCoinByValue(quint16 value);
+    bool removeCoinByRNG();
     bool removeCoinByIt(CoinList::iterator it);
     bool removeCoinByPointer(Coin* pointer);
 

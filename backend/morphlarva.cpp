@@ -300,27 +300,35 @@ void MorphLarva::searchOrderSort() {
         // Läuft solange Erfolg eintritt ODER der Schatz zu voll geworden ist.
         while (overseer->hasSuccess() != true) {
 
-            // Sucht ob es eine exakt fehlende Münze gibt die man nur hinzufügen müsste um die Lösung zu finden.
-            coinSolution = rootCopy->takeCoinByValue(static_cast<quint16>(goal - memoryStash->sum()));
-            if (coinSolution != nullptr) {
-                memoryStash->addCoin(coinSolution);
-            } else {
-                me = rootCopy->takeCoinByRNG();
-                memoryStash->addCoin(me);
-            }
-
             // Fallunterscheidung ob memory zu voll oder goal exakt gefunden
             if (memoryStash->sum() > goal) {
-                memoryStash->clear();
-                calcMax = static_cast<quint16>((calcMax / 100.00) * 95.00);
-                if (calcMax < ((goal / 100.00) * 60.00)) { calcMax = static_cast<quint16>(((rootCopy->sum() / 2) / 100.00) * 95.00);	}
-                delete rootCopy;
-                break;
+                // Kontrolle ob noch Coins in der rootCopy sind und ob der verbleibende Rest größer ist als die gesuchte Hälfte.
+                if (rootCopy->size() > 0 && rootCopy->sum() > (goal - memoryStash->sum())) {
+                    while (memoryStash->sum() > goal) {
+                        memoryStash->removeCoinByRNG();
+                    }
+                } else {
+                    memoryStash->clear();
+                    calcMax = static_cast<quint16>((calcMax / 100.00) * 95.00);
+                    if (calcMax < ((goal / 100.00) * 60.00)) { calcMax = static_cast<quint16>(((rootCopy->sum() / 2) / 100.00) * 95.00);	}
+                    delete rootCopy;
+                    break;
+                }
             }
+
             if (memoryStash->sum() == goal) {
                 qDebug() << "searchOrderSort() war erfolgreich!";
                 overseer->setSolutionStash(this->memoryStash);
                 break;
+            }
+
+            // Sucht ob es eine exakt fehlende Münze gibt die man nur hinzufügen müsste um die Lösung zu finden.
+            coinSolution = rootCopy->takeCoinByValue(static_cast<quint16>(goal - memoryStash->sum()));
+            if (coinSolution != nullptr) {
+                 memoryStash->addCoin(coinSolution);
+            } else {
+                 me = rootCopy->takeCoinByRNG();
+                 memoryStash->addCoin(me);
             }
         } // End while
     } // End while
