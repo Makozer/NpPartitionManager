@@ -373,7 +373,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
         qZeile = QString::fromStdString(eingeleseneZeile);
 
         //Es wird ueber die gesamte eingelesene Zeile iteriert:
-        for(int i = 0; i < eingeleseneZeile.size(); i++) {
+        for(quint16 i = 0; i < eingeleseneZeile.size(); i++) {
 
             //Fuer den allerletzten Coin:
             if(i == (eingeleseneZeile.size() - 1)) {
