@@ -30,9 +30,9 @@ SOURCES += \
     BackEnd/rngesus.cpp \
     BackEnd/vectorstash.cpp \
     GUI/custombutton.cpp \
-    GUI/CustomOnlyNumbersLineEdit.cpp \
-    GUI/CustomTextEdit.cpp \
-    GUI/ExportDialog.cpp \
+    GUI/customonlynumberslineedit.cpp \
+    GUI/customtextedit.cpp \
+    GUI/exportdialog.cpp \
     GUI/importdialog.cpp \
     GUI/mainwindow.cpp \
     main.cpp
@@ -45,9 +45,9 @@ HEADERS += \
     BackEnd/rngesus.h \
     BackEnd/vectorstash.h \
     GUI/custombutton.h \
-    GUI/CustomOnlyNumbersLineEdit.h \
-    GUI/CustomTextEdit.h \
-    GUI/ExportDialog.h \
+    GUI/customonlynumberslineedit.h \
+    GUI/customtextedit.h \
+    GUI/exportdialog.h \
     GUI/importdialog.h \
     GUI/mainwindow.h
 

@@ -8,7 +8,9 @@
 #include <QMessageBox>
 #include "BackEnd/morphlarva.h"
 #include "BackEnd/vectorstash.h"
-#include "GUI/CustomTextEdit.h"
+#include "GUI/customtextedit.h"
+#include "GUI/custombutton.h"
+#include "GUI/customonlynumberslineedit.h"
 #include <string>
 #include <QFileDialog>
 
@@ -99,8 +101,8 @@ private:
     VectorStash* rootStash;
 
     //bilden das Intervall, in dem zufällige Werte per btn_fill erstellt werden.
-    int randomRangeMin;
-    int randomRangeMax;
+    quint16 randomRangeMin;
+    quint16 randomRangeMax;
 };
 
 #endif // MAINWINDOW_H
