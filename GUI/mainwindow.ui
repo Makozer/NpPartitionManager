@@ -49,7 +49,7 @@ padding:5px;
            <item row="7" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzErweiternInfo">
              <property name="text">
-              <string>Funktionen, die die Menge vergrößern:</string>
+              <string>Werte hinzufügen:</string>
              </property>
             </widget>
            </item>
@@ -81,7 +81,7 @@ padding:5px;
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fügt der Menge einen Wert hinzu, welcher neben diesem Button in das Textfeld vom Nutzer eingefügt wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Wert Hinzufügen</string>
+              <string>hinzufügen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -145,7 +145,7 @@ padding:5px;
            <item row="12" column="0" colspan="2">
             <widget class="QLabel" name="lbl_schatzVerkleinernInfo">
              <property name="text">
-              <string>Funktionen, die die Menge verkleinern:</string>
+              <string>Werte entfernen:</string>
              </property>
             </widget>
            </item>
@@ -168,7 +168,7 @@ padding:5px;
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Entfernt genau ein mal den Wert aus der Menge, der im Textfeld neben diesem Knopf eingegeben wurde.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Wert entfernen</string>
+              <string>entfernen</string>
              </property>
              <property name="autoDefault">
               <bool>true</bool>
@@ -321,7 +321,7 @@ padding:5px;
            <item row="26" column="0" colspan="2">
             <widget class="QLabel" name="lbl_partitionBerechnen">
              <property name="text">
-              <string>Funktionen, die das Ergebnis erzeugen:</string>
+              <string>Ergebnis erzeugen:</string>
              </property>
             </widget>
            </item>

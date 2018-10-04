@@ -277,7 +277,7 @@ void MainWindow::on_btn_einzelnenCoinHinzufuegen_clicked()
 
     //nur wenn die eingabe des nutzers mindestenz ein zeichen beinhaltet:
     if (ui->lineEdit_coinHinzufuegenWertEingeben->text().size() >  0) {
-        int newCoinWert = ui->lineEdit_coinHinzufuegenWertEingeben->text().toInt();
+        quint16 newCoinWert = static_cast<quint16>(ui->lineEdit_coinHinzufuegenWertEingeben->text().toInt());
 
         rootStash->addCoin(newCoinWert);
 
@@ -362,7 +362,7 @@ void MainWindow::importSlot(std::string importierterStashString) {
     schatzImportStream.open(importierterStashString);
     std::string eingeleseneZeile;
     QString qZeile;
-    int newCoinValue;
+    quint16 newCoinValue;
     int letztesKommaMarkierer = 0;
 
     rootStash->clear();
@@ -377,20 +377,20 @@ void MainWindow::importSlot(std::string importierterStashString) {
 
             //Fuer den allerletzten Coin:
             if(i == (eingeleseneZeile.size() - 1)) {
-                newCoinValue = qZeile.mid(letztesKommaMarkierer + 1).toInt();
+                newCoinValue = static_cast<quint16>(qZeile.mid(letztesKommaMarkierer + 1).toInt());
                 rootStash->addCoin(newCoinValue);
             }
 
             //Fuer den allerersten Coin:
             else if (letztesKommaMarkierer == 0 && eingeleseneZeile[i] == ',') {
-                newCoinValue = qZeile.left(i).toInt();
+                newCoinValue = static_cast<quint16>(qZeile.left(i).toInt());
                 rootStash->addCoin(newCoinValue);
                 letztesKommaMarkierer = i;
             }
 
             //Fuer alle Coins dazwischen:
             else if (eingeleseneZeile[i] == ',') {
-                newCoinValue = qZeile.mid((letztesKommaMarkierer + 1), i - (letztesKommaMarkierer + 1)).toInt();
+                newCoinValue = static_cast<quint16>(qZeile.mid((letztesKommaMarkierer + 1), i - (letztesKommaMarkierer + 1)).toInt());
                 rootStash->addCoin(newCoinValue);
                 letztesKommaMarkierer = i;
             }
@@ -454,7 +454,7 @@ void MainWindow::on_btn_export_clicked()
     if (overseer->hasSuccess()) {
         QString ergebnisString = "Die Partition liefert folgendes Ergebnis:\n\n\n";
         ergebnisString += "Dauer: ";
-        ergebnisString += overseer->getTimer()->getSeconds();
+        ergebnisString += static_cast<char>(overseer->getTimer()->getSeconds());
         ergebnisString += " Sekunden";
         ergebnisString += "\nSumme des Ergebnisses: ";
         ergebnisString += QString::number(overseer->getSolutionStash()->sum());
@@ -511,7 +511,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //eingegebenen Wert gibt, so wird eine Messagebox angezeigt:
 
     //Nutzerwunschwert speichern:
-    int zuEntfernenderWert = ui->lineEdit_coinEntfernen->text().toInt();
+    quint16 zuEntfernenderWert = static_cast<quint16>(ui->lineEdit_coinEntfernen->text().toInt());
 
     //suchalgorithmus ###################################################################################################################################################################################
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz,
@@ -626,7 +626,7 @@ void MainWindow::on_btn_sortErgebnis_clicked() {
 
 void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(int value)
 {
-    randomRangeMax = value;
+    randomRangeMax = static_cast<quint16>(value);
     changedRandomRange();
 }
 
@@ -634,6 +634,6 @@ void MainWindow::on_horizontalSlider_randomRangeMax_valueChanged(int value)
 
 void MainWindow::on_horizontalSlider_randomRangeMin_valueChanged(int value)
 {
-    randomRangeMin = value;
+    randomRangeMin = static_cast<quint16>(value);
     changedRandomRange();
 }
