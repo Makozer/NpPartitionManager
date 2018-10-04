@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ExportDialog.h"
+#include "exportdialog.h"
 #include "importdialog.h"
 #include <fstream>
 

@@ -1,4 +1,4 @@
-#include "CustomOnlyNumbersLineEdit.h"
+#include "customonlynumberslineedit.h"
 
 CustomOnlyNumbersLineEdit::CustomOnlyNumbersLineEdit(QWidget *parent)
 {

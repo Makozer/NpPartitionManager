@@ -1,4 +1,4 @@
-#include "CustomTextEdit.h"
+#include "customtextedit.h"
 
 
 //Hier werden die drei Komponenten, aus denen der TExt besteht zusammengefuegt. Die Trennung

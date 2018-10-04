@@ -1,4 +1,4 @@
-#include "ExportDialog.h"
+#include "exportdialog.h"
 #include "ui_exportdialog.h"
 #include <fstream>
 #include <string>
