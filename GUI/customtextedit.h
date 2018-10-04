@@ -12,17 +12,27 @@ class CustomTextEdit : public QTextEdit {
     Q_OBJECT
 
 private:
+
+    //all diese Attribute stehen für einzelne Elemente, die auf der Gui
+    //angezeigt werden. Diese Elemente können so jeweils einzeln
+    //verändert werden.
     QString aktuellerStatus;
     QString rootstashSum;
     QString rootstashInhalt;
     QString ergebnisInformationen;
     QString anzahlCoins;
 public:
-    CustomTextEdit(QWidget *parent=0) : aktuellerStatus("Status:    Es wurde noch nichts getan."), rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0"), anzahlCoins("0")  { baueGesamttext(aktuellerStatus, rootstashInhalt, ergebnisInformationen, rootstashSum, anzahlCoins); }
+    CustomTextEdit();
+
+    //Diese Setter ändern jeweils die zugehörigen Attribute und rufen
+    //baueGesamttext(..) auf.
     void setAktuellerStatus(QString neuerStatus);
     void setRootstashSum(QString neueRootstashSumme, QString neueAnzahlCoins);
     void setRootstashInhalt(QString neuerInhalt);
     void setErgebnisInformationen(QString neueErgebnisInfos);
+
+    //stellt jedes der Attribute auf der Gui dar.
+    //Es wird dabei jeweils dasselbe Pattern verwendet.
     void baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum, QString neueAnzahlCoins);
 };
 

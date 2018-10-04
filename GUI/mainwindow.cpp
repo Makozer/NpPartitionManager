@@ -223,7 +223,7 @@ void MainWindow::on_btn_sort_clicked() {
             rootStash->quickSortDesc();
             QString neuerInhalt = rootStash->getGuiQString();
             ui->textEdit_partitionBerechnen->setRootstashInhalt(neuerInhalt);
-            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die Menge wurde in aubsteigender Weise sortiert.");
+            ui->textEdit_partitionBerechnen->setAktuellerStatus("Status:    Die Menge wurde in absteigender Weise sortiert.");
         }
     }
     else {
@@ -513,19 +513,23 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //Nutzerwunschwert speichern:
     quint16 zuEntfernenderWert = static_cast<quint16>(ui->lineEdit_coinEntfernen->text().toInt());
 
-    //suchalgorithmus ###################################################################################################################################################################################
+
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz,
     //sodass er dann entfernt werden kann:
     bool found = false;
-    if (rootStash->getCoinByValue(zuEntfernenderWert)) {
-        rootStash->removeCoinByValue(zuEntfernenderWert);
-        found = true;
+    for (int i = 0; i < rootStash->size(); i++) {
+        if (zuEntfernenderWert == rootStash->getCoinByPos(i)->getValue()) {
+            rootStash->removeCoinByValue(zuEntfernenderWert);
+            found = true;
+            i = rootStash->size();
+        }
     }
 
     //Wenn kein entsprechender Coin existiert wird eine ensprechende Nachricht in einer Messagebox ausgegeben:
-    QString fehlermeldung = "In dieser Menge existiert kein Wert der Groesse ";
-    fehlermeldung += ui->lineEdit_coinEntfernen->text();
+
     if (!found) {
+        QString fehlermeldung = "In dieser Menge existiert kein Wert der Groesse ";
+        fehlermeldung += ui->lineEdit_coinEntfernen->text();
         QMessageBox::critical(this, "Wert konnte nicht entfernt werden.", fehlermeldung);
     }
     else {

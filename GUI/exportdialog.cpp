@@ -37,31 +37,9 @@ void ExportDialog::on_btn_exportBestaetigen_clicked()
     exportString += "\n\n\n\n";
     exportString += exportErgebnis.toStdString();
 
-    //OUTDATED::BEGIN::macht er mittlerweile selbststaendig.
-    //Damit der Nutzer eine moeglichst bequeme Eingabe hat fuegen die naechsten Zeielen die benoetigten
-    //doppelten backslashes ein:
-    //for (int i = 0; i < exportString.size(); i++) {
-
-    //    if ( exportString[i] == '\\') {
-    //        std::string tempString;
-
-    //        for (int j = 0; j < i; j++) {
-    //            tempString[j] = exportString[j];
-    //        }
-    //        tempString += '\\';
-
-    //        for (int j = i; j < exportString.size(); j++) {
-    //            tempString += exportString[j];
-    //        }
-    //        exportString = tempString;
-    //    }
-    //}
-    //OUTDATED::ENDE
-
     exportStream << exportString;
 
     this->close();
-
 }
 
 

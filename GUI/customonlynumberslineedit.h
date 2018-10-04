@@ -13,7 +13,7 @@ class CustomOnlyNumbersLineEdit : public QLineEdit {
     Q_OBJECT
 
 public:
-    CustomOnlyNumbersLineEdit(QWidget *parent = 0);
+    CustomOnlyNumbersLineEdit();
 };
 
 #endif // CUSTOMONLYNUMBERSLINEEDIT_H

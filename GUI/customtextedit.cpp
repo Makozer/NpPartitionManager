@@ -1,12 +1,21 @@
 #include "customtextedit.h"
 
 
+
+//Konstruktor legt erste Standarddarstellungen auf GUI fest:
+CustomTextEdit::CustomTextEdit()  : aktuellerStatus("Status:    Es wurde noch nichts getan."),
+    rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0"),
+    anzahlCoins("0")  { baueGesamttext(aktuellerStatus, rootstashInhalt,
+                                       ergebnisInformationen, rootstashSum, anzahlCoins); }
+
+
 //Hier werden die drei Komponenten, aus denen der TExt besteht zusammengefuegt. Die Trennung
 //existiert deshalb, weil man so sehr dynamisch auf jeden einzelnen Teil des TextEdit-inhaltes
 //zugreifen kann. auf diese Art und weise kann jede Passage, falls benoetigt schnell geaendert werden.
 //aendert sich zum Beispiel der Status, so muss nur jener veraendert werdne, ohne dass
 //der Rest des Textes beruecksichitgt werden muss.
-void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashInhalt, QString ergebnisInformationen, QString rootstashSum, QString anzahlCoins) {
+void CustomTextEdit::baueGesamttext(QString aktuellerStatus, QString rootstashInhalt,
+                                    QString ergebnisInformationen, QString rootstashSum, QString anzahlCoins) {
     QString gesamterText;
 
     gesamterText += aktuellerStatus;

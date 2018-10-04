@@ -24,6 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    //damit der Status auch von extern geändert werden kann:
     void changeStatus(QString neuerStatus);
 
 public slots:
@@ -32,8 +33,10 @@ public slots:
     //eine eingegeben hat, sodass die Menge implementiert werden kann.
     void importSlot(std::string importierterStashString);
 
-    //Wird ausgelöst,wenn der Import geklappt hat und eine datei importiert werden konnte.
-    //kann leider nicht abfangen ob tatsaechlich ein schatz importiert wurde oder nur eine beliebige datei.
+    //Wird ausgelöst,wenn der Import geklappt hat und eine datei importiert
+    //werden konnte.
+    //kann leider nicht abfangen ob tatsaechlich ein schatz importiert wurde
+    //oder nur eine beliebige datei.
     void importHatGeklapptSlot();
 
     //Wird ausgelöst, falls es bei der Berechnung der Partition zu keinem
@@ -46,7 +49,8 @@ public slots:
 
     //Wird ausgelöst, wenn die Partition gebildet werdne konnte.
     //in speziellen Fällen wird dem Nutzer per message eine spezielle
-    //Nachricht übermitelt, die ihm sagt, wiese die Partition nicht berechnet werden konnte.
+    //Nachricht übermitelt, die ihm sagt, wiese die Partition nicht berechnet
+    //werden konnte.
     void catchMessage(QString message);
 
 private slots:
@@ -100,7 +104,7 @@ private:
     //stellt die Menge da, dessen Partition berechnet werden kann:
     VectorStash* rootStash;
 
-    //bilden das Intervall, in dem zufällige Werte per btn_fill erstellt werden.
+    //bilden das Intervall, in dem zufällige Werte per btn_fill erstellt werden
     quint16 randomRangeMin;
     quint16 randomRangeMax;
 };
