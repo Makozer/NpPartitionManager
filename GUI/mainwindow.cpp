@@ -517,7 +517,7 @@ void MainWindow::on_btn_coinEntfernen_clicked()
     //checken,ob ein Coin des Schatzes den entsprechenden Wert besitz,
     //sodass er dann entfernt werden kann:
     bool found = false;
-    for (int i = 0; i < rootStash->size(); i++) {
+    for (quint16 i = 0; i < rootStash->size(); i++) {
         if (zuEntfernenderWert == rootStash->getCoinByPos(i)->getValue()) {
             rootStash->removeCoinByValue(zuEntfernenderWert);
             found = true;

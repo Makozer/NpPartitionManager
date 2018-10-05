@@ -14,7 +14,7 @@ class CustomButton : public QPushButton {
     Q_OBJECT
 
 public:
-    CustomButton();
+    CustomButton(QWidget *parent=0);
 
     //speichert, ob der Knopf bereits gedrückt wurde, oder nicht
     void setWurdeGeklickt(bool geklickt);

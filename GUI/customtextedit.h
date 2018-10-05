@@ -22,7 +22,7 @@ private:
     QString ergebnisInformationen;
     QString anzahlCoins;
 public:
-    CustomTextEdit();
+    CustomTextEdit(QWidget *parent=0);
 
     //Diese Setter ändern jeweils die zugehörigen Attribute und rufen
     //baueGesamttext(..) auf.

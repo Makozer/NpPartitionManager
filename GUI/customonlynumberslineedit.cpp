@@ -1,6 +1,6 @@
 #include "customonlynumberslineedit.h"
 
-CustomOnlyNumbersLineEdit::CustomOnlyNumbersLineEdit()
+CustomOnlyNumbersLineEdit::CustomOnlyNumbersLineEdit(QWidget *parent)
 {
     //Ermoeglicht die Eingabe von Zahlen bis 16959 und verhindert somit
     //abgesehen von unsigned ist 16959 die maximal erreichbare Groesse.

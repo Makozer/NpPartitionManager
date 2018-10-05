@@ -3,7 +3,7 @@
 
 
 //Konstruktor legt erste Standarddarstellungen auf GUI fest:
-CustomTextEdit::CustomTextEdit()  : aktuellerStatus("Status:    Es wurde noch nichts getan."),
+CustomTextEdit::CustomTextEdit(QWidget *parent)  : aktuellerStatus("Status:    Es wurde noch nichts getan."),
     rootstashInhalt("leer"), ergebnisInformationen(""), rootstashSum("0"),
     anzahlCoins("0")  { baueGesamttext(aktuellerStatus, rootstashInhalt,
                                        ergebnisInformationen, rootstashSum, anzahlCoins); }

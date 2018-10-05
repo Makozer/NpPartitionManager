@@ -1,6 +1,6 @@
 #include "custombutton.h"
 
-CustomButton::CustomButton() : wurdeGeklickt(false) { }
+CustomButton::CustomButton(QWidget *parent) : wurdeGeklickt(false) { }
 
 void CustomButton::setWurdeGeklickt(bool geklickt) {
     wurdeGeklickt = geklickt;
