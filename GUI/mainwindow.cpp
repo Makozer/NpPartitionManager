@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 
-//Destruktor
+//Dtor
 MainWindow::~MainWindow() {
     qDebug() << "Programm wird geschlossen ...";
     delete overseer;
