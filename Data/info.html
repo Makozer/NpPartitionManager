@@ -4,8 +4,8 @@
 		<meta name="qrichtext" content="1" />
 			<style type="text/css">
 				li { white-space: pre-wrap; }
-				* { font-family: Verdana, sans-sarif; color: #333}
-				h1 { margin-top: 0px; }
+				* { font-family: :'MS Shell Dlg 2',Verdana, sans-sarif; color: #333}
+				h1 { margin-top: -10px; padding: 0px; }
 				p { font-size: 13px; }
 				.sigma { display:flex;     font-size: 1.5em; padding: 0px; }
 				.sigma * { margin: 0px; padding: 0px;}
@@ -14,12 +14,12 @@
 				.sigma .sig_end { font-size: 0.7em; margin-left: 0px; margin-top: 4px; }
 			</style>
 	</head>
-	<body style="font-size:10pt; font-style:normal;">
-		<h1>Das Partitionsproblem</h1>
+	<body style="margin:0px; padding:5px">
+		<h1>Das Problem Partition</h1>
 		<h2>Definition</h2>
 		<p>gegeben: Eine abzählbare Menge mit Elementen aus dem Bereich der natürlichen Zahlen, z.B.: a<sub>1</sub>, a<sub>2</sub>... a<sub>n</sub></p>
-		<p>gesucht: Eine Teilmenge deren Elemente die exakt gleiche Summe haben wie die übrigen restlichen Elemente der ursprünglichen Menge</p>
-		<h3>Mögliches Problem</h3>
+		<p>gesucht: Eine Teilmenge deren Elemente die exakt gleiche Summe haben wie die übrigen restlichen Elemente der ursprünglichen Menge.</p>
+		<h2>Mögliches Problem</h2>
 		<p>Es kann vorkommen, dass die Menge nicht glatt durch 2 Teilbar ist und damit können nicht zwei gleichwertige Teilmengen gebildet werden, gesucht in diesem Fall ist eine Teilmenge die eine Differenz von +/- 1 zur anderen Teilmenge als Summe hat.</p>		
 		<p>Dieses Problem wird von dem Programm hier gelöst, indem es auf diesen Fall überprüft und gegebenenfalls ein weiteres Element hinzufügt mit dem Wert von 1, die Menge wird hiermit glatt teilbar. Nach der Berechnung wird dieses eine Element wieder entfernt.</p>
 		<h2>Herangehensweise und Schwierigkeiten</h2>
@@ -38,15 +38,10 @@
 		<li>13: 3.08608  Sec </li>
 		<li>15: 65.9339  Sec </li>
 		<li>17: 2055.71 == 34,25 Minuten </li>
+		<li>Errechnete 19 Elemente: 8 Tage und paar Stunden. Der Zeitfaktor steigt um das ~ 347 fache wir wollten den Test nicht über eine Woche laufen lassen :) </li>
 		</ul>
 		<h2>Weiterführende Quellen zu dem Partitionsproblem</h2>
 		<p><a href="https://de.wikipedia.org/wiki/Partitionsproblem">Wikipedia: https://de.wikipedia.org/wiki/Partitionsproblem</a></p>
 		<p><a href="https://arxiv.org/abs/cs/9903011v1">Stephan Mertens - A complete anytime algorithm for balanced number partitioning https://arxiv.org/abs/cs/9903011v1</a></p>
-		<hr>
-		<h2>Hier ist nurnoch kram der gelöscht werden kann bevor das Projekt abgegeben wird</h2>
-		<p>I 	&sub; { 1, 2, ..., n} mit <span class="sigma"><span class="sig">&sum;</span><span class="sig_low"><sub>i &isin; I</sub></span><span class="sig_end">a<sub>i</sub></span></span> = <span class="sigma"><span class="sig">&sum;</span><span class="sig_low"><sub>i &isin; I</sub></span><span class="sig_end">a<sub>i</sub></span></span></p>
-		<h2><i>Vorgeschichte</i></h2>
-		<p>Wir möchten darauf hinweisen, dass wir euch nur die 
-		</p>
 	</body>
 </html>
