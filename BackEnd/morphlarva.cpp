@@ -241,7 +241,7 @@ bool MorphLarva::analysis() {
 void MorphLarva::searchChaosRandom() {
     // Initialisierung
     Coin* me = nullptr;
-    quint16 loopmax = rootStash->size() - 1;
+    quint16 loopmax = rootStash->size() - 1; // Setzt das Schleifenmaximum fest
     VectorStash* rootCopy;
 
     while (overseer->hasSuccess() != true) {
@@ -249,16 +249,18 @@ void MorphLarva::searchChaosRandom() {
         rootCopy = new VectorStash(*rootStash); // Kopiert den rootStash
 
         for (int i = 0; i < loopmax; i++) {
-
+            // Die Schleife fügt solange zufällige Elemente zusammen bis keine Elemente mehr vorhanden sind oder das Ergebnis gefunden wurde
             me = rootCopy->takeCoinByRNG();
             memoryStash->addCoin(me);
 
             if (memoryStash->sum() > goal) {
+                // Falls der memoryStash größer als die gesuchte Menge ist
                 memoryStash->clear();
                 delete rootCopy;
                 break;
             }
             if (memoryStash->sum() == goal) {
+                // Ergebnis gefunden! :)
                 overseer->setSolutionStash(this->memoryStash);
                 qDebug("searchChaosRandom war Erfolgreich!");
                 break;
@@ -270,15 +272,16 @@ void MorphLarva::searchChaosRandom() {
 void MorphLarva::searchOrderSort() {
     // Initialisierung
     VectorStash* rootCopy = nullptr;
-    // calcMax legt fest wie hoch der anfängliche memoryStash befüllt werden soll, damit der fehlende Rest gesucht werden kann.
+    // calcMax legt fest wie hoch der anfängliche memoryStash per Zufall befüllt werden soll, damit der fehlende Rest gesucht werden kann.
     quint16 calcMax = static_cast<quint16>((((rootStash->sum() / 2.00) / 100.00) * 95.00));
     Coin* me = nullptr;
     Coin* coinSolution = nullptr;
     quint16 iCount = 0;
 
     while (overseer->hasSuccess() != true) {
+        // Läuft solange bis das Ergebnis gefunden wurde
 
-        rootCopy = new VectorStash(*rootStash);
+        rootCopy = new VectorStash(*rootStash); // Erstellt eine Kopie des rootStashs
         me = nullptr;
         coinSolution = nullptr;
         iCount = 0;
@@ -308,6 +311,7 @@ void MorphLarva::searchOrderSort() {
                         memoryStash->removeCoinByRNG();
                     }
                 } else {
+                    // Aufräumen, Reset und neu anfangen
                     memoryStash->clear();
                     calcMax = static_cast<quint16>((calcMax / 100.00) * 95.00);
                     if (calcMax < ((goal / 100.00) * 60.00)) { calcMax = static_cast<quint16>(((rootCopy->sum() / 2) / 100.00) * 95.00);	}
@@ -317,6 +321,7 @@ void MorphLarva::searchOrderSort() {
             }
 
             if (memoryStash->sum() == goal) {
+                // Ergebnis gefunden :)
                 qDebug() << "searchOrderSort() war erfolgreich!";
                 overseer->setSolutionStash(this->memoryStash);
                 break;
@@ -342,7 +347,7 @@ void MorphLarva::searchDanceJinJang() {
 
     while (jin->sum() != jang->sum() && overseer->hasSuccess() != true) {
 
-        for (i = 0; i <= 1337; i++) { // Schleife, damit nicht so oft der overseer auf success gefragt wird
+        for (i = 0; i <= 1337; i++) { // Schleife, damit nicht so oft der overseer auf success abgefragt wird
             if (jin->sum() > jang->sum())  { jang->addBack(jin->takeFirst()); }
             if (jin->sum() < jang->sum())  { jin->addBack(jang->takeFirst()); }
             if (jin->sum() == jang->sum()) {
@@ -354,7 +359,8 @@ void MorphLarva::searchDanceJinJang() {
 }
 
 void MorphLarva::searchDanceS() {
-    // To Do
+    // To Do ... bzw hats leider nicht in die Finale Version geschafft bzw wurde schon im anderen übernommen, hier könnte nach der Bewertung noch neues entstehen
+    // Das Projekt werde ich noch weiter verbessern :)
 }
 
 void MorphLarva::searchFaculty() {
@@ -371,6 +377,7 @@ void MorphLarva::searchFaculty() {
 
         if (!overseer->hasSuccess()) {
             // Wenn die Fakultät komplett durchgelaufen ist und nichts gefunden wurde, dann wird das Signal gegeben, dass keine Lösung möglich ist.
+            // Andernfalls ist overseer auf success und dies wird nicht ausgeführt
             overseer->setNoSolution();
         }
     } else {
@@ -387,9 +394,12 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
             tempSum += rootStash->getCoinByPos((*picked)[i])->getValue();
     }
 
+    // Folgender Verschachtlungshorror überprüft erst ob die aktuelle Summe unter dem Ziel liegt, falls ja, dann wird weiter gesucht, falls exakt Ergebnis -> Abbruch mit Lösungsübergabe
+    // Falls die tempSum über dem Ziel ist wird nichts getan, weil ... wozu weiter berechnen? :D
+    // In der Theorie wären damit alle weiterfolgenden Möglichkeiten abgedeckt und unnötig, da keine davon eine Lösung ergeben könnte.
     if (tempSum < goal) {
         for (quint8 i = pos; i < rootStash->size(); i++) {
-            if (!picked->contains(i)) { // Überprüft ob die Position bereits genommen wurde
+            if (!picked->contains(i)) { // Überprüft ob die Position bereits genommen wurde um jede Kombination nur einmal zu überprüfen
                 // Befüllen des neuen Arrays
                 QVector<quint8> *pickedNew = new QVector<quint8>;
                 for (quint8 j = 0; j < pos; j++) {
@@ -416,7 +426,9 @@ void MorphLarva::searchFaculty(quint8 pos, QVector<quint8> *picked) {
 
 void MorphLarva::searchPseudoPoly() {
     // Quelle: https://en.wikipedia.org/wiki/Partition_problem#Methods
-    // To Do!!!
+    // To Do!!! bzw nein, wird nicht in die zu bewertende Version aufgenommen.
+    // Grund: dies wäre Fremdleistung, wir wollen nur zu 100% unsere eigene Leistung abgeben.
+    // Nach der Abgabe würden wir hier aber weiter arbeiten und uns anschauen wie schnell dies ist um den Bereich der nicht entscheidbaren Fälle besser abzudecken.
     /*
      * INPUT:  A list of integers S
        OUTPUT: True if S can be partitioned into two subsets that have equal sum
