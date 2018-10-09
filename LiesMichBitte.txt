@@ -1,0 +1,41 @@
+Hallo Herr Reuß und die Tutoren die evtl. gerade auch ein Auge hier drauf werfen :)
+
+Ich ( Martin ) hatte gefragt ob wir eine Doku anfertigen sollen,
+da allerdings keine offizielle Antwort kam und dies auch nirgends angesprochen wurde,
+haben wir uns dazu entschieden einfach den Code sehr ausführlich zu kommentieren.
+
+Die Kommentare sind größtenteils in den *.h Dateien,
+bei längeren Methoden sind aber auch ausführliche Kommentare in den *.cpp Dateien.
+
+Die GUI hat an sich nur zwei kleine Schnittstellen und zwar hat sie in der manwindow.h
+Zwei Attribute:
+MorphLarva* overseer;
+VectorStash* rootStash;
+
+Diese beiden Instanzen werden durch die GUI angesprochen und befehligt,
+es ist so wenig wie möglich miteinander vernetzt, es wäre sehr leicht und schnell eine
+andere GUI auf das BackEnd zu setzen :)
+
+Was man vorm Code lesen noch sich kurz merken sollte:
+
+Als overseer wird die eine "Überklasse" bezeichnet, die das komplette unsichtbare Backend
+verwaltet und hier alle Fäden in der Hand hat.
+
+worker sind kleinere Instanzen von MorphLarva ( Siehe Beschreibung in der .h ),
+sie alle haben einen overseer.
+
+Um es im Code gut lesen zu können:
+
+In der mainwindow.h ist der overseer definiert, der Prozess zur Berechnung wird über den
+Button gestartet, die methode die hier als erstes dann den Prozess anfängt ist die
+runCalc(), in der kann man dann gut nachvollziehen wie alles funktioniert :)
+
+Viel Spaß beim anschauen!
+
+Falls Fragen oder Unklarheiten sind können sie uns natürlich gerne kontaktieren.
+
+Die Zuständigkeiten sind schnell erklärt, Milan hat alles unter GUI, Martin alles BackEnd.
+
+Mit freundlichen Grüßen,
+
+Martin Kohne und Milan Kalkenings
