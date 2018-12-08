@@ -1,11 +1,11 @@
-Hallo Herr Reuß und die Tutoren die evtl. gerade auch ein Auge hier drauf werfen :)
+Hallo Herr ReuÃŸ und die Tutoren die evtl. gerade auch ein Auge hier drauf werfen :)
 
 Ich ( Martin ) hatte gefragt ob wir eine Doku anfertigen sollen,
 da allerdings keine offizielle Antwort kam und dies auch nirgends angesprochen wurde,
-haben wir uns dazu entschieden einfach den Code sehr ausführlich zu kommentieren.
+haben wir uns dazu entschieden einfach den Code sehr ausfÃ¼hrlich zu kommentieren.
 
-Die Kommentare sind größtenteils in den *.h Dateien,
-bei längeren Methoden sind aber auch ausführliche Kommentare in den *.cpp Dateien.
+Die Kommentare sind grÃ¶ÃŸtenteils in den *.h Dateien,
+bei lÃ¤ngeren Methoden sind aber auch ausfÃ¼hrliche Kommentare in den *.cpp Dateien.
 
 Die GUI hat an sich nur zwei kleine Schnittstellen und zwar hat sie in der manwindow.h
 Zwei Attribute:
@@ -13,29 +13,29 @@ MorphLarva* overseer;
 VectorStash* rootStash;
 
 Diese beiden Instanzen werden durch die GUI angesprochen und befehligt,
-es ist so wenig wie möglich miteinander vernetzt, es wäre sehr leicht und schnell eine
+es ist so wenig wie mÃ¶glich miteinander vernetzt, es wÃ¤re sehr leicht und schnell eine
 andere GUI auf das BackEnd zu setzen :)
 
 Was man vorm Code lesen noch sich kurz merken sollte:
 
-Als overseer wird die eine "Überklasse" bezeichnet, die das komplette unsichtbare Backend
-verwaltet und hier alle Fäden in der Hand hat.
+Als overseer wird die eine "Ãœberklasse" bezeichnet, die das komplette unsichtbare Backend
+verwaltet und hier alle FÃ¤den in der Hand hat.
 
 worker sind kleinere Instanzen von MorphLarva ( Siehe Beschreibung in der .h ),
 sie alle haben einen overseer.
 
-Um es im Code gut lesen zu können:
+Um es im Code gut lesen zu kÃ¶nnen:
 
-In der mainwindow.h ist der overseer definiert, der Prozess zur Berechnung wird über den
-Button gestartet, die methode die hier als erstes dann den Prozess anfängt ist die
+In der mainwindow.h ist der overseer definiert, der Prozess zur Berechnung wird Ã¼ber den
+Button gestartet, die methode die hier als erstes dann den Prozess anfÃ¤ngt ist die
 runCalc(), in der kann man dann gut nachvollziehen wie alles funktioniert :)
 
-Viel Spaß beim anschauen!
+Viel SpaÃŸ beim anschauen!
 
-Falls Fragen oder Unklarheiten sind können sie uns natürlich gerne kontaktieren.
+Falls Fragen oder Unklarheiten sind kÃ¶nnen sie uns natÃ¼rlich gerne kontaktieren.
 
-Die Zuständigkeiten sind schnell erklärt, Milan hat alles unter GUI, Martin alles BackEnd.
+Die ZustÃ¤ndigkeiten sind schnell erklÃ¤rt, Milan hat alles unter GUI, Martin alles BackEnd.
 
-Mit freundlichen Grüßen,
+Mit freundlichen GrÃ¼ÃŸen,
 
-Martin Kohne und Milan Kalkenings
+M. K. und M. K.
