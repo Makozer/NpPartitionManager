@@ -57,6 +57,10 @@ Coin *ListStash::searchntake(quint16 value) {
     return output;
 }
 
+void ListStash::shuffle() {
+    std::random_shuffle(coins.begin(), coins.end());
+}
+
 QVector<Coin *> *ListStash::toVector() {
     QVector<Coin*> *output = new QVector<Coin*>();
     if (!coins.isEmpty()){

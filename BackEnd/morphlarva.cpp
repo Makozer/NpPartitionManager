@@ -343,11 +343,12 @@ void MorphLarva::searchDanceJinJang() {
     // Schneller performanter Suchalgorithmus der zwei gleichgroße Mengen bildet und solange Coins hin und her schmeißt, bis die Lösung da ist
     ListStash* jin = new ListStash(rootStash->exportVector());
     ListStash* jang = new ListStash();
-    quint16 i = 0;
+    quint32 i = 0;
+    quint32 lMax = rootStash->size() * 2;
 
     while (jin->sum() != jang->sum() && overseer->hasSuccess() != true) {
 
-        for (i = 0; i <= 1337; i++) { // Schleife, damit nicht so oft der overseer auf success abgefragt wird
+        for (i = 0; i <= lMax; i++) { // Schleife, damit nicht so oft der overseer auf success abgefragt wird
             if (jin->sum() > jang->sum())  { jang->addBack(jin->takeFirst()); }
             if (jin->sum() < jang->sum())  { jin->addBack(jang->takeFirst()); }
             if (jin->sum() == jang->sum()) {
@@ -355,6 +356,8 @@ void MorphLarva::searchDanceJinJang() {
                 overseer->setSolutionStash(new VectorStash(jin->toVector()));
                 break; }
         }
+        jin->shuffle();     // after going through the whole circle twice it needs to be shuffled
+        jang->shuffle();    // after going through the whole circle twice it needs to be shuffled
     }
 }
 

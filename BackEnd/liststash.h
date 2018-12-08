@@ -24,6 +24,8 @@ public:
 
     Coin* searchntake(quint16 value);            // https://youtu.be/StRVJO9Zq3o
 
+    void shuffle();                              // shuffles the values
+
     QVector<Coin*> *toVector();                  // Exportfunktion welche die Liste in einen QVektor konvertiert
 private:
     CoinList coins;                              // Die Liste in der Coins gespeichert werden
