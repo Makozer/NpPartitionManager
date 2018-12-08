@@ -357,7 +357,7 @@ void MorphLarva::searchDanceJinJang() {
                 break; }
         }
         jin->shuffle();     // after going through the whole circle twice it needs to be shuffled
-        jang->shuffle();    // after going through the whole circle twice it needs to be shuffled
+        jang->shuffle();    // after going through the whole circle twice it needs to be shuffled ... this guy, too :)
     }
 }
 
