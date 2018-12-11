@@ -35,7 +35,21 @@ SOURCES += \
     GUI/exportdialog.cpp \
     GUI/importdialog.cpp \
     GUI/mainwindow.cpp \
-    main.cpp
+    main.cpp \
+    BackEnd/coin.cpp \
+    BackEnd/liststash.cpp \
+    BackEnd/memento.cpp \
+    BackEnd/morphlarva.cpp \
+    BackEnd/rngesus.cpp \
+    BackEnd/vectorstash.cpp \
+    BackEnd/seacher/searchJinJang.cpp \
+    BackEnd/coin.cpp \
+    BackEnd/liststash.cpp \
+    BackEnd/memento.cpp \
+    BackEnd/morphlarva.cpp \
+    BackEnd/rngesus.cpp \
+    BackEnd/vectorstash.cpp \
+    BackEnd/seacher/searcher.cpp
 
 HEADERS += \
     BackEnd/coin.h \
@@ -49,7 +63,21 @@ HEADERS += \
     GUI/customtextedit.h \
     GUI/exportdialog.h \
     GUI/importdialog.h \
-    GUI/mainwindow.h
+    GUI/mainwindow.h \
+    BackEnd/coin.h \
+    BackEnd/liststash.h \
+    BackEnd/memento.h \
+    BackEnd/morphlarva.h \
+    BackEnd/rngesus.h \
+    BackEnd/vectorstash.h \
+    BackEnd/seacher/searchJinJang.h \
+    BackEnd/coin.h \
+    BackEnd/liststash.h \
+    BackEnd/memento.h \
+    BackEnd/morphlarva.h \
+    BackEnd/rngesus.h \
+    BackEnd/vectorstash.h \
+    BackEnd/seacher/searcher.h
 
 FORMS += \
     GUI/exportdialog.ui \
