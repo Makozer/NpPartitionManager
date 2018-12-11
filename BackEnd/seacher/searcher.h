@@ -1,4 +1,5 @@
-
+/* Base class of all search algorithms
+ */
 #ifndef SEARCHER_H
 #define SEARCHER_H
 #include <QString>
@@ -7,16 +8,27 @@
 #include "BackEnd/vectorstash.h"
 #include "BackEnd/liststash.h"
 
-class searcher : public QThread {
+class Searcher : public QThread {
     Q_OBJECT
 signals:
     void foundSolution();
     void noSolution();
 public:
-    searcher(QString name);
+    Searcher(QString name);
 
-    void search();
-private:
+    virtual void search();
+
+    bool getSuccess();
+    QString getName();
+    quint32 getGoal();
+    VectorStash* getRootStash();
+
+    void setSuccess(bool success);
+    void setName(QString name);
+    void setGoal(quint32 goal);
+    void setRootStash(VectorStash* root);
+protected:
+    bool success;
     QString name;
     quint32 goal;
 
