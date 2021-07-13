@@ -1,0 +1,8 @@
+Um das Projekt selbst zu kompilieren muss etwas auskommentiert werden und der passende Compiler benutzt werden.
+
+Compiler: 5.12.2 MSVC 2017 64 Bit
+
+Auskommentierung:
+In der Datei: coin.cpp
+Zeile 8 Auskommentieren damit die Exception nicht geworfen wird.
+Dies bedeutet, dass kein Wert erstellt werden darf, der 0 als Value hat, da dies nicht mehr abgefangen wird.
